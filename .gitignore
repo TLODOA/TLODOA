@@ -2,6 +2,7 @@
 
 !*/
 !.gitignore
+!requirements.txt
 
 !*.py
 !templates/**/*.html
