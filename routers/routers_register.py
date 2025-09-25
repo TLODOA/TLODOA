@@ -1,3 +1,8 @@
+"""
+Due to groups as skilled as us,
+we use the ArturRegadas autction project code as base for this file
+"""
+
 from begin import *
 
 import importlib
@@ -31,7 +36,4 @@ def router_register(app:object, folder:str)->None:
         module_spec.loader.exec_module(module)
 
         # print(module_name)
-        for name, obj in inspect.getmembers(module):
-            if isinstance(obj, flask.Blueprint):
-                # print(obj)
-                app.register_blueprint(obj)
+        module.register_app(app)

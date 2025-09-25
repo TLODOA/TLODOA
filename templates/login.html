@@ -1,0 +1,19 @@
+{% extends "default/layout.html" %}
+
+{% block title %}Login{% endblock %}
+{% block content %}
+<form method="POST" action="{{ url_for("login_auth") }}">
+    <label>User_name</label>
+    <input type="text" autocomplete="off" required name="user_name">
+
+    <label>User email</label>
+    <input type="text" autocomplete="off" required name="user_email">
+
+    <label>User password</label>
+    <input type="text" autocomplete="off" required name="user_password">
+
+    <button type="submit" style="display:none"></button>
+</form>
+{% endblock %}
+
+{% block message %}session.message{% endblock %}

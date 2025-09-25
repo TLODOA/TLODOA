@@ -3,6 +3,25 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <main>{% block content %}{% endblock %}</main>
+    <header>
+        <div class="user_auth">
+        {% if not "user_name" in session %}
+            <a href="{{ url_for("sign_display") }}">sign</a>
+            <a href="{{ url_for("login_display") }}">login</a>
+        {% else %}
+            <a href="{{ url_for("logout_auth") }}">logout</a>
+        {% endif %}
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% if "message" in session %}
+        <div class="message">
+            {{ session.message }}
+        </div>
+    {% endif %}
 </body>
 </html>
