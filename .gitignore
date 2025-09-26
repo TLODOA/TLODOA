@@ -6,5 +6,9 @@
 
 !*.py
 !templates/**/*.html
+
+!static/image/**/*.png
+!static/image/**/*.webp
+
 !static/style/**/*.css
 !static/javascript/**/*.js
