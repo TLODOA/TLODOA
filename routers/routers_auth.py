@@ -27,7 +27,7 @@ def register_app(app:object)->None:
         user = user_get(user_name)
         print(user)
         if not user:
-            flask.session["message"]="<b>User not defined</b>"
+            flask.session["message"]="<b>User is not defined</b>"
             return flask.redirect('/sign/display')
 
         if user[2] != user_password:
@@ -57,6 +57,8 @@ def register_app(app:object)->None:
 
             return flask.redirect('/login/display')
 
+
+        flask.session["message"]=""
 
         user_insert(user_name, user_email, user_password)
 

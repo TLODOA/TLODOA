@@ -1,0 +1,16 @@
+*{
+    margin: 0px;
+}
+
+body{
+    background-color: black;
+}
+
+main{
+    padding: 10px;
+}
+
+p{
+    color: white;
+}
+

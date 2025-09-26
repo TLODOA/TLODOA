@@ -3,13 +3,19 @@
 {% block title %}Login{% endblock %}
 {% block content %}
 <form method="POST" action="{{ url_for("login_auth") }}">
-    <label>User_name</label>
+    <label>
+        <p>User_name</p>
+    </label>
     <input type="text" autocomplete="off" required name="user_name">
 
-    <label>User email</label>
+    <label>
+        <p>User email</p>
+    </label>
     <input type="text" autocomplete="off" required name="user_email">
 
-    <label>User password</label>
+    <label>
+        <p>User password</p>
+    </label>
     <input type="text" autocomplete="off" required name="user_password">
 
     <button type="submit" style="display:none"></button>
