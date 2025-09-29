@@ -5,14 +5,24 @@
 
 <form method="POST" action="{{ url_for("sign_auth") }}">
     <label>
-        <p>User Name</p>
+        <p>User_name</p>
     </label>
-    <input type="text" autocomplete="off" name="user_name" required>
+    <input type="text" autocomplete="off" required name="user_name">
+
+    <label>
+        <p>User email</p>
+    </label>
+    <input type="text" autocomplete="off" required name="user_email">
+
+    <label> 
+        <p>Email code</p>
+    </label>
+    <input type="text" autocomplete="off" required name="email_code">
 
     <label>
         <p>User password</p>
     </label>
-    <input type="text" autocomplete="off" name="user_password" required>
+    <input type="text" autocomplete="off" required name="user_password">
 
     <button type="submit" style="display:none"></button>
 </form>

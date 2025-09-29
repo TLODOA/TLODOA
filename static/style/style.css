@@ -4,16 +4,26 @@
 
 header{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
 
     padding: 15px;
+    margin: 10px;
 }
 
-body{
+main {
     padding: 10px;
 }
 
-/* */
 .tlodoa_logo > img{
-    width: 100px;
+    width: 90px;
+    
+}
+
+.user_auth > a {
+    background-color: blue;
+    padding: 20px;
+    margin: 5px;
+
+    color:white;
 }
