@@ -1,0 +1,86 @@
+:root{
+    --header_height: 10%;
+
+    --main_height: 90%;
+
+    /* */
+    --user_data_input_width: 400px;
+    --user_data_input_height: 350px;
+
+    --user_data_input_get_height: 250px;
+
+    --input_width: 80%;
+}
+
+/* */
+*{
+    margin: 0px;
+}
+
+body{
+    height: 100vh;
+}
+
+header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    height: var(--header_height);
+
+    padding: 15px;
+    margin: 10px;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: var(--main_height);
+
+    padding: 10px;
+}
+
+p, input[type="text"]{
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+}
+
+/* */
+.tlodoa_logo > img{
+    width: 90px;
+    
+}
+
+/* */
+.user_auth > a {
+    background-color: blue;
+    padding: 20px;
+    margin: 5px;
+
+    color:white;
+}
+
+.user_data_input{
+    padding: 5px 20px 5px 20px;
+
+    background-color: #7ed957;
+
+    width: var(--user_data_input_width);
+    height: var(--user_data_input_height);
+
+    display: grid;
+    align-items: center;
+}
+
+.user_data_input_get input{
+    padding: 5px;
+    margin: 0px 0px 5px 0px;
+
+    width: var(--input_width);
+}
+
+.user_data_input_get{
+    height: var(--user_data_input_get_height);
+}

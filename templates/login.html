@@ -1,34 +1,46 @@
-{% extends "default/layout.html" %}
+{% extends "default/layout_3.html" %}
 
 {% block title %}Login{% endblock %}
-{% block content %}
-<form method="POST" action="{{ url_for("login_auth") }}">
-    <label>
-        <p>User_name</p>
-    </label>
-    <input type="text" autocomplete="off" required name="user_name">
 
-    <label>
-        <p>User email</p>
-    </label>
-    <input type="text" autocomplete="off" required name="user_email">
 
-    <label> 
-        <p>Email code</p>
-    </label>
-    <input type="text" autocomplete="off" required name="email_code">
+{% block content_main_1 %}
+<form method="POST" class="user_data_input">
+    <div class="user_data_input_get">
+        <label>
+            <p>User name</p>
+        </label>
+        <input type="text" autocomplete="off" required name="user_name">
 
-    <label>
-        <p>User password</p>
-    </label>
-    <input type="text" autocomplete="off" required name="user_password">
+        <label>
+            <p>User email</p>
+        </label>
+        <input type="text" autocomplete="off" required name="user_email">
 
-    <label>
-        <p>User password valid</p>
-    </label>
-    <input type="text" autocomplete="off" required name="user_password_check">
+        <label> 
+            <p>User email code</p>
+        </label>
+        <input type="text" autocomplete="off" required name="email_code">
+    </div>
 
-    <button type="submit" style="display:none"></button>
+    <button type="submit">Get email code</button>
+</form>
+{% endblock %}
+
+{% block content_main_2 %}
+<form method="POST" class="user_data_input">
+    <div class="user_data_input_get">
+        <label>
+            <p>User password</p>
+        </label>
+        <input type="text" autocomplete="off" required name="user_password">
+
+        <label>
+            <p>User password valid</p>
+        </label>
+        <input type="text" autocomplete="off" required name="user_password_check">
+    </div>
+
+    <button type="submit">Create account</button>
 </form>
 {% endblock %}
 
