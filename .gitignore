@@ -3,6 +3,7 @@
 !*/
 !.gitignore
 !requirements.txt
+!README.md
 
 !*.py
 !templates/**/*.html
