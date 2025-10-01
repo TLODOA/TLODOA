@@ -1,0 +1,19 @@
+{% extends "default/layout_1.html" %}
+
+<!-- --->
+{% block style %}
+<link href="{{ url_for("static", filename="style/layout_3.css") }}" rel="stylesheet">
+{% endblock %}
+
+<!-- --->
+{% block content %}
+<main>
+    <section class="main_1">
+        {% block content_main_1 %}{% endblock %}
+    </section>
+
+    <section class="main_2">
+        {% block content_main_2 %}{% endblock %}
+    </section>
+</main>
+{% endblock %}

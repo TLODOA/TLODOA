@@ -2,7 +2,10 @@
 <head>
     <title>{% block title %}{% endblock %}</title>
 
-    <link rel="stylesheet" href="{{ url_for("static", filename="style/style.css") }}">
+    <link rel="stylesheet" href="{{ url_for("static", filename="style/layout_1.css") }}">
+
+    {% block style %}{% endblock %}
+    {% block javascript %}{% endblock %}
 </head>
 <body>
     <header>
@@ -27,9 +30,11 @@
         {% endif %}
     </header>
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    {% block content %}
+        <main>
+            {% block content_main %}{% endblock %}
+        </main>
+    {% endblock %}
 
     {% if "message" in session %}
         <div class="message">
