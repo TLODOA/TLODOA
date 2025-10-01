@@ -9,6 +9,7 @@
 
 !static/image/**/*.png
 !static/image/**/*.webp
+!static/fonts/**/*.ttf
 
 !static/style/**/*.css
 !static/javascript/**/*.js
