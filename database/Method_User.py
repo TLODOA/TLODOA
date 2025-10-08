@@ -4,6 +4,16 @@ from .casts import *
 from begin import error_message
 
 ##
+def user_insert(user_name, user_email, user_password)->None:
+    try:
+        user = User(name=user_name, email=user_email, password=user_password)
+        session.add(user)
+    except Exception as e:
+        error_message('user_insert', e)
+        return
+
+    session.commit()
+
 def user_get(user_name: str)->object:
     user = None
     try:
@@ -15,13 +25,3 @@ def user_get(user_name: str)->object:
         return None
 
     return user
-
-def user_insert(user_name, user_email, user_password)->None:
-    try:
-        user = User(name=user_name, email=user_email, password=user_password)
-        session.add(user)
-    except Exception as e:
-        error_message('user_insert', e)
-        return
-
-    session.commit()

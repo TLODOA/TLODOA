@@ -1,9 +1,10 @@
 *
+.venv
 
 !*/
+!README.md
 !.gitignore
 !requirements.txt
-!README.md
 
 !*.py
 !templates/**/*.html
