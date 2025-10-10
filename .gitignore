@@ -11,7 +11,8 @@
 
 !static/image/**/*.png
 !static/image/**/*.webp
+
 !static/fonts/**/*.ttf
 
+!static/script/**/*.js
 !static/style/**/*.css
-!static/javascript/**/*.js
