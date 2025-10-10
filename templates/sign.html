@@ -9,7 +9,7 @@
 
 <!-- -->
 {% block content_main_1 %}
-<form class="user_data_input" id="sign_form_email">
+<form method="POST" class="user_data_input" id="sign_form_email">
     <div class="user_data_input_get">
         <label>
             <p>User name</p>
@@ -27,7 +27,8 @@
         <input type="text" autocomplete="off" required name="email_code">
     </div>
 
-    <button type="submit">Get email code</button>
+    <button id="sign_button_email_code_get_new">Get new email code</button>
+    <button id="sign_button_email_code_get">Get email code</button>
 </form>
 {% endblock %}
 
