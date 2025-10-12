@@ -1,1 +1,1 @@
-from .routers_register import router_register
+from .register import router_register

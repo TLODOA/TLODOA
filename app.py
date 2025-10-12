@@ -7,11 +7,11 @@ from routers import *
 app = flask.Flask(__name__)
 app.config.from_object(Config)
 
-router_register(app, ROUTER_PATH)
+router_register(app, Router.DIR_PATH)
 
-socketio.init_app(app)
+SocketIO.socketio.init_app(app)
 
 
 ##
 if __name__=="__main__":
-    socketio.run(app, debug=True, host='0.0.0.0', port='5000')
+    SocketIO.socketio.run(app, debug=True, host='0.0.0.0', port='5000')

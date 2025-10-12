@@ -1,8 +1,9 @@
 import * as global from './globals.js'
 
 const sign = new global.Sign();
-
 const logs = new global.MessageLogs();
+
+const time = new global.Time();
 
 //
 console.log(sign.FORM_EMAIL);
@@ -31,9 +32,12 @@ sign.BUTT_EMAIL_CODE_GET.addEventListener('click', (e) => {
     })
     .then(response => response.json())
     .then(data => {
-        const message_error = data["message_error"];
-
         logs.MESSAGE_LOGS_CLEAN();
+
+        const message_error = data["message_error"];
+        if(message_error == undefined)
+            return;
+
         logs.MESSAGE_LOGS_INSERT(message_error, global.MESSAGE_ERROR_ID);
     });
 });
@@ -52,7 +56,7 @@ sign.BUTT_EMAIL_CODE_GET_NEW.addEventListener('click', (e) => {
         return;
     }
 
-    console.log(JSON.stringify(form_data_json));
+    // console.log(JSON.stringify(form_data_json));
 
     //
     fetch('/token/email/generate/new', {
@@ -63,12 +67,12 @@ sign.BUTT_EMAIL_CODE_GET_NEW.addEventListener('click', (e) => {
     })
     .then(response => response.json())
     .then(data => {
-        if(!data["message_error"])
-            return;
+        logs.MESSAGE_LOGS_CLEAN();
 
         const message_error = data["message_error"];
+        if(message_error == undefined)
+            return;
 
-        logs.MESSAGE_LOGS_CLEAN();
         logs.MESSAGE_LOGS_INSERT(message_error, global.MESSAGE_ERROR_ID);
     });
 

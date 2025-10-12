@@ -59,3 +59,13 @@ def ipInfos_get(ip:str=None, user_name:str=None, email_count:int=None, email_sen
         error_message('ipInfos_get', e)
 
         return None
+
+def ipInfos_emailCount_plus(ipInfos:tuple, value:int)->None:
+    try:
+        for i in ipInfos:
+            i.email_count += value
+
+        session.commit()
+    except Exception as e:
+        error_message('ipInfos_emailCount_plus', e)
+        session.rollback()

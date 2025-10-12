@@ -1,3 +1,42 @@
+// Time
+export class Time{
+    time_human(timestamp=null){
+
+        date = new Date();
+        if(timestamp != null)
+            date = new Date(timestamp);
+
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const hours = String(date.getMinutes()).padStart(2, '0');
+
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth()+1).padStart(2, '0');
+
+        const year = date.getFullYear();
+
+        const date_formated = {
+            "seconds": seconds,
+            "minutes": minutes,
+            "hours": hours,
+
+            "day": day,
+            "month": month,
+
+            "year": year
+        };
+        
+        return date_formated;
+    }
+    
+    time_machine(date){
+        date_timestamp = new Date(`${date["year"]}-${date["month"]}-${date["day"]}\T${date["hours"]}:${date["minutes"]}:${date["seconds"]}`);
+
+        return date_timestamp.getTime();
+    }
+}
+
+
 // MessageLogs
 export class MessageLogs{
     constructor(){

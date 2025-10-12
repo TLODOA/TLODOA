@@ -3,23 +3,26 @@ Due to groups as skilled as us,
 we use the ArturRegadas autction project code as base for this file
 """
 
-from begin import *
+from begin.globals import Router
 
 import importlib
 import inspect
+
+import re
+import os
 
 ##
 def router_register(app:object, folder:str)->None:
     folder_path = os.path.abspath(folder)
     
     for file in os.listdir(folder_path):
-        if file in ROUTER_REGISTER_IGNORE:
+        if not re.search("^routers_.*\.py$", file) or file in Router.REGISTER_IGNORE:
             continue
 
         file_extension = file.split('.')[-1]
         file_path = f"{folder_path}/{file}"
 
-        if file_extension != 'py' and not os.path.isfile(file_path):
+        if not os.path.isfile(file_path):
             router_register(app, file_path)
             continue
         elif file_extension != 'py':

@@ -1,7 +1,8 @@
-from .globals import TOKEN_EMAIL_CHARS, TOKEN_EMAIL_LEN
+from .globals import Token
 
 import secrets
 import string
 
+##
 def token_email_generate()->str:
-    return ''.join(secrets.choice(TOKEN_EMAIL_CHARS) for _ in range(TOKEN_EMAIL_LEN))
+    return ''.join(secrets.choice(Token.KEY_EMAIL_CHARS) for _ in range(Token.KEY_EMAIL_LEN))
