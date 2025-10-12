@@ -8,6 +8,8 @@ SECRET_KEY_LEN = 26
 TOKEN_EMAIL_CHARS = '0123456789abcdefghijklmnopqrstuvwxyz'
 TOKEN_EMAIL_LEN = 7
 
+EMAIl_SEND_MAX = 5
+
 #
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 587

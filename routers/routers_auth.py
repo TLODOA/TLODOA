@@ -71,6 +71,7 @@ def register_app(app:object)->None:
 
         return response
 
+    ##
     @app.route('/logout/auth')
     def logout_auth()->object:
         response = flask.make_response(flask.redirect('/'))
@@ -78,33 +79,3 @@ def register_app(app:object)->None:
 
         return response
 
-    ##
-    @app.route('/email/token/generate', methods=['POST'])
-    def email_token_generate()->object:
-        if flask.request.method != 'POST':
-            return flask.redirect(flask.request.referrer)
-        
-        #
-        forms = flask.request.json
-        user_email = forms["user_email"]
-
-        #
-        user_addr = flask.request.remote_addr
-        userEmail = userEmailCode_get(ip=user_addr)
-
-        if userEmail==None:
-            return flask.jsonify({
-                'message_error': "Something goes wrong"
-            })
-
-        if userEmail and len(userEmail):
-            return flask.jsonify({
-                "message_error": "You already receive the email code"
-            })
-
-        #
-        code = token.token_email_generate()
-        userEmail = userEmailCode_insert(token=code, user_name=None, ip=user_addr, email=user_email)
-        userEmail.token_send()
-
-        return '{}'

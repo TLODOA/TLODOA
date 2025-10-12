@@ -1,5 +1,24 @@
-export const MESSAGE_ERROR_ID = 'message_error';
-export const MESSAGE_ERROR = document.getElementById(MESSAGE_ERROR_ID);
+// MessageLogs
+export class MessageLogs{
+    constructor(){
+        this.MESSAGE_LOGS_ID = 'message_logs';
+        this.MESSAGE_LOGS = document.getElementById(this.MESSAGE_LOGS_ID);
+
+        //
+        this.MESSAGE_ERROR_ID = 'message_error';
+
+        //
+        this.MESSAGE_LOGS_CLEAN = () => {
+            this.MESSAGE_LOGS.innerHTML = '';
+        };
+
+        this.MESSAGE_LOGS_INSERT = (message, message_id) => {
+            this.MESSAGE_LOGS.innerHTML += `
+                <p id=${message_id}>${message}</p>
+        `
+        };
+    }
+}
 
 // sign.html
 export class Sign {

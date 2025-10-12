@@ -14,21 +14,21 @@
         <label>
             <p>User name</p>
         </label>
-        <input type="text" autocomplete="off" required name="user_name">
+        <input type="text" autocomplete="off" name="user_name">
 
         <label>
             <p>User email</p>
         </label>
-        <input type="text" autocomplete="off" required name="user_email">
+        <input type="text" autocomplete="off" name="user_email">
 
         <label> 
             <p>Email code</p>
         </label>
-        <input type="text" autocomplete="off" required name="email_code">
+        <input type="text" autocomplete="off" name="email_code">
     </div>
 
-    <button id="sign_button_email_code_get_new">Get new email code</button>
     <button id="sign_button_email_code_get">Get email code</button>
+    <button id="sign_button_email_code_get_new">Get new email code</button>
 </form>
 {% endblock %}
 
@@ -46,4 +46,6 @@
 
 {% endblock %}
 
-{% block message %}session.message{% endblock %}
+{% block footer %}
+<div id="message_logs"></div>
+{% endblock %}

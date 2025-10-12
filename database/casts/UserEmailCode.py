@@ -1,21 +1,22 @@
-from sqlalchemy import Column, ForeignKey, String
+from sqlalchemy import Column, ForeignKey, String, Float
 from .base import Base
 
+from begin.globals import SMTP_SENDER, SMTP_APP_PASSWORD, SMTP_SERVER, SMTP_PORT, TOKEN_EMAIL_LEN
+
+from .IpInfos import IP_LEN
 from .User import USER_NAME_LEN, USER_EMAIL_LEN
-from .UserLogged import IP_LEN
 
-from begin.globals import SMTP_SENDER, SMTP_APP_PASSWORD, SMTP_SERVER, SMTP_PORT
-
-TOKEN_LEN = 7
-
+##
 class UserEmailCode(Base):
     __tablename__ = 'UserEmailCode'
+
+    ip = Column(String(IP_LEN), ForeignKey('IpInfos.ip'), primary_key=True)
 
     name = Column(String(USER_NAME_LEN), ForeignKey('User.name'))
     email = Column(String(USER_EMAIL_LEN))
 
-    ip = Column(String(IP_LEN), primary_key=True)
-    token = Column(String(TOKEN_LEN))
+    token = Column(String(TOKEN_EMAIL_LEN))
+    validity = Column(Float)
 
     ##
     def token_send(self)->None:

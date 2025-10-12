@@ -3,10 +3,15 @@ from .casts import *
 
 from begin import error_message
 
+import time
+
 ##
-def userEmailCode_insert(user_name:str, email:str, ip:str, token:str)->object:
+UserEmailCode_VALIDITY = 60*30 # half hour
+
+def userEmailCode_insert(user_name:str, email:str,\
+        ip:str, token:str, validity:float=time.time()+UserEmailCode_VALIDITY)->object:
     try:
-        userEmailCode = UserEmailCode(name=user_name, email=email, ip=ip, token=token)
+        userEmailCode = UserEmailCode(name=user_name, email=email, ip=ip, token=token, validity=validity)
         session.add(userEmailCode)
     except Exception as e:
         error_message('userEmailCode_insert', e)
@@ -18,7 +23,18 @@ def userEmailCode_insert(user_name:str, email:str, ip:str, token:str)->object:
 
     return userEmailCode
 
+def userEmailCode_delete(userEmailCode:tuple)->None:
+    try:
+        session.delete(*userEmailCode)
+    except Exception as e:
+        session.rollback()
+        error_message('userEmailCode_delete', e)
 
+        return
+
+    session.commit()
+
+#
 def userEmailCode_get(user_name:str=None, ip:str=None, email:str=None)->tuple|None:
     try:
         userEmailCode = None
