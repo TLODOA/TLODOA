@@ -69,8 +69,8 @@ def register_app(app:object)->None:
         ipInfos[0].user_name = user_name
         
         return flask.jsonify({
-            'href_link': 
-
+            'href_link': '/'
+        })
 
     @app.route('/login/auth', methods=["POST"])
     def login_auth()->object:

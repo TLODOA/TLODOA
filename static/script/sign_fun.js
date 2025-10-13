@@ -18,7 +18,7 @@ sign.BUTT_EMAIL_CODE_GET.addEventListener('click', (e) => {
         return;
     }
 
-    globals.request_token_email('/token/email/generate/first', form_data_json);
+    global.request_token_email('/token/email/generate/first', form_data_json);
 });
 
 sign.BUTT_EMAIL_CODE_GET_NEW.addEventListener('click', (e) => {
@@ -35,7 +35,7 @@ sign.BUTT_EMAIL_CODE_GET_NEW.addEventListener('click', (e) => {
         return;
     }
 
-    globals.request_token_email('/token/email/generate/new', form_data_json);
+    global.request_token_email('/token/email/generate/new', form_data_json);
 });
 
 //

@@ -3,8 +3,12 @@ from .base import Base
 
 from .User import USER_NAME_LEN
 
+import time
+
 ##
 IP_LEN = 16
+
+IpInfos_VALIDITY = 60*60*24*7 # one week
 
 class IpInfos(Base):
     __tablename__ = 'IpInfos'
@@ -20,6 +24,21 @@ class IpInfos(Base):
     validity = Column(Float)
 
     ##
+    def __init__(self, ip:str=None\
+            ,user_name:str=None \
+            ,email_count:int=0, email_send_last:int=0, email_token_attempts:int = 0 \
+            ,validity = time.time() + IpInfos_VALIDITY)->None:
+
+        self.ip = ip
+        self.user_name = user_name
+
+        self.email_count = email_count
+        self.email_send_last = email_send_last
+        self.email_token_attempts = email_token_attempts
+        
+        self.validity = validity
+
+
     def email_send_status(self)->int:
         from begin.globals import Email
         import time

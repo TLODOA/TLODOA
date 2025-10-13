@@ -1,5 +1,5 @@
 //
-function request_token_email(url_request, json){
+export function request_token_email(url_request, json){
     fetch(url_request, {
         method: 'POST',
         headers: {'Content-Type': 'application/json; charset=utf-8'},
@@ -9,6 +9,8 @@ function request_token_email(url_request, json){
     })
     .then(response => response.json())
     .then(data => {
+        const logs = new MessageLogs();
+
         logs.MESSAGE_LOGS_CLEAN();
 
         console.log(data);
@@ -17,7 +19,7 @@ function request_token_email(url_request, json){
         if(message == undefined)
             return;
 
-        logs.MESSAGE_LOGS_INSERT(message, global.MESSAGE_ERROR_ID);
+        logs.MESSAGE_LOGS_INSERT(message, logs.MESSAGE_ERROR_ID);
     });
 }
 

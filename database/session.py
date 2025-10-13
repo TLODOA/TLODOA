@@ -22,18 +22,22 @@ session = Session()
 def session_insert(model:object, **kwargs)->object:
     try:
         instance = model(**kwargs)
-        session.add(instance)
 
+        session.add(instance)
         session.commit()
+
+        return instance
+
     except Exception as e:
         session.rollback()
         error_message('session_insert', e)
 
-    return instance
 
-def session_delete(instance:object)->None:
+def session_delete(instance:tuple)->None:
     try:
-        session.delete(instance)
+        for i in instance:
+            session.delete(i)
+
         session.commit()
     except Exception as e:
         session.rollback()
@@ -41,8 +45,26 @@ def session_delete(instance:object)->None:
 
 def session_update(instance:object, attr_name:str, attr_value_new:int)->None:
     try:
-        instance.__dict__[attr_name] = attr_value_new
+        for i in instance:
+            i.__dict__[attr_name] = attr_value_new
+
         session.commit()
     except Exception as e:
         session.rollback()
         error_message('session_update', e)
+
+def session_get(model:object, **kwargs)->tuple|None:
+    try:
+        instances_get = ()
+        filters = []
+
+        for i in kwargs.keys():
+            filters.append(model.__dict__[i] == kwargs[i])
+
+        instances_get = session.query(model).filter(*filters).all()
+
+        return instances_get
+    except Exception as e:
+        error_message(e, 'session_get')
+
+        return None

@@ -17,3 +17,12 @@ class User(Base):
     password = Column(String(USER_PASSWORD_LEN))
 
     status = Column(String(USER_STATUS_LEN))
+
+    ##
+    def __init__(self, name:str=None, email:str=None, password:str=None, status:str=None)->None:
+
+        self.name = name
+        self.email = email
+        self.password = password
+
+        self.status = status
