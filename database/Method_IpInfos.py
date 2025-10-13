@@ -41,7 +41,7 @@ def ipInfos_delete(ipInfos:tuple)->None:
 #
 def ipInfos_get(ip:str=None, user_name:str=None, email_count:int=None, email_send_last:float=None)->tuple|None:
     try:
-        ipInfos = None
+        ipInfos = ()
         filters = []
 
         if ip:

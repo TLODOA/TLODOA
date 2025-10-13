@@ -26,7 +26,7 @@ def email_client_state(ipInfos:object)->str:
 
 def email_server_state(ipInfos:tuple, userEmailCode)->str:
     if ipInfos == None or userEmailCode == None:
-        return Messages.email_internal_error()
+        return Messages.server_internal_error()
 
     return '{}'
 
@@ -42,7 +42,10 @@ def register_app(app:object)->None:
         
         #
         forms = flask.request.json
+
+        user_name = forms["user_name"]
         user_email = forms["user_email"]
+
         user_addr = flask.request.remote_addr
 
         #

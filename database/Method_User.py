@@ -4,9 +4,9 @@ from .casts import *
 from begin import error_message
 
 ##
-def user_insert(user_name, user_email, user_password)->None:
+def user_insert(name:str=None, email:str=None, password:str=None)->None:
     try:
-        user = User(name=user_name, email=user_email, password=user_password)
+        user = User(name=name, email=email, password=password)
         session.add(user)
     except Exception as e:
         error_message('user_insert', e)
@@ -14,14 +14,24 @@ def user_insert(user_name, user_email, user_password)->None:
 
     session.commit()
 
-def user_get(user_name: str)->object:
-    user = None
+def user_get(name: str=None, email:str=None, password:str=None)->tuple|None:
     try:
-        user = session.query(User.name, User.email, User.password).filter(User.name == user_name).first()
+        user = ()
+        filters = []
+
+        if name:
+            filters.append(User.name == name)
+        if email:
+            filters.append(User.email == email)
+        if password:
+            filters.append(User.password = password)
+
+        user = session.query(User).filter(*filters)
+
+        return user
+
     except Exception as e:
-        error_message('user_get', e)
         session.rollback()
+        error_message('user_get', e)
 
         return None
-
-    return user

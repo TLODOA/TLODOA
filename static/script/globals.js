@@ -1,3 +1,26 @@
+//
+function request_token_email(url_request, json){
+    fetch(url_request, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json; charset=utf-8'},
+
+        body: JSON.stringify(json)
+
+    })
+    .then(response => response.json())
+    .then(data => {
+        logs.MESSAGE_LOGS_CLEAN();
+
+        console.log(data);
+
+        const message = data["message"];
+        if(message == undefined)
+            return;
+
+        logs.MESSAGE_LOGS_INSERT(message, global.MESSAGE_ERROR_ID);
+    });
+}
+
 // Time
 export class Time{
     time_human(timestamp=null){
@@ -72,8 +95,13 @@ export class Sign {
         this.BUTT_EMAIL_CODE_GET_ID = 'sign_button_email_code_get';
         this.BUTT_EMAIL_CODE_GET_NEW_ID = 'sign_button_email_code_get_new';
 
+        this.BUTT_FINISH_ID = 'sign_button_finish';
+
+
         this.BUTT_EMAIL_CODE_GET = document.getElementById(this.BUTT_EMAIL_CODE_GET_ID);
         this.BUTT_EMAIL_CODE_GET_NEW = document.getElementById(this.BUTT_EMAIL_CODE_GET_NEW_ID);
+
+        this.BUTT_FINISH = document.getElementById(this.BUTT_FINISH_ID);
     }
 }
 

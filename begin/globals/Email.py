@@ -1,3 +1,4 @@
+
 SEND_MAX = 10
 
 SEND_INTERVAL = 10 # seconds

@@ -37,7 +37,7 @@ def userEmailCode_delete(userEmailCode:tuple)->None:
 #
 def userEmailCode_get(user_name:str=None, ip:str=None, email:str=None)->tuple|None:
     try:
-        userEmailCode = None
+        userEmailCode = ()
         filters = []
 
         if user_name:
