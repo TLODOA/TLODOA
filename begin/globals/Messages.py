@@ -39,3 +39,13 @@ def sign_not_allow_because_user_password_incorrect()->str:
 
 def sign_not_allow_because_email_code_incorrect()->str:
     return "Email code incorrect"
+
+## Login auth
+def login_not_allow_because_user_found()->str:
+    return "Invalid user name"
+
+def login_not_allow_because_user_email_incorrect()->str:
+    return "User email incorrect"
+
+def login_not_allow_because_user_password_check_incorrect()->str:
+    return "User password check incorrect"

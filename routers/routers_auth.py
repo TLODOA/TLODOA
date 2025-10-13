@@ -36,9 +36,9 @@ def register_app(app:object)->None:
         user_addr = flask.request.remote_addr
 
         #
-        user = user_get(name=user_name)
-        ipInfos = ipInfos_get(ip=user_addr)
-        userEmail = userEmailCode_get(name=user_name)
+        user = session_get(User, name=user_name)
+        ipInfos = session_get(IpInfos, ip=user_addr)
+        userEmail = session_get(UserEmailCode, name=user_name)
 
         if user == None or userEmail == None or ipInfos == None:
             return flask.jsonify({
@@ -75,33 +75,24 @@ def register_app(app:object)->None:
     @app.route('/login/auth', methods=["POST"])
     def login_auth()->object:
         if flask.request.method != "POST":
-            return flask.redirect('/login/display')
-
-        user_name = flask.request.form["user_name"]
-        user_email = flask.request.form["user_email"]
-        user_password = flask.request.form["user_password"]
-
-        #
-        if user_get(user_name):
             return flask.jsonify({
-                "message_error": "User already defined"
+                'message': Messages.request_not_allow_because_method()
             })
 
+        user_name = forms["user_name"]
 
-        # flask.session["message"]=""
+        user_email = forms["user_email"]
+        user_email_code = forms["user_email_code"]
 
-        user_insert(user_name, user_email, user_password)
+        user_password = forms["user_password"]
+        user_password_check = forms["user_password_check"]
 
-        response = flask.make_response(flask.redirect('/'))
-        cookie_define(response, 'user_name', user_name)
+        user_addr = flask.request.remote_addr
 
-        return response
+        ##
+        user = session_get(User, name=user_name)
+        ipInfos = session_get(ipInfos, ip=user_addr)
+        userEmail = session_get(UserEmailCode, ip=user_addr)
 
-    ##
-    @app.route('/logout/auth')
-    def logout_auth()->object:
-        response = flask.make_response(flask.redirect('/'))
-        cookie_define(response, 'user_name', '', max_age=0)
-
-        return response
+        if len(user):
 
