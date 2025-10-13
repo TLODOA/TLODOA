@@ -11,9 +11,11 @@ IpInfos_VALIDITY = 60*60*24*7 # one week
 
 def ipInfos_insert(ip:str=None, \
         user_name:str=None, email_count:int=0, email_send_last:float=0, \
-        validity:float=(time.time()+IpInfos_VALIDITY))->None|object:
+        validity:float=(time.time()+IpInfos_VALIDITY), attempts:int=0)->None|object:
     try:
-        ipInfos = IpInfos(ip=ip, user_name=user_name, email_count=email_count, email_send_last=0, validity=validity)
+        ipInfos = IpInfos(ip=ip, user_name=user_name \
+                , email_count=email_count, email_send_last=0, email_token_attempts=attempts \
+                , validity=validity)
 
         session.add(ipInfos)
     except Exception as e:

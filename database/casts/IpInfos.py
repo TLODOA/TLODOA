@@ -15,12 +15,13 @@ class IpInfos(Base):
 
     email_count = Column(Integer)
     email_send_last = Column(Float)
+    email_token_attempts = Column(Integer)
 
     validity = Column(Float)
 
     ##
     def email_send_status(self)->int:
-        from begin.globals.Email import Email
+        from begin.globals import Email
         import time
 
         ##

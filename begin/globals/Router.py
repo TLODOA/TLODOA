@@ -1,5 +1,3 @@
-class Router():
-    #
-    DIR_PATH = "routers"
+DIR_PATH = "routers"
 
-    REGISTER_IGNORE = []
+REGISTER_IGNORE = []

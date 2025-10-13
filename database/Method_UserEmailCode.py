@@ -6,7 +6,7 @@ from begin import error_message
 import time
 
 ##
-UserEmailCode_VALIDITY = 60*30 # half hour
+UserEmailCode_VALIDITY = 60*10 # half hour
 
 def userEmailCode_insert(user_name:str, email:str,\
         ip:str, token:str, validity:float=time.time()+UserEmailCode_VALIDITY)->object:

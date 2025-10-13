@@ -24,7 +24,7 @@ class UserEmailCode(Base):
         from email.message import EmailMessage
 
         from begin.globals import Email, SMTP
-        from database import session, IpInfos, ipInfos_get
+        from database import session, ipInfos_get
 
         import time
 
@@ -47,10 +47,22 @@ class UserEmailCode(Base):
         with smtplib.SMTP(SMTP.SERVER, SMTP.PORT) as server:
             server.starttls()
             server.login(SMTP.SENDER, SMTP.APP_PASSWORD)
-            server.send_message(msg)
+            # server.send_message(msg)
 
         ##
         ipInfos.email_send_last = time.time()
         ipInfos.email_count += 1
+
+        session.commit()
+
+    def token_auth(self, token_input)->bool:
+        from databse import session, ipInfos_get
+
+        if self.token == token_input:
+            return True
+
+        ipInfos = ipInfos_get(ip=self.ip)[0]
+
+        ipInfos.email_token_attemps += 1
 
         session.commit()
