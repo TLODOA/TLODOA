@@ -1,6 +1,6 @@
 //
-export function request_token_email(url_request, json){
-    fetch(url_request, {
+export function request_token_email(json){
+    fetch('/token/email/generate', {
         method: 'POST',
         headers: {'Content-Type': 'application/json; charset=utf-8'},
 
@@ -95,23 +95,30 @@ export class Sign {
 
         //
         this.BUTT_EMAIL_CODE_GET_ID = 'sign_button_email_code_get';
-        this.BUTT_EMAIL_CODE_GET_NEW_ID = 'sign_button_email_code_get_new';
-
         this.BUTT_FINISH_ID = 'sign_button_finish';
 
 
         this.BUTT_EMAIL_CODE_GET = document.getElementById(this.BUTT_EMAIL_CODE_GET_ID);
-        this.BUTT_EMAIL_CODE_GET_NEW = document.getElementById(this.BUTT_EMAIL_CODE_GET_NEW_ID);
-
         this.BUTT_FINISH = document.getElementById(this.BUTT_FINISH_ID);
     }
 }
 
 // login.html
-export function login_init(){
-    const LOGIN_FORM_EMAIL_ID = 'login_form_email';
-    const LOGIN_FORM_PASSWORD_ID = 'login_form_password';
+export class Login{
+    constructor(){
+        this.FORM_EMAIL_ID  ='login_form_email';
+        this.FORM_PASSWORD_ID = 'login_form_password';
 
-    const LOGIN_FORM_EMAIL = document.getElementById(LOGIN_FORM_EMAIL_ID);
-    const LOGIN_FORM_PASSWORD = document.getElementById(LOGIN_FORM_PASSWORD_ID);
+
+        this.FORM_EMAIL = document.getElementById(this.FORM_EMAIL_ID);
+        this.FORM_PASSWORD = document.getElementById(this.FORM_PASSWORD_ID);
+
+        //
+        this.BUTT_EMAIL_CODE_GET_ID = 'login_button_email_code_get';
+        this.BUTT_FINISH = 'login_button_finish';
+
+
+        this.BUTT_EMAIL_CODE_GET = document.getElementById(this.BUTT_EMAIL_CODE_GET_ID);
+        this.BUTT_FINISH = document.getElementById(this.BUTT_FINISH);
+    }
 }

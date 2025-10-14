@@ -60,12 +60,10 @@ class UserEmailCode(Base):
         msg.set_content(f'This is your email token: {self.token}')
 
         # This code passage doesn't works in the shit computers of school
-        """
         with smtplib.SMTP(SMTP.SERVER, SMTP.PORT) as server:
             server.starttls()
             server.login(SMTP.SENDER, SMTP.APP_PASSWORD)
-            # server.send_message(msg)
-        """
+            server.send_message(msg)
 
         ##
         ipInfos.email_send_last = time.time()

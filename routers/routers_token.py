@@ -9,8 +9,8 @@ from database import *
 ##
 def register_app(app:object)->None:
 
-    @app.route('/token/email/generate/<token_type>', methods=['POST'])
-    def email_token_generate(token_type)->object:
+    @app.route('/token/email/generate', methods=['POST'])
+    def email_token_generate()->object:
         if flask.request.method != 'POST':
             return flask.jsonify({
                 'message': "Invalid method request"
@@ -51,12 +51,7 @@ def register_app(app:object)->None:
                 })
 
         ##
-        if len(userEmail) and token_type == "first":
-            return flask.jsonify({
-                'message': \
-                    Messages.email_already_sended()
-                })
-        elif len(userEmail) and token_type=="new":
+        elif len(userEmail):
             session_delete(userEmail)
         
         #

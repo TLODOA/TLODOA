@@ -1,47 +1,54 @@
 {% extends "default/layout_3.html" %}
 
+<!-- -->
 {% block title %}Login{% endblock %}
 
+{% block javascript %}
+<script src="{{ url_for("static", filename="script/login_fun.js") }}" type="module" defer></script>
+{% endblock %}
 
+<!-- -->
 {% block content_main_1 %}
-<form method="POST" class="user_data_input">
+<form method="POST" class="user_data_input" id="login_form_email">
     <div class="user_data_input_get">
         <label>
             <p>User name</p>
         </label>
-        <input type="text" autocomplete="off" required name="user_name">
+        <input type="text" autocomplete="off" name="user_name">
 
         <label>
             <p>User email</p>
         </label>
-        <input type="text" autocomplete="off" required name="user_email">
+        <input type="text" autocomplete="off" name="user_email">
 
         <label> 
             <p>User email code</p>
         </label>
-        <input type="text" autocomplete="off" required name="email_code">
+        <input type="text" autocomplete="off" name="user_email_code">
     </div>
 
-    <button type="submit">Get email code</button>
+    <button id="login_button_email_code_get">Get email code</button>
 </form>
 {% endblock %}
 
 {% block content_main_2 %}
-<form method="POST" class="user_data_input">
+<form method="POST" class="user_data_input" id="login_form_password">
     <div class="user_data_input_get">
         <label>
             <p>User password</p>
         </label>
-        <input type="text" autocomplete="off" required name="user_password">
+        <input type="text" autocomplete="off" name="user_password">
 
         <label>
             <p>User password valid</p>
         </label>
-        <input type="text" autocomplete="off" required name="user_password_check">
+        <input type="text" autocomplete="off" name="user_password_check">
     </div>
 
-    <button type="submit">Create account</button>
+    <button id="login_button_finish">Finish</button>
 </form>
 {% endblock %}
 
-{% block message %}session.message{% endblock %}
+{% block footer %}
+<div id="message_logs"></div>
+{% endblock %}

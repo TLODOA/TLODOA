@@ -18,24 +18,7 @@ sign.BUTT_EMAIL_CODE_GET.addEventListener('click', (e) => {
         return;
     }
 
-    global.request_token_email('/token/email/generate/first', form_data_json);
-});
-
-sign.BUTT_EMAIL_CODE_GET_NEW.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    //
-    const form_data = new FormData(sign.FORM_EMAIL);
-    const form_data_json = Object.fromEntries(form_data);
-
-    if(!form_data_json["user_name"] || !form_data_json["user_email"]){
-        logs.MESSAGE_LOGS_CLEAN();
-        logs.MESSAGE_LOGS_INSERT("Please fill all required fields");
-
-        return;
-    }
-
-    global.request_token_email('/token/email/generate/new', form_data_json);
+    global.request_token_email(form_data_json);
 });
 
 //

@@ -79,6 +79,9 @@ def register_app(app:object)->None:
                 'message': Messages.request_not_allow_because_method()
             })
 
+        forms = flask.request.json
+        print(forms)
+
         user_name = forms["user_name"]
 
         user_email = forms["user_email"]
@@ -91,8 +94,7 @@ def register_app(app:object)->None:
 
         ##
         user = session_get(User, name=user_name)
-        ipInfos = session_get(ipInfos, ip=user_addr)
+        ipInfos = session_get(IpInfos, ip=user_addr)
         userEmail = session_get(UserEmailCode, ip=user_addr)
 
-        if len(user):
-
+        return '{}'

@@ -14,8 +14,6 @@ SocketIO.socketio.init_app(app)
 # Developer settings
 session_insert(IpInfos, ip='127.0.0.1')
 session_insert(UserEmailCode, ip='127.0.0.1', email='abcd@gmail.com', token='1234')
-#
-
 
 ##
 if __name__=="__main__":
