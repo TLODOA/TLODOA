@@ -8,6 +8,7 @@ import time
 ##
 IP_LEN = 16
 
+#
 IpInfos_VALIDITY = 60*60*24*7 # one week
 
 class IpInfos(Base):

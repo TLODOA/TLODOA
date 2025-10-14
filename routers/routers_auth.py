@@ -74,6 +74,8 @@ def register_app(app:object)->None:
 
     @app.route('/login/auth', methods=["POST"])
     def login_auth()->object:
+        from begin.globals import Email, Status
+
         if flask.request.method != "POST":
             return flask.jsonify({
                 'message': Messages.request_not_allow_because_method()
@@ -92,9 +94,51 @@ def register_app(app:object)->None:
 
         user_addr = flask.request.remote_addr
 
-        ##
+        #
         user = session_get(User, name=user_name)
         ipInfos = session_get(IpInfos, ip=user_addr)
-        userEmail = session_get(UserEmailCode, ip=user_addr)
+        userEmail = session_get(UserEmailCode, ip=user_addr, email=user_email)
 
-        return '{}'
+        ##
+        if user == None or ipInfos == None or userEmail == None:
+            return flask.jsonify({
+                'message': Messages.server_internal_error()
+            })
+
+
+        if ipInfos[0].email_token_attempts >= Token.KEY_EMAIL_ATTEMPTS_MAX \
+                or ipInfos[0].email_count >= Email.SEND_MAX:
+            return flask.jsonify({
+                'message': Messages.login_not_allow_because_client_activity()
+            })
+
+
+        if len(user):
+            return flask.jsonify({
+                'message': Messages.login_not_allow_because_user_found()
+            })
+
+
+        if not len(userEmail):
+            return flask.jsonify({
+                'message': Messages.login_not_allow_because_email_code_not_send()
+            })
+
+        if not userEmail[0].token_auth(user_email_code):
+            return flask.jsonify({
+                'message': Messages.login_not_allow_because_email_code_incorrect()
+            })
+
+
+        if user_password != user_password_check:
+            return flask.jsonify({
+                'message': Messages.login_not_allow_because_user_password_check_incorrect()
+            })
+        
+        ##
+        session_insert(User, name=user_name, email=user_email, password=user_password, status=Status.OFFLINE)
+        session_update(ipInfos, "user_name", user_name)
+
+        return flask.jsonify({
+            'href_link': "/"
+        })

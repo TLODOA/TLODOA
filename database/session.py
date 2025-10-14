@@ -43,10 +43,10 @@ def session_delete(instance:tuple)->None:
         session.rollback()
         error_message('session_delete', e)
 
-def session_update(instance:object, attr_name:str, attr_value_new:int)->None:
+def session_update(instance:tuple, attr_name:str, attr_value_new:int)->None:
     try:
         for i in instance:
-            i.__dict__[attr_name] = attr_value_new
+            setattr(i, attr_name, attr_value_new)
 
         session.commit()
     except Exception as e:

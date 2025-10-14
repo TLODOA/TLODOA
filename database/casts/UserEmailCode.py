@@ -60,10 +60,12 @@ class UserEmailCode(Base):
         msg.set_content(f'This is your email token: {self.token}')
 
         # This code passage doesn't works in the shit computers of school
+        """
         with smtplib.SMTP(SMTP.SERVER, SMTP.PORT) as server:
             server.starttls()
             server.login(SMTP.SENDER, SMTP.APP_PASSWORD)
             server.send_message(msg)
+            """
 
         ##
         ipInfos.email_send_last = time.time()
@@ -72,13 +74,14 @@ class UserEmailCode(Base):
         session.commit()
 
     def token_auth(self, token_input)->bool:
-        from databse import session, session_get, IpInfos
+        from database import session, session_get, IpInfos
 
         if self.token == token_input:
             return True
 
-        ipInfos = ipInfos_get(ip=self.ip)[0]
-
-        ipInfos.email_token_attemps += 1
+        ipInfos = session_get(IpInfos, ip=self.ip)[0]
+        ipInfos.email_token_attempts += 1
 
         session.commit()
+
+        return False

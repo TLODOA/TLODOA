@@ -40,6 +40,9 @@ def sign_not_allow_because_user_password_incorrect()->str:
 def sign_not_allow_because_email_code_incorrect()->str:
     return "Email code incorrect"
 
+def sign_not_allow_because_email_code_not_send()->str:
+    return "Email code not requested"
+
 ## Login auth
 def login_not_allow_because_user_found()->str:
     return "Invalid user name"
@@ -49,3 +52,14 @@ def login_not_allow_because_user_email_incorrect()->str:
 
 def login_not_allow_because_user_password_check_incorrect()->str:
     return "User password check incorrect"
+
+
+def login_not_allow_because_email_code_not_send()->str:
+    return "Email code not requested"
+
+def login_not_allow_because_email_code_incorrect()->str:
+    return "Email code is incorrect"
+
+
+def login_not_allow_because_client_activity()->str:
+    return "Wait some minutes..."
