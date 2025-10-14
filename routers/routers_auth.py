@@ -19,6 +19,8 @@ def register_app(app:object)->None:
     ##
     @app.route('/sign/auth', methods=["POST"])
     def sign_auth()->object:
+        from begin.globals import Email
+
         if flask.request.method != "POST":
             return flask.jsonify({
                 'message': Messages.request_not_allow_because_method()
@@ -38,35 +40,42 @@ def register_app(app:object)->None:
         #
         user = session_get(User, name=user_name)
         ipInfos = session_get(IpInfos, ip=user_addr)
-        userEmail = session_get(UserEmailCode, name=user_name)
+        userEmail = session_get(UserEmailCode, ip=user_addr)
 
         if user == None or userEmail == None or ipInfos == None:
             return flask.jsonify({
                 'message': Messages.server_internal_error()
             })
 
+        if ipInfos[0].email_token_attempts >= Token.KEY_EMAIL_ATTEMPTS_MAX \
+                or ipInfos[0].email_count >= Email.SEND_MAX:
+            return flask.jsonify({
+                'message': Messages.sign_not_allow_because_client_behavior()
+            })
+
         #
         if not len(user):
             return flask.jsonify({
-                'message': Messages.sign_not_allow_because_user_not_found
+                'message': Messages.sign_not_allow_because_user_not_found()
             })
 
-        if not len(userEmail) or user[0].email != user_email:
+        if user[0].email != user_email:
             return flask.jsonify({
-                'message': Messages.sign_not_allow_because_user_email_incorrect
+                'message': Messages.sign_not_allow_because_user_email_incorrect()
             })
 
         if user[0].password != user_password:
             return flask.jsonify({
-                'message': Messages.sign_not_allow_because_user_password_incorrect
+                'message': Messages.sign_not_allow_because_user_password_incorrect()
             })
 
-        if userEmail.token != user_email_code:
+        if userEmail[0].token != user_email_code:
             return flask.jsonify({
-                'message': Messages.sign_not_allow_because_email_code_incorrect
+                'message': Messages.sign_not_allow_because_email_code_incorrect()
             })
-        #
-        ipInfos[0].user_name = user_name
+        ##
+        session_update(ipInfos, "user_name", user_name)
+        session_delete(userEmail)
         
         return flask.jsonify({
             'href_link': '/'
@@ -109,10 +118,10 @@ def register_app(app:object)->None:
         if ipInfos[0].email_token_attempts >= Token.KEY_EMAIL_ATTEMPTS_MAX \
                 or ipInfos[0].email_count >= Email.SEND_MAX:
             return flask.jsonify({
-                'message': Messages.login_not_allow_because_client_activity()
+                'message': Messages.login_not_allow_because_client_behavior()
             })
 
-
+        #
         if len(user):
             return flask.jsonify({
                 'message': Messages.login_not_allow_because_user_found()
@@ -137,8 +146,8 @@ def register_app(app:object)->None:
         
         ##
         session_insert(User, name=user_name, email=user_email, password=user_password, status=Status.OFFLINE)
-        session_update(ipInfos, "user_name", user_name)
+        session_delete(userEmail)
 
         return flask.jsonify({
-            'href_link': "/"
+            'href_link': "/sign/display"
         })
