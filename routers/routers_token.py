@@ -60,7 +60,13 @@ def register_app(app:object)->None:
 
         userEmail.token_send()
 
+        """ Able this after application developer
         return flask.jsonify({
             'message': \
                 Messages.email_ok()
+            })
+        """
+        return flask.jsonify({
+            'message': \
+                'This is your email token: ' + code
             })

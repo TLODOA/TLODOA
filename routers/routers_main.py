@@ -14,12 +14,11 @@ def register_app(app:object)->None:
             flask.session["user_name"] = ipInfos[0].user_name
             return
 
-        print(flask.request.path, flask.session)
+        # print(flask.request.path, flask.session)
         if not flask.request.path.startswith('/view'):
             return 
 
         #
-        print(flask.session)
         if "user_name" in flask.session:
             del flask.session["user_name"]
 
