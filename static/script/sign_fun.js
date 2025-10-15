@@ -50,6 +50,15 @@ sign.BUTT_FINISH.addEventListener('click', (e) => {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
+        const href_link = data["href_link"];
+        const message = data["message"];
+
+        if(href_link != undefined){
+            window.location.href = href_link;
+            return;
+        }
+
+        logs.MESSAGE_LOGS_CLEAN();
+        logs.MESSAGE_LOGS_INSERT(message, logs.MESSAGE_ERROR_ID);
     });
 });

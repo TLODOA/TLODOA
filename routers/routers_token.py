@@ -63,4 +63,4 @@ def register_app(app:object)->None:
         return flask.jsonify({
             'message': \
                 Messages.email_ok()
-        })
+            })

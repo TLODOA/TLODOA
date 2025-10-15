@@ -31,6 +31,16 @@ login.BUTT_FINISH.addEventListener('click', (e) => {
 
     const form_data_json = { ...form_data_email, ...form_data_passw };
 
+    for(var i in form_data_json){
+        if(form_data_json[i])
+            continue;
+
+        logs.MESSAGE_LOGS_CLEAN();
+        logs.MESSAGE_LOGS_INSERT("Please, fill all required fields");
+
+        return;
+    }
+
     //
     fetch('/login/auth', {
         method: 'POST',
@@ -47,8 +57,8 @@ login.BUTT_FINISH.addEventListener('click', (e) => {
             return;
         }
 
-        logs.MESSAGE_CLEAN();
-        logs.MESSAGE_INSERT(message, logs.MESSAGE_ERROR_ID);
+        logs.MESSAGE_LOGS_CLEAN();
+        logs.MESSAGE_LOGS_INSERT(message, logs.MESSAGE_ERROR_ID);
     })
 
 });

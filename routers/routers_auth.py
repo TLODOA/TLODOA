@@ -151,3 +151,13 @@ def register_app(app:object)->None:
         return flask.jsonify({
             'href_link': "/sign/display"
         })
+
+    @app.route('/logout/auth')
+    def logout_auth()->object:
+        user_addr = flask.request.remote_addr
+
+        ipInfos = session_get(IpInfos, ip=user_addr)
+
+        session_update(ipInfos, "user_name", None)
+
+        return flask.redirect(flask.request.referrer)
