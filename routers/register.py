@@ -12,20 +12,17 @@ import re
 import os
 
 ##
-def router_register(app:object, folder:str)->None:
+def register_router(app:object, folder:str=Router.DIR_PATH)->None:
     folder_path = os.path.abspath(folder)
     
     for file in os.listdir(folder_path):
-        if not re.search("^routers_.*\.py$", file) or file in Router.REGISTER_IGNORE:
-            continue
-
-        file_extension = file.split('.')[-1]
         file_path = f"{folder_path}/{file}"
 
         if not os.path.isfile(file_path):
-            router_register(app, file_path)
+            register_router(app, file_path)
             continue
-        elif file_extension != 'py':
+
+        if not re.search("^routers_.*\.py$", file) or file in Router.REGISTER_IGNORE:
             continue
 
         ##
