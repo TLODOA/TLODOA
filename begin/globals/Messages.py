@@ -20,8 +20,24 @@ def email_not_allow_because_amount(timestamp)->str:
 
     return f"You request many emails once. Plase, wait until {date.tm_hour}:{date.tm_min}:{date.tm_sec}s to do other request"
 
+def email_not_allow_because_token_attempts(timestamp)->str:
+    import time
+
+    date = time.localtime(timestamp)
+
+    return f"You do many attempts of token authentication once, try again in {date.tm_hour}:{date.tm_min}:{date.tm_sec}"
+
+def email_not_allow_because_ip_blocked(timestamp)->str:
+    import time
+
+    date = time.localtime(timestamp)
+
+    return f"You ip was be blocked because of your activity, try send email again after {date.tm_hour}:{date.tm_min}:{date.tm_sec}"
+
+
 def email_already_sended()->str:
     return "You already receive the email"
+
 
 def email_ok()->str:
     return "Email successful sended!"
@@ -44,8 +60,12 @@ def sign_not_allow_because_email_code_not_send()->str:
     return "Email code not requested"
 
 
-def sign_not_allow_because_client_behavior()->str:
-    return "Wait some minutes"
+def sign_not_allow_because_client_behavior(timestamp)->str:
+    import time
+
+    date = time.localtime(timestamp)
+
+    return f"Because of your behavior, you cannot try sign after {date.tm_hour}:{date.tm_min}:{date.tm_sec}"
 
 ## Login auth
 def login_not_allow_because_user_found()->str:
@@ -65,5 +85,9 @@ def login_not_allow_because_email_code_incorrect()->str:
     return "Email code is incorrect"
 
 
-def login_not_allow_because_client_behavior()->str:
-    return "Wait some minutes..."
+def login_not_allow_because_client_behavior(timestamp)->str:
+    import time
+
+    date = time.localtime(timestamp)
+
+    return f"Because of your behavior, you cannot try login after {date.tm_hour}:{date.tm_min}:{date.tm_sec}"

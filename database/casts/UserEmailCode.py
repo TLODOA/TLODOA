@@ -46,8 +46,9 @@ class UserEmailCode(Base):
 
         ##
         ipInfos = session_get(IpInfos, ip=self.ip)[0]
-        status = ipInfos.email_send_status()
+        status = ipInfos.email_send_status
 
+        print('status send: ', status)
         if status != Email.SEND_OK:
             return
 
@@ -68,8 +69,8 @@ class UserEmailCode(Base):
             """
 
         ##
-        ipInfos.email_send_last = time.time()
-        ipInfos.email_count += 1
+        ipInfos.email_send_last_time = time.time()
+        ipInfos.email_send_count += 1
 
         session.commit()
 
@@ -80,7 +81,7 @@ class UserEmailCode(Base):
             return True
 
         ipInfos = session_get(IpInfos, ip=self.ip)[0]
-        ipInfos.email_token_attempts += 1
+        ipInfos.auth_attempts += 1
 
         session.commit()
 

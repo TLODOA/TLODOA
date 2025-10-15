@@ -1,7 +1,5 @@
 from begin.xtensions import *
 
-from begin.globals import Email, Messages
-
 from begin import token
 
 from database import *
@@ -11,6 +9,8 @@ def register_app(app:object)->None:
 
     @app.route('/token/email/generate', methods=['POST'])
     def email_token_generate()->object:
+        from begin.globals import Email, Messages
+
         if flask.request.method != 'POST':
             return flask.jsonify({
                 'message': "Invalid method request"
@@ -36,22 +36,34 @@ def register_app(app:object)->None:
             ipInfos = (session_insert(IpInfos, ip=user_addr),)
 
         #
-        emailSend_status = ipInfos[0].email_send_status()
+        emailSend_status = ipInfos[0].email_send_status
 
         if emailSend_status == Email.SEND_NOT_ALLOW_BECAUSE_AMOUNT:
             return flask.jsonify({
                 'message': \
-                    Messages.email_not_allow_because_amount(ipInfos[0].email_send_last + Email.SEND_INTERVAL_BANNED)
+                    Messages.email_not_allow_because_amount(ipInfos[0].email_send_time_allow)
                 })
 
         if emailSend_status == Email.SEND_NOT_ALLOW_BECAUSE_INTERVAL:
             return flask.jsonify({
                 'message': \
-                    Messages.email_not_allow_because_interval(ipInfos[0].email_send_last + Email.SEND_INTERVAL)
+                    Messages.email_not_allow_because_interval(ipInfos[0].email_send_time_allow)
                 })
 
+        if emailSend_status == Email.SEND_NOT_ALLOW_BECAUSE_TOKEN_ATTEMPTS:
+            return flask.jsonify({
+                'message': \
+                    Messages.email_not_allow_because_token_attempts(ipInfos[0].email_send_time_allow)
+            })
+
+        if emailSend_status == Email.SEND_NOT_ALLOW_BECAUSE_IP_BLOCKED:
+            return flask.jsonify({
+                'message': \
+                    Messages.email_not_allow_because_ip_blocked(ipInfos[0].email_send_time_allow)
+            })
+
         ##
-        elif len(userEmail):
+        if len(userEmail):
             session_delete(userEmail)
         
         #
