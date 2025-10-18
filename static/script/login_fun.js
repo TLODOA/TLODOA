@@ -18,6 +18,8 @@ login.BUTT_EMAIL_CODE_GET.addEventListener('click', (e) => {
         return;
     }
 
+    form_data_json["user_email_field"] = 1;
+
     global.request_token_email(form_data_json);
 });
 

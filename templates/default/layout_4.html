@@ -1,12 +1,12 @@
 {% extends "default/layout_1.html" %}
 
 {% block style %}
-<link href="{{ url_for("static", "style/layout_4.css") }}" rel="stylesheet">
+<link href="{{ url_for("static", filename="style/layout_4.css") }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 <main>
-    <section class="interface_right">
+    <section class="interface_left">
         <div class="main_1">
             {% block content_main_1 %}{% endblock %}
         </div>
@@ -16,7 +16,7 @@
         </div>
     </section>
 
-    <section class="interface_left">
+    <section class="interface_right">
         <div class="main_2">
             {% block content_main_2 %}{% endblock %}
         </div>

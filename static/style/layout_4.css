@@ -1,0 +1,72 @@
+:root{
+    --interface_left_width: 50%;
+    --interface_left_height: 75%;
+
+    --interface_right_width: 50%;
+    --interface_right_height: 75%;
+
+    /* */
+    --main_1_width: 90%;
+    --main_3_width: 90%;
+
+    --main_2_width: 90%;
+    /* */
+    --main_1_height: 47%;
+    --main_3_height: 47%;
+
+    --main_2_height: 96%;
+}
+
+/* */
+main{
+    justify-content: center;
+
+    align-items: normal;
+
+    padding: 20px;
+}
+
+/* */
+.interface_left{
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: space-around;
+
+    width: var(--interface_left_width);
+    height: var(--interface_left_height);
+}
+
+.interface_right{
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: space-around;
+
+    width: var(--interface_right_width);
+    height: var(--interface_right_height);
+}
+
+/* */
+.main_1{
+    background-color: green;
+
+    width: var(--main_1_width);
+    height: var(--main_1_height);
+}
+
+.main_2{
+    background-color: blue;
+
+    width: var(--main_2_width);
+    height: var(--main_2_height);
+}
+
+.main_3{
+    background-color: red;
+
+    width: var(--main_3_width);
+    height: var(--main_3_height);
+}

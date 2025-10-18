@@ -23,12 +23,13 @@ body{
 
 header{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+
     align-items: center;
 
     height: var(--header_height);
 
-    padding: 15px;
+    padding: 20px 40px 20px 40px;
     margin: 10px;
 }
 
@@ -72,6 +73,8 @@ p, input[type="text"]{
 
     display: grid;
     align-items: center;
+
+    border-radius: 25px;
 }
 
 .user_data_input_get input{

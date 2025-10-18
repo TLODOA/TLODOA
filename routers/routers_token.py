@@ -1,7 +1,4 @@
 from begin.xtensions import *
-
-from begin import token
-
 from database import *
 
 ##
@@ -21,16 +18,24 @@ def register_app(app:object)->None:
 
         user_name = forms["user_name"]
         user_email = forms["user_email"]
+        user_email_field = forms["user_email_field"]
 
         user_addr = flask.request.remote_addr
 
         #
         ipInfos = session_get(IpInfos, ip=user_addr)
-        userEmail = session_get(UserEmailCode, ip=user_addr)
+        userEmail = session_get(UserEmailCode, ip=user_addr, field=user_email_field)
+
+        print(Token.email_generate())
+        print(userEmail)
 
         ##
-        if ipInfos == None or userEmail == None:
-            return Messages.server_internal_error()
+        if ipInfos == None or userEmail == None or not user_email_field in Email.FIELD_ABLE:
+            return flask.jsonfify({
+                'message': \
+                    Messages.server_internal_error()
+                })
+
 
         if(not len(ipInfos)):
             ipInfos = (session_insert(IpInfos, ip=user_addr),)
@@ -67,8 +72,7 @@ def register_app(app:object)->None:
             session_delete(userEmail)
         
         #
-        code = token.token_email_generate()
-        userEmail = session_insert(UserEmailCode, token=code, name=None, ip=user_addr, email=user_email)
+        userEmail = session_insert(UserEmailCode, name=None, ip=user_addr, email=user_email, field=user_email_field)
 
         userEmail.token_send()
 
@@ -80,5 +84,5 @@ def register_app(app:object)->None:
         """
         return flask.jsonify({
             'message': \
-                'This is your email token: ' + code
+                'This is your email token: ' + userEmail.token
             })

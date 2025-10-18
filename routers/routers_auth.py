@@ -40,7 +40,7 @@ def register_app(app:object)->None:
         #
         user = session_get(User, name=user_name)
         ipInfos = session_get(IpInfos, ip=user_addr)
-        userEmail = session_get(UserEmailCode, ip=user_addr)
+        userEmail = session_get(UserEmailCode, ip=user_addr, email=user_email, field=Email.FIELD_SIGN)
 
         ##
         if user == None or userEmail == None or ipInfos == None:
@@ -76,6 +76,11 @@ def register_app(app:object)->None:
         if not userEmail[0].token_auth(user_email_code):
             return flask.jsonify({
                 'message': Messages.sign_not_allow_because_email_code_incorrect()
+            })
+
+        if not userEmail[0].token_valid():
+            return flask.jsonify({
+                'message': Messages.sign_not_allow_because_email_code_validity()
             })
             
 
@@ -117,7 +122,7 @@ def register_app(app:object)->None:
         #
         user = session_get(User, name=user_name)
         ipInfos = session_get(IpInfos, ip=user_addr)
-        userEmail = session_get(UserEmailCode, ip=user_addr, email=user_email)
+        userEmail = session_get(UserEmailCode, ip=user_addr, email=user_email, field=Email.FIELD_LOGIN)
 
         ##
         if user == None or ipInfos == None or userEmail == None:
@@ -148,6 +153,11 @@ def register_app(app:object)->None:
         if not userEmail[0].token_auth(user_email_code):
             return flask.jsonify({
                 'message': Messages.login_not_allow_because_email_code_incorrect()
+            })
+
+        if not userEmail[0].token_valid():
+            return flask.jsonify({
+                'message': Messages.login_not_allow_because_email_code_validity()
             })
 
 
