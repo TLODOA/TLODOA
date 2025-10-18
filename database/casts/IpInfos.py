@@ -10,7 +10,7 @@ IP_LEN = 16
 
 #
 IpInfos_VALIDITY = 60*60*24*7 # one week
-IpInfos_TIME_BLOCK = 60*1 # two minutes
+IpInfos_TIME_BLOCK = 60*20 # twenty minutes
 
 class IpInfos(Base):
     __tablename__ = 'IpInfos'
@@ -77,7 +77,7 @@ class IpInfos(Base):
 
             return Email.SEND_NOT_ALLOW_BECAUSE_AMOUNT
 
-        if self.auth_attempts >= Token.KEY_EMAIL_ATTEMPTS_MAX:
+        if self.auth_attempts >= Token.AUTH_ATTEMPTS_MAX:
             self.block_time_init = time.time()
             session.commit()
 
@@ -113,7 +113,7 @@ class IpInfos(Base):
         if self.email_send_count >= Email.SEND_MAX:
             return False
 
-        if self.auth_attempts >= Token.KEY_EMAIL_ATTEMPTS_MAX:
+        if self.auth_attempts >= Token.AUTH_ATTEMPTS_MAX:
             return False 
 
         if self.block_time_init != None:

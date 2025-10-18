@@ -126,6 +126,8 @@ def register_app(app:object)->None:
             })
 
         ipInfos[0].status_update()
+        session_update(ipInfos, "auth_attempts", ipInfos[0].auth_attempts + 1)
+
         if not ipInfos[0].client_behavior_normal:
             return flask.jsonify({
                 'message': Messages.login_not_allow_because_client_behavior(ipInfos[0].email_send_time_allow)
