@@ -1,1 +1,1 @@
-from .register_jobs import *
+from .register import *

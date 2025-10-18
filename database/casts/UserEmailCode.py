@@ -1,32 +1,42 @@
-from sqlalchemy import Column, ForeignKey, String, Float
-from begin.globals import Token
+from sqlalchemy import Column, ForeignKey, String, Float, Integer
+from begin.globals import Token, Email
 
 from .base import Base
 
 from .IpInfos import IP_LEN
 from .User import USER_NAME_LEN, USER_EMAIL_LEN
 
-import time
-
 ##
-UserEmailCode_VALIDITY = 60*10 # half hour
-
 class UserEmailCode(Base):
     __tablename__ = 'UserEmailCode'
 
-    ip = Column(String(IP_LEN), ForeignKey('IpInfos.ip'), primary_key=True)
+    ip = Column(String(IP_LEN), ForeignKey('IpInfos.ip'))
 
     name = Column(String(USER_NAME_LEN), ForeignKey('User.name'))
     email = Column(String(USER_EMAIL_LEN))
 
-    token = Column(String(Token.KEY_EMAIL_LEN))
+    token = Column(String(Token.KEY_EMAIL_LEN), primary_key=True)
     validity = Column(Float)
 
-    ##
-    def __init__(self, ip:str=None \
-            ,name:str=None, email:str=None \
-            ,token=None, validity=time.time()+UserEmailCode_VALIDITY)->None:
+    field = Column(Integer)
 
+    ##
+    def __init__(self \
+            ,ip:str=None \
+            ,name:str=None, email:str=None \
+            ,token:str=None, validity=None \
+            ,field:str=Email.FIELD_UNDEFINED)->None:
+
+        import time
+
+        ##
+        if token == None:
+            token = Token.email_generate()
+
+        if validity == None:
+            validity = time.time() + Email.VALIDITY
+
+        #
         self.ip = ip
 
         self.name = name
@@ -34,6 +44,8 @@ class UserEmailCode(Base):
 
         self.token = token
         self.validity = validity
+
+        self.field = field
 
     def token_send(self)->None:
         import smtplib
@@ -86,3 +98,11 @@ class UserEmailCode(Base):
         session.commit()
 
         return False
+
+    def token_valid(self)->bool:
+        import time
+
+        if self.validity < time.time():
+            return False
+
+        return True

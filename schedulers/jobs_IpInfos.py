@@ -4,7 +4,7 @@ from database import *
 from begin.error_handler import error_message
 
 ##
-def IpInfos_invalid_get()->tuple|None:
+def ipInfos_invalid_get()->tuple|None:
     import time
 
     try:
@@ -18,9 +18,9 @@ def IpInfos_invalid_get()->tuple|None:
         error_message('IpInfos_invalid_get', e)
         session.rollback()
 
-def IpInfos_invalid_delete()->None:
+def ipInfos_invalid_delete()->None:
     try:
-        ipInfos = IpInfos_invalid_get()
+        ipInfos = ipInfos_invalid_get()
 
         if not len(ipInfos):
             return
@@ -31,5 +31,12 @@ def IpInfos_invalid_delete()->None:
         error_message('IpInfos_invalid_delete', e)
 
 ##
-def jobs(scheduler:object)->None:
-    scheduler.add_job(func=IpInfos_invalid_delete, trigger=Scheduler.TRIGGER, seconds=60*24)
+def jobs()->tuple:
+    from begin.globals.Scheduler import Task
+
+    ##
+    jobs = (
+            Task(ipInfos_invalid_delete),
+        )
+
+    return jobs

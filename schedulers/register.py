@@ -30,4 +30,9 @@ def register_jobs(scheduler:object, file_name:str=Scheduler.DIR_PATH)->None:
         module = importlib.util.module_from_spec(module_spec)
         module_spec.loader.exec_module(module)
 
-        module.jobs(scheduler)
+        #
+        jobs = module.jobs()
+
+        for i in jobs:
+            print(i.func, i.seconds)
+            scheduler.add_job(func=i.func, trigger=i.trigger, seconds=i.seconds)

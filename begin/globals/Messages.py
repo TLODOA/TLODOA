@@ -59,6 +59,9 @@ def sign_not_allow_because_email_code_incorrect()->str:
 def sign_not_allow_because_email_code_not_send()->str:
     return "Email code not requested"
 
+def sign_not_allow_because_email_code_validity()->str:
+    return "Email token was be expired"
+
 
 def sign_not_allow_because_client_behavior(timestamp)->str:
     import time
@@ -83,6 +86,9 @@ def login_not_allow_because_email_code_not_send()->str:
 
 def login_not_allow_because_email_code_incorrect()->str:
     return "Email code is incorrect"
+
+def login_not_allow_because_email_code_validity()->str:
+    return "Email token was be expired"
 
 
 def login_not_allow_because_client_behavior(timestamp)->str:
