@@ -1,7 +1,9 @@
 @font-face{
-    font-family: 'Outfit';
-    src: url('static/fonts/Outfit/static/Outfit-Regular.ttf') format('ttf');
+    font-family: Outfit;
+    src: url('../fonts/Outfit/Outfit-VariableFont_wght.ttf');
+}
 
-    font-weight: normal;
-    font-style: normal;
+@font-face{
+    font-family: JosefinSans;
+    src: url('../fonts/Josefin_Sans/JosefinSans-VariableFont_wght.ttf');
 }
