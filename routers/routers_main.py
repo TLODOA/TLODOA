@@ -10,6 +10,10 @@ def register_app(app:object)->None:
 
         ipInfos = session_get(IpInfos, ip=user_addr)
 
+        #
+        flask.session["user_card"] = 0
+        #
+
         if ipInfos[0].user_name != None:
             flask.session["user_name"] = ipInfos[0].user_name
             return

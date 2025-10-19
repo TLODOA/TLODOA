@@ -17,27 +17,33 @@
 <body>
     <header>
         {% if not "user_name" in session %}
-        <div class="user_auth">
-            <a href="{{ url_for("sign_display") }}">sign</a>
-            <a href="{{ url_for("login_display") }}">login</a>
-        </div>
+            <div class="user_auth">
+                <a href="{{ url_for("sign_display") }}">sign</a>
+                <a href="{{ url_for("login_display") }}">login</a>
+            </div>
 
-        <div class="tlodoa_logo">
-            <img src="{{ url_for("static", filename="image/tlodoa_logo.png") }}">
-        </div>
+            <div class="tlodoa_logo_1">
+                <img src="{{ url_for("static", filename="image/tlodoa_logo.png") }}">
+            </div>
         {% else %}
-        <div class="tlodoa_logo">
-            <img src="{{ url_for("static", filename="image/tlodoa_banner.png") }}">
-        </div>
+            <div class="tlodoa_logo_2">
+                <img src="{{ url_for("static", filename="image/tlodoa_banner.png") }}">
+            </div>
 
-        <div class="user_infos">
-            <h3>
-                <a href="{{ url_for("user_view", user_name=session.user_name) }}">
-                    Hello {{ session.user_name }}
-                </a>
-            </h3>
-            <a href="{{ url_for("logout_auth") }}">logout</a>
-        </div>
+            <div class="user_infos">
+                <h3>
+                    <a href="{{ url_for("view_user_card", token="1234") }}">
+                        {{ session.user_card }} Bitc
+                    </a>
+                </h3>
+
+                <h3>
+                    <a href="{{ url_for("view_user_infos", user_name=session.user_name) }}">
+                        Hello {{ session.user_name }}
+                    </a>
+                </h3>
+                <a href="{{ url_for("logout_auth") }}">logout</a>
+            </div>
         {% endif %}
     </header>
 

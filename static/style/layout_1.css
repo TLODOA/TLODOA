@@ -49,9 +49,13 @@ p, input[type="text"]{
 }
 
 /* */
-.tlodoa_logo > img{
+.tlodoa_logo_1 > img{
     width: 90px;
     
+}
+
+.tlodoa_logo_2 > img{
+    width: 350px;
 }
 
 /* */
