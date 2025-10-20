@@ -2,24 +2,11 @@ from database import *
 from begin.error_handler import error_message
 
 ##
-def userToken_invalid_get()->tuple|None:
-    try:
-        userToken_invalid = session.query(UserToken) \
-                .filter(UserToken.validity < time.time()) \
-                .all()
-
-        return userToken
-
-    except Exception as e:
-        error_message('userToken_invalid_get', e)
-
-        return None
-
 def userToken_invalid_delete()->None:
     try:
-        userToken_invalid = userToken_invalid_get()
+        userToken_invalid = session_get(UserToken, validity__lt=time.time())
 
-        session_delete(userToken)
+        session_delete(userToken_invalid)
     except Exception as e:
         error_message('userToken_invalid_delete', e)
 

@@ -1,31 +1,15 @@
-from begin.globals import Scheduler
-
-from database import *
 from begin.error_handler import error_message
+from database import *
 
 ##
-def ipInfos_invalid_get()->tuple|None:
-    import time
-
-    try:
-        ipInfos = session.query(IpInfos) \
-                .filter(IpInfos.validity <= time.time()) \
-                .all()
-
-        return ipInfos
-
-    except Exception as e:
-        error_message('IpInfos_invalid_get', e)
-        session.rollback()
-
 def ipInfos_invalid_delete()->None:
     try:
-        ipInfos = ipInfos_invalid_get()
+        ipInfos_invalid = session_get(IpInfos, validity__lt=time.time()
 
-        if not len(ipInfos):
+        if not len(ipInfos_invalid):
             return
 
-        session_delete(ipInfos)
+        session_delete(ipInfos_invalid)
 
     except Exception as e:
         error_message('IpInfos_invalid_delete', e)
