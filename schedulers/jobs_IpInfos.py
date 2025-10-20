@@ -4,7 +4,7 @@ from database import *
 ##
 def ipInfos_invalid_delete()->None:
     try:
-        ipInfos_invalid = session_get(IpInfos, validity__lt=time.time()
+        ipInfos_invalid = session_get(IpInfos, validity__lt=time.time())
 
         if not len(ipInfos_invalid):
             return
