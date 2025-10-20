@@ -83,18 +83,18 @@ export class MessageLogs{
     }
 }
 
-// sign.html
-export class Sign {
+// login.html
+export class Login {
     constructor(){
-        this.FORM_EMAIL_ID = 'sign_form_email';
-        this.FORM_PASSWORD_ID = 'sign_form_password';
+        this.FORM_EMAIL_ID = 'login_form_email';
+        this.FORM_PASSWORD_ID = 'login_form_password';
 
         this.FORM_EMAIL = document.getElementById(this.FORM_EMAIL_ID);
         this.FORM_PASSWORD = document.getElementById(this.FORM_PASSWORD_ID);
 
         //
-        this.BUTT_EMAIL_CODE_GET_ID = 'sign_button_email_code_get';
-        this.BUTT_FINISH_ID = 'sign_button_finish';
+        this.BUTT_EMAIL_CODE_GET_ID = 'login_button_email_code_get';
+        this.BUTT_FINISH_ID = 'login_button_finish';
 
 
         this.BUTT_EMAIL_CODE_GET = document.getElementById(this.BUTT_EMAIL_CODE_GET_ID);
@@ -102,19 +102,19 @@ export class Sign {
     }
 }
 
-// login.html
-export class Login{
+// sign.html
+export class Sign {
     constructor(){
-        this.FORM_EMAIL_ID  ='login_form_email';
-        this.FORM_PASSWORD_ID = 'login_form_password';
+        this.FORM_EMAIL_ID  ='sign_form_email';
+        this.FORM_PASSWORD_ID = 'sign_form_password';
 
 
         this.FORM_EMAIL = document.getElementById(this.FORM_EMAIL_ID);
         this.FORM_PASSWORD = document.getElementById(this.FORM_PASSWORD_ID);
 
         //
-        this.BUTT_EMAIL_CODE_GET_ID = 'login_button_email_code_get';
-        this.BUTT_FINISH = 'login_button_finish';
+        this.BUTT_EMAIL_CODE_GET_ID = 'sign_button_email_code_get';
+        this.BUTT_FINISH = 'sign_button_finish';
 
 
         this.BUTT_EMAIL_CODE_GET = document.getElementById(this.BUTT_EMAIL_CODE_GET_ID);

@@ -43,7 +43,7 @@ def register_app(app:object)->None:
     @app.route('/')
     def fork()->object:
         if not "user_name" in flask.session:
-            return flask.redirect('/sign/display')
+            return flask.redirect('/login/display')
 
         return flask.redirect('/view/index')
 
