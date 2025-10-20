@@ -27,7 +27,9 @@
             </div>
         {% else %}
             <div class="tlodoa_logo_2">
-                <img src="{{ url_for("static", filename="image/tlodoa_banner.png") }}">
+                <a href="{{ url_for("view_index") }}">
+                    <img src="{{ url_for("static", filename="image/tlodoa_banner.png") }}">
+                </a>
             </div>
 
             <div class="user_infos">

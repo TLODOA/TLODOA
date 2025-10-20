@@ -3,15 +3,14 @@ from .base import Base
 
 from .User import USER_NAME_LEN
 
+from begin.globals import Token
+
 import time
 
 ##
 IP_LEN = 16
 
 #
-IpInfos_VALIDITY = 60*60*24*7 # one week
-IpInfos_TIME_BLOCK = 60*20 # twenty minutes
-
 class IpInfos(Base):
     __tablename__ = 'IpInfos'
 
@@ -33,7 +32,7 @@ class IpInfos(Base):
             ,user_name:str=None \
             ,email_send_count:int=0, email_send_last_time:int=0, auth_attempts:int = 0 \
             ,block_time_init:float|None= None \
-            ,validity = time.time() + IpInfos_VALIDITY)->None:
+            ,validity = time.time() + Token.VALIDITY_IPINFOS)->None:
 
         self.ip = ip
         self.user_name = user_name
@@ -55,7 +54,7 @@ class IpInfos(Base):
         import time
 
         ##
-        if self.block_time_init != None and self.block_time_init + IpInfos_TIME_BLOCK <= time.time():
+        if self.block_time_init != None and self.block_time_init + Token.VALIDITY_IPINFOS_BLOCK<= time.time():
             self.block_time_init = None
 
             self.email_send_count = 0
@@ -99,7 +98,7 @@ class IpInfos(Base):
 
         #
         if self.block_time_init != None:
-            return self.block_time_init + IpInfos_TIME_BLOCK
+            return self.block_time_init + Token.VALIDITY_IPINFOS_BLOCK
 
         if send_status == Email.SEND_NOT_ALLOW_BECAUSE_INTERVAL:
             return self.email_send_last_time + Email.SEND_INTERVAL

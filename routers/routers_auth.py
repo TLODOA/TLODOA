@@ -3,7 +3,7 @@ from begin.xtensions import *
 
 from database import *
 
-from routers.cookies import *
+from routers import cookie
 
 ##
 def register_app(app:object)->None:
@@ -19,7 +19,7 @@ def register_app(app:object)->None:
     ##
     @app.route('/sign/auth', methods=["POST"])
     def sign_auth()->object:
-        from begin.globals import Email
+        from begin.globals import Email, Token
 
         if flask.request.method != "POST":
             return flask.jsonify({
@@ -90,12 +90,17 @@ def register_app(app:object)->None:
             })
 
         ##
-        session_update(ipInfos, "user_name", user_name)
+        userToken = session_insert(UserToken, ip=user_addr, user_name=user_name)
         session_delete(userEmail)
+
+        response = flask.make_response(
+                flask.jsonify({
+                    'href_link': "/"
+                })
+            )
+        cookie.define(response=response, cookie_name="user_token", cookie_value=userToken.token, max_age=Token.VALIDITY_KEY_USER)
         
-        return flask.jsonify({
-            'href_link': '/'
-        })
+        return response
 
     @app.route('/login/auth', methods=["POST"])
     def login_auth()->object:
@@ -176,10 +181,10 @@ def register_app(app:object)->None:
 
     @app.route('/logout/auth')
     def logout_auth()->object:
-        user_addr = flask.request.remote_addr
+        user_token = flask.request.cookies["user_token"]
 
-        ipInfos = session_get(IpInfos, ip=user_addr)
+        userToken = session_get(UserToken, token=user_token)
 
-        session_update(ipInfos, "user_name", None)
+        session_delete(userToken)
 
-        return flask.redirect(flask.request.referrer)
+        return flask.redirect('/')
