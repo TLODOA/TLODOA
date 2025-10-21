@@ -23,3 +23,10 @@ def user_generate()->str:
     import secrets
 
     return ''.join(secrets.choice(KEY_USER_CHARS) for _ in range(KEY_USER_LEN))
+
+
+def crypt_hash(text)->str:
+    import hashlib, binascii
+
+    text_crypt = hashlib.sha3_256(text.encode()).digest()
+    return binascii.hexlify(text_crypt)

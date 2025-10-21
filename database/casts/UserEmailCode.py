@@ -27,6 +27,7 @@ class UserEmailCode(Base):
             ,token:str=None, validity=None \
             ,field:str=Email.FIELD_UNDEFINED)->None:
 
+        from begin.globals import Token
         import time
 
         ##
@@ -40,13 +41,14 @@ class UserEmailCode(Base):
         self.ip = ip
 
         self.name = name
-        self.email = email
+        self.email = Token.crypt_hash(email)
 
-        self.token = token
+        self.token = Token.crypt_hash(token)
         self.validity = validity
 
         self.field = field
 
+    # I have change this!!!
     def token_send(self)->None:
         import smtplib
         from email.message import EmailMessage
