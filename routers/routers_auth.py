@@ -53,40 +53,40 @@ def register_app(app:object)->None:
 
         if not ipInfos[0].client_behavior_normal:
             return flask.jsonify({
-                'message': Messages.sign_not_allow_because_client_behavior(ipInfos[0].email_send_time_allow)
+                'message': Messages.login_not_allow_because_client_behavior(ipInfos[0].email_send_time_allow)
             })
 
         #
         if not len(user):
             return flask.jsonify({
-                'message': Messages.sign_not_allow_because_user_not_found()
+                'message': Messages.login_not_allow_because_user_not_found()
             })
 
 
         if not len(userEmail):
             return flask.jsonify({
-                'message': Messages.sign_not_allow_because_email_code_not_send()
+                'message': Messages.login_not_allow_because_email_code_not_send()
             })
 
         if user[0].email != user_email:
             return flask.jsonify({
-                'message': Messages.sign_not_allow_because_user_email_incorrect()
+                'message': Messages.login_not_allow_because_user_email_incorrect()
             })
 
         if not userEmail[0].token_auth(user_email_code):
             return flask.jsonify({
-                'message': Messages.sign_not_allow_because_email_code_incorrect()
+                'message': Messages.login_not_allow_because_email_code_incorrect()
             })
 
         if not userEmail[0].token_valid():
             return flask.jsonify({
-                'message': Messages.sign_not_allow_because_email_code_validity()
+                'message': Messages.login_not_allow_because_email_code_validity()
             })
             
 
         if user[0].password != user_password:
             return flask.jsonify({
-                'message': Messages.sign_not_allow_because_user_password_incorrect()
+                'message': Messages.login_not_allow_because_user_password_incorrect()
             })
 
         ##
