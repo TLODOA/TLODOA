@@ -16,7 +16,7 @@
 </head>
 <body>
     <header>
-        {% if not "user_name" in session %}
+        {% if not "user_name" in request.cookies %}
             <div class="user_auth">
                 <a href="{{ url_for("login_display") }}">login</a>
                 <a href="{{ url_for("sign_display") }}">sign</a>

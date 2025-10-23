@@ -187,10 +187,30 @@ def register_app(app:object)->None:
         from begin.globals import Token
 
         ##
-        user_token = flask.request.cookies["user_token"]
+        if not cookie.valid("user_name") or not cookie.valid("user_token"):
+            return flask.redirect('/')
 
-        userToken = session_get(UserToken, token=Token.crypt_hash(user_token))
+        user_name = cookie.get("user_name")
+        user_token = cookie.get("user_token")
 
-        session_delete(userToken)
+        user_addr = flask.request.remote_addr
+        user_path = flask.request.path
 
-        return flask.redirect('/')
+
+        if user_token == None or user_name == None:
+            return flask.redirect('/')
+
+        #
+        userToken = session_get(UserToken, ip=user_addr, user_name=user_name)
+
+        response = flask.make_response(flask.redirect('/'))
+        cookie.delete(response, "user_name")
+        cookie.delete(response, "user_token")
+
+        for i in userToken:
+            if not i.token_auth(user_token):
+                continue
+
+            session_delete((i, ))
+
+        return response
