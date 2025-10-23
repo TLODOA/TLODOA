@@ -6,11 +6,28 @@ def register_app(app:object)->None:
 
     @app.before_request
     def before_request()->object|None:
+        from begin.globals import Token
+
+        ##
         user_addr = flask.request.remote_addr
+
+        user_name = flask.request.cookies.get("user_name", None)
         user_token = flask.request.cookies.get("user_token", None)
 
         ipInfos = session_get(IpInfos, ip=user_addr)
-        userToken = session_get(UserToken, token=user_token)
+        userToken = session_get(UserToken, ip=user_addr, user_name=user_name)
+
+        #
+        valid = False
+
+        for i in userToken:
+            valid = i.token_auth(user_token)
+
+            if valid:
+                break
+
+        if not valid:
+            userToken = ()
 
         if len(userToken) and userToken[0].validity < time.time():
             session_delete(userToken)

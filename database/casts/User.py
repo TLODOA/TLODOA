@@ -1,6 +1,8 @@
 from sqlalchemy import Column, String, Integer
 from .base import Base
 
+from begin.globals import Token
+
 ##
 USER_NAME_LEN = 100
 USER_EMAIL_LEN = 240
@@ -12,7 +14,7 @@ class User(Base):
 
     name = Column(String(USER_NAME_LEN), primary_key=True)
     email = Column(String(USER_EMAIL_LEN))
-    password = Column(String(USER_PASSWORD_LEN))
+    password = Column(String(Token.HASH_USER_PASSWORD_LEN))
 
     status = Column(Integer)
 
@@ -20,16 +22,14 @@ class User(Base):
     def __init__(self, name:str=None, email:str=None, password:str=None, status:str=None)->None:
         from begin.globals import Token
 
-        self.name = Token.crypt_hash(name)
-        self.email = Token.crypt_hash(email)
-        self.password = Token.crypt_hash(password)
+        self.name = name
+        self.email = email
+        self.password = Token.crypt_hash(password, hash_len=USER_PASSWORD_LEN)
 
         self.status = status
 
-    def auth(self, attr_name, attr_input)->bool:
-        from begin.globlals import Token
+    def password_auth(self, password_input)->bool:
+        from begin.globals import Token
 
-        attr_value = getattr(self, attr_name)
-        attr_input_hash = Token.crypt_hash(attr_input)
-
-        return attr_value == attr_input_hash
+        ##
+        return Token.crypt_hash_auth(self.password, password_input)

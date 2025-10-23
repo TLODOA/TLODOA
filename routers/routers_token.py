@@ -72,7 +72,9 @@ def register_app(app:object)->None:
             session_delete(userEmail)
         
         #
-        userEmail = session_insert(UserEmailCode, name=None, ip=user_addr, email=user_email, field=user_email_field)
+        email_token = Token.email_generate()
+
+        userEmail = session_insert(UserEmailCode, name=None, ip=user_addr, email=user_email, field=user_email_field, token=email_token)
 
         userEmail.token_send()
 
@@ -84,5 +86,5 @@ def register_app(app:object)->None:
         """
         return flask.jsonify({
             'message': \
-                'This is your email token: ' + userEmail.token
+                'This is your email token: ' + email_token
             })

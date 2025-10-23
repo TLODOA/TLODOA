@@ -13,7 +13,7 @@ import time
 class UserToken(Base):
     __tablename__ = 'UserToken'
 
-    token = Column(String(Token.KEY_USER_LEN), primary_key=True)
+    token = Column(String(Token.HASH_USER_TOKEN_LEN), primary_key=True)
     ip = Column(String(IP_LEN), ForeignKey('IpInfos.ip'))
 
     user_name = Column(String(USER_NAME_LEN), ForeignKey('User.name'))
@@ -26,10 +26,13 @@ class UserToken(Base):
             ,user_name:str=None \
             ,validity:str=time.time() + Token.VALIDITY_KEY_USER )->None:
 
+        from begin.globals import Token
+
+        ##
         if token == None:
             token = Token.user_generate()
 
-        self.token = token
+        self.token = Token.crypt_hash(token, hash_len=Token.KEY_USER_LEN)
         self.ip = ip
 
         self.user_name = user_name
@@ -37,14 +40,9 @@ class UserToken(Base):
         self.validity = validity
 
 
-    def token_auth(token_input:str)->bool:
-        from database import session_get, session_update, ipInfos
+    def token_auth(self, token_input:str)->bool:
+        from database import session_get, session_update, IpInfos
+        from begin.globals import Token
 
-        ipInfos = session_get(IpInfos, ip=ip)
-
-        if token_input == self.token:
-            return True
-
-        session_update(ipInfos, "auth_attempts", ipInfos[0] + 1)
-
-        return False
+        ##
+        return Token.crypt_hash_auth(self.token, token_input)

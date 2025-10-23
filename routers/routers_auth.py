@@ -19,7 +19,7 @@ def register_app(app:object)->None:
     ##
     @app.route('/login/auth', methods=["POST"])
     def login_auth()->object:
-        from begin.globals import Email, Token
+        from begin.globals import Email, Token, Auth
 
         if flask.request.method != "POST":
             return flask.jsonify({
@@ -28,12 +28,12 @@ def register_app(app:object)->None:
 
         forms = flask.request.json
 
-        user_name = forms["user_name"]
+        user_name = forms["user_name"].strip()
 
-        user_email = forms["user_email"]
-        user_email_code = forms["user_email_code"]
+        user_email = forms["user_email"].strip()
+        user_email_code = forms["user_email_code"].strip()
 
-        user_password = forms["user_password"]
+        user_password = forms["user_password"].strip()
 
         user_addr = flask.request.remote_addr
 
@@ -84,13 +84,15 @@ def register_app(app:object)->None:
             })
             
 
-        if user[0].password != user_password:
+        if not user[0].password_auth(user_password):
             return flask.jsonify({
                 'message': Messages.login_not_allow_because_user_password_incorrect()
             })
 
         ##
-        userToken = session_insert(UserToken, ip=user_addr, user_name=user_name)
+        user_token = Token.user_generate()
+        userToken = session_insert(UserToken, ip=user_addr, user_name=user_name, token=user_token)
+
         session_delete(userEmail)
 
         response = flask.make_response(
@@ -98,29 +100,30 @@ def register_app(app:object)->None:
                     'href_link': "/"
                 })
             )
-        cookie.define(response=response, cookie_name="user_token", cookie_value=userToken.token, max_age=Token.VALIDITY_KEY_USER)
+        cookie.define(response=response, cookie_name="user_token", cookie_value=user_token, max_age=Token.VALIDITY_KEY_USER)
+        cookie.define(response=response, cookie_name="user_name", cookie_value=user_name, max_age=Token.VALIDITY_KEY_USER)
         
         return response
 
     @app.route('/sign/auth', methods=["POST"])
     def sign_auth()->object:
-        from begin.globals import Email, Status
+        from begin.globals import Email, Status, Auth
 
+        ##
         if flask.request.method != "POST":
             return flask.jsonify({
                 'message': Messages.request_not_allow_because_method()
             })
 
         forms = flask.request.json
-        print(forms)
 
-        user_name = forms["user_name"]
+        user_name = forms["user_name"].strip()
 
-        user_email = forms["user_email"]
-        user_email_code = forms["user_email_code"]
+        user_email = forms["user_email"].strip()
+        user_email_code = forms["user_email_code"].strip()
 
-        user_password = forms["user_password"]
-        user_password_check = forms["user_password_check"]
+        user_password = forms["user_password"].strip()
+        user_password_check = forms["user_password_check"].strip()
 
         user_addr = flask.request.remote_addr
 
@@ -181,9 +184,12 @@ def register_app(app:object)->None:
 
     @app.route('/logout/auth')
     def logout_auth()->object:
+        from begin.globals import Token
+
+        ##
         user_token = flask.request.cookies["user_token"]
 
-        userToken = session_get(UserToken, token=user_token)
+        userToken = session_get(UserToken, token=Token.crypt_hash(user_token))
 
         session_delete(userToken)
 

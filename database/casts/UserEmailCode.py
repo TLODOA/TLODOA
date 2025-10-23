@@ -15,7 +15,7 @@ class UserEmailCode(Base):
     name = Column(String(USER_NAME_LEN), ForeignKey('User.name'))
     email = Column(String(USER_EMAIL_LEN))
 
-    token = Column(String(Token.KEY_EMAIL_LEN), primary_key=True)
+    token = Column(String(Token.HASH_EMAIL_TOKEN_LEN), primary_key=True)
     validity = Column(Float)
 
     field = Column(Integer)
@@ -41,14 +41,13 @@ class UserEmailCode(Base):
         self.ip = ip
 
         self.name = name
-        self.email = Token.crypt_hash(email)
+        self.email = email
 
-        self.token = Token.crypt_hash(token)
+        self.token = token
         self.validity = validity
 
         self.field = field
 
-    # I have change this!!!
     def token_send(self)->None:
         import smtplib
         from email.message import EmailMessage
@@ -86,20 +85,22 @@ class UserEmailCode(Base):
         ipInfos.email_send_last_time = time.time()
         ipInfos.email_send_count += 1
 
+        self.token = Token.crypt_hash(self.token, hash_len=Token.HASH_EMAIL_TOKEN_LEN)
+
         session.commit()
 
     def token_auth(self, token_input)->bool:
         from database import session, session_get, IpInfos
+        from begin.globals import Token
 
-        if self.token == token_input:
-            return True
-
+        ##
         ipInfos = session_get(IpInfos, ip=self.ip)[0]
         ipInfos.auth_attempts += 1
 
         session.commit()
 
-        return False
+        #
+        return Token.crypt_hash_auth(self.token, token_input)
 
     def token_valid(self)->bool:
         import time

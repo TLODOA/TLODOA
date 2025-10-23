@@ -1,14 +1,21 @@
 
 AUTH_ATTEMPTS_MAX = 30
 
+#
 KEY_EMAIL_CHARS = '0123456789abcdefghijklmnopqrstuvwxyz'
-KEY_EMAIL_LEN = 7
+KEY_EMAIL_LEN = 8
 
 KEY_USER_CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-KEY_USER_LEN = 20
+KEY_USER_LEN = 32
 
+#
+HASH_EMAIL_TOKEN_LEN = 32
+
+HASH_USER_PASSWORD_LEN = 32
+HASH_USER_TOKEN_LEN = 32
+
+#
 VALIDITY_KEY_USER = 60*60*24 # one day
-# VALIDITY_KEY_USER = 30
 
 VALIDITY_IPINFOS = 60*60*24*7 # one week
 VALIDITY_IPINFOS_BLOCK = 60*20 # twenty minutes
@@ -25,8 +32,22 @@ def user_generate()->str:
     return ''.join(secrets.choice(KEY_USER_CHARS) for _ in range(KEY_USER_LEN))
 
 
-def crypt_hash(text)->str:
-    import hashlib, binascii
+def crypt_hash(text, **kwargs)->str:
+    from argon2 import PasswordHasher
 
-    text_crypt = hashlib.sha3_256(text.encode()).digest()
-    return binascii.hexlify(text_crypt)
+    ##
+    hasher = PasswordHasher(**kwargs)
+
+    return hasher.hash(text)
+
+def crypt_hash_auth(text_hasher, text)->bool:
+    from argon2 import PasswordHasher
+
+    ##
+    hasher = PasswordHasher()
+
+    try:
+        return hasher.verify(text_hasher, text)
+
+    except:
+        return False
