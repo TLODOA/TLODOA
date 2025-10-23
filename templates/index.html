@@ -2,6 +2,21 @@
 
 {% block title%}Index{% endblock %}
 
-{% block main %}
-<h1>Hello Wolrd!</h1>
+{% block style %}
+<link rel="stylesheet" href="{{ url_for("static", filename="style/Index.css") }}">
 {% endblock %}
+
+{% block content %}
+<nav>
+    {% block content_nav %}{% endblock %}
+</nav>
+
+<main>
+    {% block content_main %}{% endblock %}
+</main>
+
+<footer>
+    {% block footer %}{% endblock %}
+</footer>
+{% endblock %}
+

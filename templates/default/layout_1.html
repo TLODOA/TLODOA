@@ -33,18 +33,21 @@
             </div>
 
             <div class="user_infos">
-                <h3>
+                <h3 class="btn">
                     <a href="{{ url_for("view_user_card", token="1234") }}">
                         {{ session.user_card }} Bitc
                     </a>
                 </h3>
 
-                <h3>
+                <h3 class="btn">
                     <a href="{{ url_for("view_user_infos", user_name=session.user_name) }}">
-                        Hello {{ session.user_name }}
+                        Hello {{ session.user_name }}!!
                     </a>
                 </h3>
-                <a href="{{ url_for("logout_auth") }}">logout</a>
+                </div>
+                <h3 class="exit">
+                    <a href="{{ url_for("logout_auth") }}">logout</a>
+                </h3>
             </div>
         {% endif %}
     </header>

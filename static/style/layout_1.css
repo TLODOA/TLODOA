@@ -19,18 +19,23 @@
 
 body{
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(139, 197, 252);
+    background-image: url(../image/clouds\ background.png);
 }
 
 header{
     display: flex;
     justify-content: space-between;
-
     align-items: center;
-
     height: var(--header_height);
-
     padding: 20px 40px 20px 40px;
     margin: 10px;
+
+    width: 100vh;
+    background-color: rgb(212, 212, 212);
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.3);
 }
 
 main {
@@ -90,4 +95,29 @@ p, input[type="text"]{
 
 .user_data_input_get{
     height: var(--user_data_input_get_height);
+}
+
+.user_infos {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;  
+}
+
+.btn {
+    background-color: rgb(25, 25, 150);
+    padding: 30px;
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.3);
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    font-family: Outfit;
+}
+
+.exit {
+    padding: 30px;
+    margin-left: -60px;
+    background-color: #7ed957;
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.3);
 }
