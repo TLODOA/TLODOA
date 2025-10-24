@@ -11,12 +11,16 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 def foreign_key_enable(conn, branch)->None:
     conn.execute('PRAGMA foreign_keys = ON')
 
+def reset_database(engine:object):
+    Base.metadata.drop_all(engine)
+    Base.metadata.create_all(engine)
 
 engine = sqlalchemy.create_engine("sqlite:///data.db", echo=True)
 
 sqlalchemy.event.listen(engine, 'connect', foreign_key_enable)
 
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
+reset_database(engine)
 
 Session = sqlalchemy.orm.sessionmaker(bind=engine)
 session = Session()
@@ -38,23 +42,29 @@ operator_comp = {
 def session_insert(model:object, **kwargs)->object:
     from begin.globals import Token
 
+    print(MASTER_KEY)
+
     try:
         dek = AESGCM.generate_key(bit_length=256)
         kwargs["dek"] = key_wrap(dek, MASTER_KEY)
 
         model_sample = model()
         field_encrypted = getattr(model_sample, "FIELD_ENCRYPTED", [])
-        field_hashed = getattr(model_smaple, "FIELD_HASHED", [])
+        field_hashed = getattr(model_sample, "FIELD_HASHED", [])
+
+        print(field_encrypted, field_hashed)
 
         for i in kwargs.keys():
-            if not i in field_encrypt and not i in field_hashed:
+            if not i in field_encrypted and not i in field_hashed:
                 continue
 
             if i in field_hashed:
-                kwargs[i] = Token.crypt_sha256(SALT_GLOBAL, kwargs[i])
+                kwargs[i] = Token.crypt_hash256(SALT_GLOBAL, kwargs[i])
                 continue
 
             kwargs[i] = field_encrypt(dek, kwargs[i])
+        
+        print(kwargs)
 
         #
         instance = model(**kwargs)
@@ -65,9 +75,8 @@ def session_insert(model:object, **kwargs)->object:
         return instance
 
     except Exception as e:
-        session.rollback()
         error_message('session_insert', e)
-
+        session.rollback()
 
 def session_delete(instance:tuple)->None:
     try:
@@ -82,11 +91,15 @@ def session_delete(instance:tuple)->None:
 def session_update(instance:tuple, attr_name:str, attr_value_new:int)->None:
     from begin.globals import Token
 
+    print(MASTER_KEY)
+
     try:
         field_encrypted = getattr(instance[0], "FIELD_ENCRYPTED", [])
         field_hashed = getattr(instance[0], "FIELD_HASHED", [])
 
+        print(attr_name)
         for i in instance:
+            print('dek:', i.dek)
             dek = key_unwrap(i.dek, MASTER_KEY)
 
             #
@@ -101,9 +114,15 @@ def session_update(instance:tuple, attr_name:str, attr_value_new:int)->None:
             setattr(i, attr_name, field_encrypt(dek, attr_value_new))
 
         session.commit()
+
+    except InvalidTag:
+        error_message('session_update', 'Invalid MASTER_KEY')
+
     except Exception as e:
-        session.rollback()
         error_message('session_update', e)
+
+    finally:
+        session.rollback()
 
 def session_get(model:object, **kwargs)->tuple|None:
     from begin.globals import Token

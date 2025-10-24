@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, CHAR
 from .base import Base
 
 from .IpInfos import IP_LEN
@@ -13,6 +13,8 @@ import time
 class UserToken(Base):
     __tablename__ = 'UserToken'
 
+    dek = Column(CHAR(Token.DEK_LEN))
+
     token = Column(String(Token.HASH_USER_TOKEN_LEN), primary_key=True)
     ip = Column(String(IP_LEN), ForeignKey('IpInfos.ip'))
 
@@ -21,7 +23,8 @@ class UserToken(Base):
     validity = Column(Float)
 
     ##
-    def __init__(self, token:str=None \
+    def __init__(self, dek:str=None \
+            ,token:str=None \
             ,ip:str=None \
             ,user_name:str=None \
             ,validity:str=time.time() + Token.VALIDITY_KEY_USER )->None:
@@ -29,8 +32,13 @@ class UserToken(Base):
         from begin.globals import Token
 
         ##
+        if dek is None:
+            return
+
         if token == None:
             token = Token.user_generate()
+
+        self.dek = dek
 
         self.token = Token.crypt_hash(token, hash_len=Token.KEY_USER_LEN)
         self.ip = ip

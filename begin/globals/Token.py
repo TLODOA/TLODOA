@@ -3,6 +3,9 @@ import os
 ##
 AUTH_ATTEMPTS_MAX = 30
 
+#
+DEK_LEN = 80
+
 ##
 KEY_EMAIL_CHARS = '0123456789abcdefghijklmnopqrstuvwxyz'
 KEY_EMAIL_LEN = 8
@@ -55,12 +58,12 @@ def crypt_hash_auth(text_hasher, text)->bool:
         return False
 
 
-def crypt_hash256(salt:bytes, text:str)->str
+def crypt_hash256(salt:bytes, text:str)->str:
     import hashlib
     import base64
 
     ##
-    value_hasehd = hashlib.sha256(salt + value.encode()).digest()
+    value_hasehd = hashlib.sha256(salt + text.encode()).digest()
     return base64.b64encode(value_hashed).decode()
 
 

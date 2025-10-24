@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, CHAR
 from .base import Base
 
 from begin.globals import Token
@@ -12,6 +12,8 @@ USER_PASSWORD_LEN = 50
 class User(Base):
     __tablename__ = 'User'
 
+    dek = Column(CHAR(Token.DEK_LEN))
+
     name = Column(String(USER_NAME_LEN), primary_key=True)
     email = Column(String(USER_EMAIL_LEN))
     password = Column(String(Token.HASH_USER_PASSWORD_LEN))
@@ -19,8 +21,16 @@ class User(Base):
     status = Column(Integer)
 
     ##
-    def __init__(self, name:str=None, email:str=None, password:str=None, status:str=None)->None:
+    def __init__(self, dek:str=None \
+            ,name:str=None, email:str=None, password:str=None, status:str=None)->None:
+
         from begin.globals import Token
+
+        ##
+        if dek is None:
+            return
+
+        self.dek = dek
 
         self.name = name
         self.email = email
@@ -28,7 +38,7 @@ class User(Base):
 
         self.status = status
 
-    def password_auth(self, password_input)->bool:
+    def password_auth(self, password_input:str)->bool:
         from begin.globals import Token
 
         ##

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, String, Float, Integer
+from sqlalchemy import Column, ForeignKey, String, Float, Integer, CHAR
 from begin.globals import Token, Email
 
 from .base import Base
@@ -9,6 +9,8 @@ from .User import USER_NAME_LEN, USER_EMAIL_LEN
 ##
 class UserEmailCode(Base):
     __tablename__ = 'UserEmailCode'
+
+    dek = Column(CHAR(Token.DEK_LEN))
 
     ip = Column(String(IP_LEN), ForeignKey('IpInfos.ip'))
 
@@ -21,7 +23,7 @@ class UserEmailCode(Base):
     field = Column(Integer)
 
     ##
-    def __init__(self \
+    def __init__(self, dek:str=None \
             ,ip:str=None \
             ,name:str=None, email:str=None \
             ,token:str=None, validity=None \
@@ -31,6 +33,9 @@ class UserEmailCode(Base):
         import time
 
         ##
+        if dek is None:
+            return
+
         if token == None:
             token = Token.email_generate()
 
@@ -38,6 +43,8 @@ class UserEmailCode(Base):
             validity = time.time() + Email.VALIDITY
 
         #
+        self.dek = dek
+
         self.ip = ip
 
         self.name = name

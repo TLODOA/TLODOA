@@ -20,17 +20,25 @@ if SALT_GLOBAL is None:
     SALT_GLOBAL = os.urandom(32)
 
 #
-def key_wrap(dek:bytes, master_key:bytes)->bytes:
+def key_wrap(dek:bytes, master_key:bytes)->str:
+    import base64
+
+    ##
     aesgcm = AESGCM(master_key)
 
     nonce = os.urandom(12)
     ciphertext = aesgcm.encrypt(nonce, dek, None)
 
-    return nonce + ciphertext
+    return base64.b64encode(nonce + ciphertext).decode()
 
 def key_unwrap(dek:bytes, master_key:bytes)->bytes:
-    nonce = dek[:12]
-    ciphertext = dek[12:]
+    import base64
+
+    ##
+    data = base64.b64decode(dek)
+
+    nonce = data[:12]
+    ciphertext = data[12:]
 
     aesgcm = AESGCM(master_key)
 
@@ -60,3 +68,18 @@ def field_decrypt(dek:bytes, value:object)->str:
     aesgcm = AESGCM(dek)
 
     return aesgcm.decrypt(nonce, ciphertext, None)
+
+"""
+##
+try:
+    dek = AESGCM.generate_key(bit_length=256)
+    key_alternate = AESGCM.generate_key(bit_length=256)
+
+    dek_wrapped = key_wrap(dek, MASTER_KEY)
+    dek_unwrapped = key_unwrap(dek_wrapped, MASTER_KEY)
+
+    print(dek_unwrapped)
+
+except Exception as e:
+    print(e)
+"""

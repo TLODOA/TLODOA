@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Float
+from sqlalchemy import Column, String, Integer, Float, CHAR
 from .base import Base
 
 from .User import USER_NAME_LEN
@@ -14,11 +14,12 @@ IP_LEN = 16
 class IpInfos(Base):
     __tablename__ = 'IpInfos'
 
+    dek = Column(CHAR(Token.DEK_LEN))
+
     ip = Column(String(IP_LEN), primary_key=True)
 
     email_send_count = Column(Integer)
     email_send_last_time = Column(Float)
-
     auth_attempts = Column(Integer)
 
     block_time_init = Column(Float)
@@ -26,10 +27,16 @@ class IpInfos(Base):
     validity = Column(Float)
 
     ##
-    def __init__(self, ip:str=None \
+    def __init__(self, dek:str=None \
+            ,ip:str=None \
             ,email_send_count:int=0, email_send_last_time:int=0, auth_attempts:int = 0 \
             ,block_time_init:float|None= None \
             ,validity = time.time() + Token.VALIDITY_IPINFOS)->None:
+
+        if dek is None:
+            return
+
+        self.dek = dek
 
         self.ip = ip
 
