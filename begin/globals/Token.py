@@ -55,6 +55,15 @@ def crypt_hash_auth(text_hasher, text)->bool:
         return False
 
 
+def crypt_hash256(salt:bytes, text:str)->str
+    import hashlib
+    import base64
+
+    ##
+    value_hasehd = hashlib.sha256(salt + value.encode()).digest()
+    return base64.b64encode(value_hashed).decode()
+
+
 def crypt_aes(text=None, key_length=32, key=None)->str:
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
     from cryptography.hazmat.backends import default_backend
