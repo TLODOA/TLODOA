@@ -4,3 +4,4 @@ from .IpInfos import *
 
 from .User import *
 from .UserEmailCode import *
+from .UserToken import *

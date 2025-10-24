@@ -1,48 +1,17 @@
-'Cause it's a bitter sweet symphony, this life
-Tryin' to make ends meet, you're a slave to money then you die
-I'll take you down the only road I've ever been down
-You know the one that takes you to the places where all the veins meet, yeah
+# Run project
+## Windows
+```cmd
+python -m venv .venv
+.venv\Scripts\activate.bat
+pip install -r requirements.txt
+python app.py
+localhost:5000 (Caso Http não funcione)
+```
 
-No change, I can change, I can change, I can change
-But I'm here in my mould, I am here in my mould
-But I'm a million different people from one day to the next
-I can't change my mould, no, no, no, no, no
-(Have you ever been down?)
-
-Well, I've never prayed, but tonight I'm on my knees, yeah
-I need to hear some sounds that recognise the pain in me, yeah
-I let the melody shine, let it cleanse my mind, I feel free now
-But the airwaves are clean and there's nobody singing to me now
-
-No change, I can change, I can change, I can change
-But I'm here in my mould, I am here in my mould
-And I'm a million different people from one day to the next
-I can't change my mould, no, no, no, no, no
-(Have you ever been down?) I can't change it you know, I can't change it
-
-'Cause it's a bitter sweet symphony, this life
-Tryin' to make ends meet, tryin' to find some money then you die
-I'll take you down the only road I've ever been down
-You know the one that takes you to the places where all the veins meet, yeah
-
-You know, I can change, I can change, I can change, I can change
-But I'm here in my mould, I am here in my mould
-And I'm a million different people from one day to the next
-I can't change my mould, no, no, no, no, no
-I can't change my mould, no, no, no, no, no
-I can't change my mould, no, no, no, no, no
-
-It's just sex and violence, melody and silence
-It's just I can't change my violence, melody and violence
-(I'll take you down the only road I've ever been down)
-Sex and violence, melody and silence
-It's just I can't change my violence, melody and silence
-(I'll take you down the only road I've ever been down)
-Sex and violence, melody and silence
-It's just I can't change my violence, melody and silence
-
-Been down (it's just I can't change my violence, melody and violence)
-Ever been down, ever been down
-Ever been down (it's just I can't change my violence, melody and violence)
-You ever been down? Have you ever been down?
-Have you ever been down? Have you ever been down?
+## Linux
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python3 app.py
+```

@@ -22,7 +22,7 @@
         <input type="text" autocomplete="off" name="user_email">
 
         <label> 
-            <p>User email code</p>
+            <p>Email code</p>
         </label>
         <input type="text" autocomplete="off" name="user_email_code">
     </div>
@@ -37,16 +37,12 @@
         <label>
             <p>User password</p>
         </label>
-        <input type="text" autocomplete="off" name="user_password">
-
-        <label>
-            <p>User password valid</p>
-        </label>
-        <input type="text" autocomplete="off" name="user_password_check">
+        <input type="text" autocomplete="off" required name="user_password">
     </div>
-
+    
     <button id="login_button_finish">Finish</button>
 </form>
+
 {% endblock %}
 
 {% block footer %}

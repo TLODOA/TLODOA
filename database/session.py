@@ -19,6 +19,19 @@ Session = sqlalchemy.orm.sessionmaker(bind=engine)
 session = Session()
 
 ##
+operator_comp = {
+    'lt': lambda column, value: column < value,
+    'lte': lambda column, value: column <= value,
+
+    'gt': lambda column, value: column < value,
+    'gte': lambda column, value: column <= value,
+
+    'eq': lambda column, value: column == value,
+    'ne': lambda column, value: column != value,
+    'in': lambda column, value: column.in_(value)
+}
+
+#
 def session_insert(model:object, **kwargs)->object:
     try:
         instance = model(**kwargs)
@@ -59,7 +72,17 @@ def session_get(model:object, **kwargs)->tuple|None:
         filters = []
 
         for i in kwargs.keys():
-            filters.append(model.__dict__[i] == kwargs[i])
+            op = None
+            column_name = op_type = None
+
+            if '__' in i:
+                column_name, op_type = i.split('__')
+            else: 
+                column_name, op_type = i, 'eq'
+
+            op = operator_comp[op_type]
+
+            filters.append(op(model.__dict__[column_name], kwargs[i]))
 
         instances_get = session.query(model).filter(*filters).all()
 

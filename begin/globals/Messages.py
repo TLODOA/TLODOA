@@ -43,27 +43,27 @@ def email_ok()->str:
     return "Email successful sended!"
 
 ## Sign auth
-def sign_not_allow_because_user_not_found()->str:
+def login_not_allow_because_user_not_found()->str:
     return "User not found"
 
-def sign_not_allow_because_user_email_incorrect()->str:
+def login_not_allow_because_user_email_incorrect()->str:
     return "User email incorrect"
 
-def sign_not_allow_because_user_password_incorrect()->str:
+def login_not_allow_because_user_password_incorrect()->str:
     return "User password incorrect"
 
 
-def sign_not_allow_because_email_code_incorrect()->str:
+def login_not_allow_because_email_code_incorrect()->str:
     return "Email code incorrect"
 
-def sign_not_allow_because_email_code_not_send()->str:
+def login_not_allow_because_email_code_not_send()->str:
     return "Email code not requested"
 
-def sign_not_allow_because_email_code_validity()->str:
+def login_not_allow_because_email_code_validity()->str:
     return "Email token was be expired"
 
 
-def sign_not_allow_because_client_behavior(timestamp)->str:
+def login_not_allow_because_client_behavior(timestamp)->str:
     import time
 
     date = time.localtime(timestamp)
@@ -71,27 +71,27 @@ def sign_not_allow_because_client_behavior(timestamp)->str:
     return f"Because of your behavior, you cannot try sign after {date.tm_hour}:{date.tm_min}:{date.tm_sec}"
 
 ## Login auth
-def login_not_allow_because_user_found()->str:
+def sign_not_allow_because_user_found()->str:
     return "Invalid user name"
 
-def login_not_allow_because_user_email_incorrect()->str:
+def sign_not_allow_because_user_email_incorrect()->str:
     return "User email incorrect"
 
-def login_not_allow_because_user_password_check_incorrect()->str:
+def sign_not_allow_because_user_password_check_incorrect()->str:
     return "User password check incorrect"
 
 
-def login_not_allow_because_email_code_not_send()->str:
+def sign_not_allow_because_email_code_not_send()->str:
     return "Email code not requested"
 
-def login_not_allow_because_email_code_incorrect()->str:
+def sign_not_allow_because_email_code_incorrect()->str:
     return "Email code is incorrect"
 
-def login_not_allow_because_email_code_validity()->str:
+def sign_not_allow_because_email_code_validity()->str:
     return "Email token was be expired"
 
 
-def login_not_allow_because_client_behavior(timestamp)->str:
+def sign_not_allow_because_client_behavior(timestamp)->str:
     import time
 
     date = time.localtime(timestamp)

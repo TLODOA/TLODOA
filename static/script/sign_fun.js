@@ -1,7 +1,7 @@
 import * as global from './globals.js'
 
-const sign = new global.Sign();
-const logs = new global.MessageLogs();
+const sign = new global.Sign()
+const logs = new global.MessageLogs()
 
 //
 sign.BUTT_EMAIL_CODE_GET.addEventListener('click', (e) => {
@@ -13,12 +13,12 @@ sign.BUTT_EMAIL_CODE_GET.addEventListener('click', (e) => {
 
     if(!form_data_json["user_name"] || !form_data_json["user_email"]){
         logs.MESSAGE_LOGS_CLEAN();
-        logs.MESSAGE_LOGS_INSERT("Please fill all required fields");
+        logs.MESSAGE_LOGS_INSERT("Please, fill all required fields");
 
         return;
     }
 
-    form_data_json["user_email_field"] = 2;
+    form_data_json["user_email_field"] = 1;
 
     global.request_token_email(form_data_json);
 });
@@ -26,12 +26,12 @@ sign.BUTT_EMAIL_CODE_GET.addEventListener('click', (e) => {
 //
 sign.BUTT_FINISH.addEventListener('click', (e) => {
     e.preventDefault();
-
+    
     //
-    const form_data_email_json = Object.fromEntries(new FormData(sign.FORM_EMAIL));
-    const form_data_passw_json = Object.fromEntries(new FormData(sign.FORM_PASSWORD));
+    const form_data_email = Object.fromEntries(new FormData(sign.FORM_EMAIL));
+    const form_data_passw = Object.fromEntries(new FormData(sign.FORM_PASSWORD));
 
-    const form_data_json = { ...form_data_email_json, ...form_data_passw_json };
+    const form_data_json = { ...form_data_email, ...form_data_passw };
 
     for(var i in form_data_json){
         if(form_data_json[i])
@@ -46,8 +46,7 @@ sign.BUTT_FINISH.addEventListener('click', (e) => {
     //
     fetch('/sign/auth', {
         method: 'POST',
-        headers: { 'Content-Type': "application/json; charset-utf-8" },
-
+        headers: { 'Content-Type': "application/json; charset=utf-8" },
         body: JSON.stringify(form_data_json)
     })
     .then(response => response.json())
@@ -62,5 +61,6 @@ sign.BUTT_FINISH.addEventListener('click', (e) => {
 
         logs.MESSAGE_LOGS_CLEAN();
         logs.MESSAGE_LOGS_INSERT(message, logs.MESSAGE_ERROR_ID);
-    });
+    })
+
 });
