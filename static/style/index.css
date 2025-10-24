@@ -6,25 +6,62 @@
 
 
 nav {
+    position: fixed;                            
+    left: 50%;               
+    transform: translateX(-50%);
     width: 1000px;
-    height: 60px;
-    background-color: #ffc8a3;
-    border: white solid 4px;
-    margin: 20px auto;
+    height: 65px;
+    background-color: #f8e9a8;
+    border: rgb(252, 124, 19) solid 4px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 20px;
     box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.3);
+    
+    z-index: 1000;
 }
 
 .nav-buttons {
     display: flex;
     justify-content: space-around;
-    width: 200px;
+    width: 220px;
+
 }
 
 .btn-nav {
-    background-color: rgb(25, 25, 150);;
+    background-color: rgb(252, 124, 19);          
+    padding: 10px 20px;        
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.opt-btn,
+.sort-btn {
+    border: none;
+    background: transparent; 
+    outline: none; 
+    color: white;
+    font-family: Outfit;
+    font-size: 15px;
+}
+
+.find-bar {
+    border: solid 2px rgb(252, 124, 19);
+    background: white;
+    outline: none;
+    font-family: Outfit;
+    font-size: 15px;
+    height: 33px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.find {
+    background: transparent;
+    border: none;
+    color: rgb(255, 255, 255);
+    width: 30px;
+    height: 33px;
+    background-color: rgb(252, 124, 19);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
 }
