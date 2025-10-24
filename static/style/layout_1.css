@@ -19,24 +19,24 @@
 
 body{
     height: 100vh;
-    display: flex;
-    justify-content: center;
     background-color: rgb(139, 197, 252);
     background-image: url(../image/clouds\ background.png);
 }
 
-header{
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: var(--header_height);
-    padding: 20px 40px 20px 40px;
+    padding: 20px 40px;
     margin: 10px;
-
+  }
+  
+  header {
     width: 100vh;
     background-color: rgb(212, 212, 212);
     box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.3);
-}
+  }
 
 main {
     display: flex;

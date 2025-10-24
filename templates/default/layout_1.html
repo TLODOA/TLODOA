@@ -15,6 +15,7 @@
     {% block javascript %}{% endblock %}
 </head>
 <body>
+<center>
     <header>
         {% if not "user_name" in session %}
             <div class="user_auth">
@@ -61,5 +62,6 @@
             {% block footer %}{% endblock %}
         </footer>
     {% endblock %}
+</center>
 </body>
 </html>
