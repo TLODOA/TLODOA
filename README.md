@@ -5,7 +5,7 @@ python -m venv .venv
 .venv\Scripts\activate.bat
 pip install -r requirements.txt
 python app.py
-localhost:5000 (Caso Http não funcione)
+localhost:[port sem colchete, normalmente 5000] no navegador (Caso Http não funcione)
 ```
 
 ## Linux
