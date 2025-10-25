@@ -1,75 +1,92 @@
-* { 
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.header_space{
+    height: 60px;
 }
 
-
+/* */
 nav {
-    position: fixed;                            
-    left: 50%;               
     transform: translateX(-50%);
-    width: 1530px;
+
+    width: 80%;
     height: 65px;
+    padding: 20px;
+    margin: 0px 0px 0px 50%;
+
     background-color: #f8e9a8;
     border: rgb(252, 124, 19) solid 4px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
+
     box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.3);
     
     z-index: 1000;
 }
 
+.search-box > form {
+    display: flex;
+    align-items: center;
+}
 
 .nav-buttons {
+    width: 220px;
+
     display: flex;
     justify-content: space-around;
-    width: 220px;
 
 }
 
+/* */
 .btn-nav {
-    background-color: rgb(252, 124, 19);          
     padding: 10px 20px;        
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+
+    background-color: rgb(252, 124, 19);          
 }
 
 .opt-btn,
 .sort-btn {
     border: none;
     background: transparent; 
+
     outline: none; 
     color: white;
+
     font-family: Outfit;
     font-size: 15px;
 }
 
+/* */
 .find-bar {
-    border: solid 2px rgb(252, 124, 19);
-    background: white;
-    outline: none;
+    height: 33px;
+
     font-family: Outfit;
     font-size: 15px;
-    height: 33px;
+
+    background: white;
+    border: solid 2px rgb(252, 124, 19);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+
+    outline: none;
 }
 
 .find {
-    background: transparent;
-    border: none;
-    color: rgb(255, 255, 255);
     width: 30px;
     height: 33px;
+
+    background: transparent;
+    border: none;
+
+    color: rgb(255, 255, 255);
     background-color: rgb(252, 124, 19);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
+/* */
 .catalog-container {
-    width: 1530px;
-    height: 30px;
+    width: 90vw;
+    height: auto;
+
     background-color: aquamarine;
     position: static;
 }

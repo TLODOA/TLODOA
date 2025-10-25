@@ -33,25 +33,27 @@
             </div>
 
             <div class="hd-buttons">
-                <h3 class="btn">
-                    <a href="{{ url_for("view_user_card", token="1234") }}">
+                <a href="{{ url_for("view_user_card", token="1234") }}">
+                    <h3 class="btn">
                         {{ session.user_card }} Bitc
-                    </a>
-                </h3>
+                    </h3>
+                </a>
 
-                <h3 class="btn">
-                    <a href="{{ url_for("view_user_infos", user_name=session.user_name) }}">
+                <a href="{{ url_for("view_user_infos", user_name=session.user_name) }}">
+                    <h3 class="btn">
                         Hello {{ session.user_name }}!!
-                    </a>
-                </h3>
+                    </h3>
+                </a>
 
-                <h3 class="btn" id="exit">
-                    <a href="{{ url_for("logout_auth") }}">logout</a>
-                </h3>
+                <a href="{{ url_for("logout_auth") }}">
+                    <h3 class="btn btn_exit">
+                        logout
+                    </h3>
+                </a>
             </div>
         {% endif %}
     </header>
-    <div class="header-space"></div>
+    <div class="header_space"></div>
 
     {% block content %}
         <main>
