@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
@@ -15,6 +16,8 @@
     {% block javascript %}{% endblock %}
 </head>
 <body>
+    <div id="message_logs"></div>
+
     <header>
         {% if not "user_name" in request.cookies %}
             <div class="user_auth">

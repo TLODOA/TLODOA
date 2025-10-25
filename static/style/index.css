@@ -4,12 +4,16 @@
 
 /* */
 nav {
-    transform: translateX(-50%);
+    position: sticky;
+    z-index: 1;
+    top: 0;
+
+    transform: translateX(-10%);
+    left: 50%;
 
     width: 80%;
     height: 65px;
     padding: 20px;
-    margin: 0px 0px 0px 50%;
 
     background-color: #f8e9a8;
     border: rgb(252, 124, 19) solid 4px;
@@ -19,8 +23,6 @@ nav {
     justify-content: space-between;
 
     box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.3);
-    
-    z-index: 1000;
 }
 
 .search-box > form {
@@ -84,9 +86,8 @@ nav {
 
 /* */
 .catalog-container {
-    width: 90vw;
+    width: auto;
     height: auto;
 
     background-color: aquamarine;
-    position: static;
 }

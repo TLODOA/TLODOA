@@ -43,20 +43,10 @@ button{
     height:40px;
     width: 400px;
 }
+
 button:hover{
     background-color:rgb(95, 111, 152);
     color: rgb(221, 255, 221);
     transition: all 0.2s ease-out;
 
-}
-
-#message_logs{
-    height:40px;
-    width: 450px;
-    transform:translate(200%,-200%);
-}
-#message_logs::after{
-    content:"";
-    color:black;
-    background-color: rgb(191, 191, 191);
 }
