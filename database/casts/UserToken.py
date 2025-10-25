@@ -27,8 +27,8 @@ class UserToken(Base):
     validity = Column(Float)
 
     #
-    hashed_ip = Column(CHAR(32), index=True)
-    hashed_userName = Column(CHAR(32), index=True)
+    hashed_ip = Column(CHAR(Token.FIELD_HASHED_SIZE), index=True)
+    hashed_userName = Column(CHAR(Token.FIELD_HASHED_SIZE), index=True)
 
     ##
     def __init__(self \
@@ -45,7 +45,7 @@ class UserToken(Base):
             token = Token.user_generate()
 
         dek = AESGCM.generate_key(bit_length=256)
-        token_hashed =  Token.crypt_hash(token, hash_len=Token.KEY_USER_LEN)
+        token_hashed =  Token.crypt_phash(token, hash_len=Token.PHASH_USER_TOKEN_LEN)
 
         self.dek = key_wrap(dek)
 
@@ -62,4 +62,4 @@ class UserToken(Base):
         ##
         token = model_get(self, "cipher_token")[0]
 
-        return Token.crypt_hash_auth(token, token_input)
+        return Token.crypt_phash_auth(token, token_input)

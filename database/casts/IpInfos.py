@@ -32,7 +32,7 @@ class IpInfos(Base):
     validity = Column(Float)
 
     #
-    hashed_ip = Column(String(32), primary_key=True, index=True)
+    hashed_ip = Column(String(Token.FIELD_HASHED_SIZE), primary_key=True, index=True)
 
     ##
     def __init__(self \

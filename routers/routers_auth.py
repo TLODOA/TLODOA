@@ -36,9 +36,9 @@ def register_app(app:object)->None:
         user_password = forms["user_password"].strip()
         
         #
-        hashed_userName = Token.crypt_hash256(user_name)
-        hashed_userAddr = Token.crypt_hash256(user_addr)
-        hashed_userEmail = Token.crypt_hash256(user_email)
+        hashed_userName = Token.crypt_sha256(user_name)
+        hashed_userAddr = Token.crypt_sha256(user_addr)
+        hashed_userEmail = Token.crypt_sha256(user_email)
 
         #
         user = session_get(User, hashed_name=hashed_userName)
@@ -129,9 +129,9 @@ def register_app(app:object)->None:
         user_password_check = forms["user_password_check"].strip()
 
         #
-        hashed_userAddr = Token.crypt_hash256(user_addr)
-        hashed_userName = Token.crypt_hash256(user_name)
-        hashed_userEmail = Token.crypt_hash256(user_email)
+        hashed_userAddr = Token.crypt_sha256(user_addr)
+        hashed_userName = Token.crypt_sha256(user_name)
+        hashed_userEmail = Token.crypt_sha256(user_email)
 
         #
         user = session_get(User, hashed_name=hashed_userName)
@@ -204,8 +204,8 @@ def register_app(app:object)->None:
             return flask.redirect('/')
 
         #
-        hashed_userName = Token.crypt_hash256(user_name)
-        hashed_userAddr = Token.crypt_hash256(user_addr)
+        hashed_userName = Token.crypt_sha256(user_name)
+        hashed_userAddr = Token.crypt_sha256(user_addr)
 
         ##
         userToken = session_get(UserToken, hashed_ip=hashed_userAddr, hashed_userName=hashed_userName)

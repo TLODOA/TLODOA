@@ -26,8 +26,8 @@ class User(Base):
     status = Column(Integer)
 
     #
-    hashed_name = Column(String(32), primary_key=True, index=True)
-    hashed_email = Column(String(32), index=True)
+    hashed_name = Column(String(Token.FIELD_HASHED_SIZE), primary_key=True, index=True)
+    hashed_email = Column(String(Token.FIELD_HASHED_SIZE), index=True)
 
     ##
     def __init__(self, name:str=None, email:str=None, password:str=None, status:str=None)->None:
@@ -39,7 +39,7 @@ class User(Base):
         dek = AESGCM.generate_key(bit_length=256)
         self.dek = key_wrap(dek)
 
-        password_hashed = Token.crypt_hash(password, hash_len=Token.HASH_USER_PASSWORD_LEN)
+        password_hashed = Token.crypt_phash(password, hash_len=Token.PHASH_USER_PASSWORD_LEN)
 
         model_update(self \
                 ,cipher_name=name, hashed_name=name \
@@ -55,4 +55,4 @@ class User(Base):
         password = model_get(self, "cipher_password")[0]
         print('password_hashed: ', password)
 
-        return Token.crypt_hash_auth(password, password_input)
+        return Token.crypt_phash_auth(password, password_input)

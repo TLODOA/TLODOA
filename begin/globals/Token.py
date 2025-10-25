@@ -15,10 +15,13 @@ KEY_USER_CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 KEY_USER_LEN = 32
 
 ##
-HASH_EMAIL_TOKEN_LEN = 32
+FIELD_HASHED_SIZE = 32
 
-HASH_USER_PASSWORD_LEN = 32
-HASH_USER_TOKEN_LEN = 32
+##
+PHASH_EMAIL_TOKEN_LEN = 32
+
+PHASH_USER_PASSWORD_LEN = 32
+PHASH_USER_TOKEN_LEN = 32
 
 ##
 VALIDITY_KEY_USER = 60*60*24 # one day
@@ -49,7 +52,7 @@ def user_generate()->str:
     return ''.join(secrets.choice(KEY_USER_CHARS) for _ in range(KEY_USER_LEN))
 
 
-def crypt_hash(text, **kwargs)->str:
+def crypt_phash(text, **kwargs)->str:
     from argon2 import PasswordHasher
 
     ##
@@ -57,7 +60,7 @@ def crypt_hash(text, **kwargs)->str:
 
     return hasher.hash(text)
 
-def crypt_hash_auth(text_hasher, text)->bool:
+def crypt_phash_auth(text_hasher, text)->bool:
     from argon2 import PasswordHasher
 
     ##
@@ -70,7 +73,7 @@ def crypt_hash_auth(text_hasher, text)->bool:
         return False
 
 
-def crypt_hash256(text:str, salt:bytes=SALT_GLOBAL)->str|None:
+def crypt_sha256(text:str, salt:bytes=SALT_GLOBAL)->str|None:
     import hashlib
     import base64
 

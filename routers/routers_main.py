@@ -20,7 +20,7 @@ def register_app(app:object)->None:
 
         print('cookie: ', cookie.valid("user_name"), cookie.valid("user_token"))
         if not cookie.valid("user_name"):
-            userTokens = session_get(UserToken, hashed_ip=Token.crypt_hash256(user_addr))
+            userTokens = session_get(UserToken, hashed_ip=Token.crypt_sha256(user_addr))
             session_delete(userTokens)
 
             response = flask.make_response(flask.redirect('/'))
@@ -33,7 +33,7 @@ def register_app(app:object)->None:
 
 
         if not cookie.valid("user_token"):
-            hashed_userAddr, hashed_userName = Token.crypt_hash256(user_addr), Token.crypt_hash256(user_name)
+            hashed_userAddr, hashed_userName = Token.crypt_sha256(user_addr), Token.crypt_sha256(user_name)
 
             #
             userTokens = session_get(UserToken, hashed_ip=hashed_userAddr, hashed_userName=hashed_userName)
@@ -48,7 +48,7 @@ def register_app(app:object)->None:
         user_token = cookie.get("user_token")
 
         #
-        hashed_userAddr, hashed_userName = Token.crypt_hash256(user_addr), Token.crypt_hash256(user_name)
+        hashed_userAddr, hashed_userName = Token.crypt_sha256(user_addr), Token.crypt_sha256(user_name)
 
         ipInfos = session_get(IpInfos, hashed_ip=hashed_userAddr)
         userToken = session_get(UserToken, hashed_ip=hashed_userAddr, hashed_userName=hashed_userName)

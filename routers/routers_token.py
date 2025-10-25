@@ -22,7 +22,7 @@ def register_app(app:object)->None:
         user_email_field = forms["user_email_field"]
 
         #
-        hashed_userAddr = Token.crypt_hash256(user_addr)
+        hashed_userAddr = Token.crypt_sha256(user_addr)
 
         #
         ipInfos = session_get(IpInfos, hashed_ip=hashed_userAddr)

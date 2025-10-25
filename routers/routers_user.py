@@ -10,7 +10,7 @@ def register_app(app:object)->None:
         from begin.globals import Token
 
         ##
-        hashed_userName = Token.crypt_hash256(user_name)
+        hashed_userName = Token.crypt_sha256(user_name)
 
         user = session_get(User, hashed_name=hashed_userName)
 

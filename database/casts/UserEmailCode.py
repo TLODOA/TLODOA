@@ -27,9 +27,9 @@ class UserEmailCode(Base):
     field = Column(Integer)
 
     #
-    hashed_ip = Column(CHAR(32), ForeignKey("IpInfos.hashed_ip"), index=True)
-    hashed_name = Column(CHAR(32), index=True)
-    hashed_email = Column(CHAR(32), index=True)
+    hashed_ip = Column(CHAR(Token.FIELD_HASHED_SIZE), ForeignKey("IpInfos.hashed_ip"), index=True)
+    hashed_name = Column(CHAR(Token.FIELD_HASHED_SIZE), index=True)
+    hashed_email = Column(CHAR(Token.FIELD_HASHED_SIZE), index=True)
 
     ##
     def __init__(self \
@@ -103,7 +103,7 @@ class UserEmailCode(Base):
         session_update(ipInfos, email_send_last_time = time.time())
         session_update(ipInfos, email_send_count = ipInfos[0].email_send_count+1)
 
-        token_hashed = Token.crypt_hash(token, hash_len=Token.HASH_EMAIL_TOKEN_LEN)
+        token_hashed = Token.crypt_phash(token, hash_len=Token.PHASH_EMAIL_TOKEN_LEN)
         model_update(self, cipher_token=token_hashed)
 
         session.commit()
@@ -120,7 +120,7 @@ class UserEmailCode(Base):
         token = model_get(self, "cipher_token")[0]
         print('email_token: ', token)
 
-        return Token.crypt_hash_auth(token, token_input)
+        return Token.crypt_phash_auth(token, token_input)
 
     def token_valid(self)->bool:
         import time
