@@ -27,20 +27,23 @@ def register_app(app:object)->None:
             })
 
         forms = flask.request.json
+        user_addr = flask.request.remote_addr
 
         user_name = forms["user_name"].strip()
-
         user_email = forms["user_email"].strip()
         user_email_code = forms["user_email_code"].strip()
 
         user_password = forms["user_password"].strip()
-
-        user_addr = flask.request.remote_addr
+        
+        #
+        hashed_userName = Token.crypt_hash256(user_name)
+        hashed_userAddr = Token.crypt_hash256(user_addr)
+        hashed_userEmail = Token.crypt_hash256(user_email)
 
         #
-        user = session_get(User, name=user_name)
-        ipInfos = session_get(IpInfos, ip=user_addr)
-        userEmail = session_get(UserEmailCode, ip=user_addr, email=user_email, field=Email.FIELD_SIGN)
+        user = session_get(User, hashed_name=hashed_userName)
+        ipInfos = session_get(IpInfos, hashed_ip=hashed_userAddr)
+        userEmail = session_get(UserEmailCode, hashed_ip=hashed_userAddr, hashed_email=hashed_userEmail, field=Email.FIELD_SIGN)
 
         ##
         if user == None or userEmail == None or ipInfos == None:
@@ -48,7 +51,6 @@ def register_app(app:object)->None:
                 'message': Messages.server_internal_error()
             })
 
-        session_update(ipInfos, "auth_attempts", ipInfos[0].auth_attempts+1)
         ipInfos[0].status_update()
 
         if not ipInfos[0].client_behavior_normal:
@@ -56,6 +58,7 @@ def register_app(app:object)->None:
                 'message': Messages.login_not_allow_because_client_behavior(ipInfos[0].email_send_time_allow)
             })
 
+        session_update(ipInfos, auth_attempts=ipInfos[0].auth_attempts+1)
         #
         if not len(user):
             return flask.jsonify({
@@ -68,7 +71,7 @@ def register_app(app:object)->None:
                 'message': Messages.login_not_allow_because_email_code_not_send()
             })
 
-        if user[0].email != user_email:
+        if user[0].hashed_email != hashed_userEmail:
             return flask.jsonify({
                 'message': Messages.login_not_allow_because_user_email_incorrect()
             })
@@ -116,21 +119,24 @@ def register_app(app:object)->None:
             })
 
         forms = flask.request.json
+        user_addr = flask.request.remote_addr
 
         user_name = forms["user_name"].strip()
-
         user_email = forms["user_email"].strip()
         user_email_code = forms["user_email_code"].strip()
 
         user_password = forms["user_password"].strip()
         user_password_check = forms["user_password_check"].strip()
 
-        user_addr = flask.request.remote_addr
+        #
+        hashed_userAddr = Token.crypt_hash256(user_addr)
+        hashed_userName = Token.crypt_hash256(user_name)
+        hashed_userEmail = Token.crypt_hash256(user_email)
 
         #
-        user = session_get(User, name=user_name)
-        ipInfos = session_get(IpInfos, ip=user_addr)
-        userEmail = session_get(UserEmailCode, ip=user_addr, email=user_email, field=Email.FIELD_LOGIN)
+        user = session_get(User, hashed_name=hashed_userName)
+        ipInfos = session_get(IpInfos, hashed_ip=hashed_userAddr)
+        userEmail = session_get(UserEmailCode, hashed_ip=hashed_userAddr, hashed_email=hashed_userEmail, field=Email.FIELD_LOGIN)
 
         ##
         if user == None or ipInfos == None or userEmail == None:
@@ -139,7 +145,7 @@ def register_app(app:object)->None:
             })
 
         ipInfos[0].status_update()
-        session_update(ipInfos, "auth_attempts", ipInfos[0].auth_attempts + 1)
+        session_update(ipInfos, auth_attempts=ipInfos[0].auth_attempts + 1)
 
         if not ipInfos[0].client_behavior_normal:
             return flask.jsonify({
@@ -192,16 +198,17 @@ def register_app(app:object)->None:
 
         user_name = cookie.get("user_name")
         user_token = cookie.get("user_token")
-
         user_addr = flask.request.remote_addr
-        user_path = flask.request.path
-
 
         if user_token == None or user_name == None:
             return flask.redirect('/')
 
         #
-        userToken = session_get(UserToken, ip=user_addr, user_name=user_name)
+        hashed_userName = Token.crypt_hash256(user_name)
+        hashed_userAddr = Token.crypt_hash256(user_addr)
+
+        ##
+        userToken = session_get(UserToken, hashed_ip=hashed_userAddr, hashed_userName=hashed_userName)
 
         response = flask.make_response(flask.redirect('/'))
         cookie.delete(response, "user_name")

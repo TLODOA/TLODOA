@@ -7,7 +7,12 @@ def register_app(app:object)->None:
 
     @app.route('/view/user/<user_name>/infos')
     def view_user_infos(user_name)->object:
-        user = session_get(User, name=user_name)
+        from begin.globals import Token
+
+        ##
+        hashed_userName = Token.crypt_hash256(user_name)
+
+        user = session_get(User, hashed_name=hashed_userName)
 
         return flask.render_template('user_infos.html', user=user[0])
 

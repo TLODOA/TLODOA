@@ -1,3 +1,4 @@
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 import os
 
 ##
@@ -24,6 +25,17 @@ VALIDITY_KEY_USER = 60*60*24 # one day
 
 VALIDITY_IPINFOS = 60*60*24*7 # one week
 VALIDITY_IPINFOS_BLOCK = 60*20 # twenty minutes
+
+##
+MASTER_KEY = os.environ.get("MASTER_KEY", None)
+SALT_GLOBAL = os.environ.get("SALT_GLOBAL", None)
+
+if MASTER_KEY is None:
+    MASTER_KEY = AESGCM.generate_key(bit_length = 256)
+
+if SALT_GLOBAL is None:
+    SALT_GLOBAL = os.urandom(32)
+
 
 ##
 def email_generate()->str:
@@ -58,12 +70,15 @@ def crypt_hash_auth(text_hasher, text)->bool:
         return False
 
 
-def crypt_hash256(salt:bytes, text:str)->str:
+def crypt_hash256(text:str, salt:bytes=SALT_GLOBAL)->str|None:
     import hashlib
     import base64
 
     ##
-    value_hasehd = hashlib.sha256(salt + text.encode()).digest()
+    if text is None:
+        return None
+
+    value_hashed = hashlib.sha256(salt + text.encode()).digest()
     return base64.b64encode(value_hashed).decode()
 
 

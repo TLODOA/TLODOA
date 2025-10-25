@@ -1,9 +1,10 @@
 from sqlalchemy import Column, String, Integer, Float, CHAR
-from .base import Base
+from begin.globals import Token
 
+from .base import Base
 from .User import USER_NAME_LEN
 
-from begin.globals import Token
+from .crypt import *
 
 import time
 
@@ -14,32 +15,38 @@ IP_LEN = 16
 class IpInfos(Base):
     __tablename__ = 'IpInfos'
 
+    FIELD_ENCRYPTED = [ "cipher_ip" ]
+    FIELD_HASHED = [ "hashed_ip" ]
+
+    ##
     dek = Column(CHAR(Token.DEK_LEN))
 
-    ip = Column(String(IP_LEN), primary_key=True)
+    cipher_ip = Column(String())
 
+    #
     email_send_count = Column(Integer)
     email_send_last_time = Column(Float)
     auth_attempts = Column(Integer)
 
     block_time_init = Column(Float)
-
     validity = Column(Float)
 
+    #
+    hashed_ip = Column(String(32), primary_key=True, index=True)
+
     ##
-    def __init__(self, dek:str=None \
+    def __init__(self \
             ,ip:str=None \
             ,email_send_count:int=0, email_send_last_time:int=0, auth_attempts:int = 0 \
             ,block_time_init:float|None= None \
             ,validity = time.time() + Token.VALIDITY_IPINFOS)->None:
 
-        if dek is None:
-            return
+        dek = AESGCM.generate_key(bit_length=256)
+        self.dek = key_wrap(dek)
 
-        self.dek = dek
+        self.cipher_ip = field_encrypt(dek, ip)
 
-        self.ip = ip
-
+        #
         self.email_send_count = email_send_count
         self.email_send_last_time = email_send_last_time
         self.auth_attempts = auth_attempts
@@ -48,6 +55,8 @@ class IpInfos(Base):
         
         self.validity = validity
 
+        #
+        self.hashed_ip = Token.crypt_hash256(ip)
 
     @property 
     def email_send_status(self)->int:
@@ -62,7 +71,6 @@ class IpInfos(Base):
 
             self.email_send_count = 0
             self.auth_attempts = 0
-
 
             session.commit()
 

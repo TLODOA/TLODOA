@@ -2,10 +2,7 @@ from begin import error_message
 from begin.xtensions import *
 
 from .casts import Base
-from .crypt import *
-
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-
+from .casts.crypt import *
 
 ##
 def foreign_key_enable(conn, branch)->None:
@@ -16,7 +13,6 @@ def reset_database(engine:object):
     Base.metadata.create_all(engine)
 
 engine = sqlalchemy.create_engine("sqlite:///data.db", echo=True)
-
 sqlalchemy.event.listen(engine, 'connect', foreign_key_enable)
 
 # Base.metadata.create_all(engine)
@@ -42,31 +38,7 @@ operator_comp = {
 def session_insert(model:object, **kwargs)->object:
     from begin.globals import Token
 
-    print(MASTER_KEY)
-
     try:
-        dek = AESGCM.generate_key(bit_length=256)
-        kwargs["dek"] = key_wrap(dek, MASTER_KEY)
-
-        model_sample = model()
-        field_encrypted = getattr(model_sample, "FIELD_ENCRYPTED", [])
-        field_hashed = getattr(model_sample, "FIELD_HASHED", [])
-
-        print(field_encrypted, field_hashed)
-
-        for i in kwargs.keys():
-            if not i in field_encrypted and not i in field_hashed:
-                continue
-
-            if i in field_hashed:
-                kwargs[i] = Token.crypt_hash256(SALT_GLOBAL, kwargs[i])
-                continue
-
-            kwargs[i] = field_encrypt(dek, kwargs[i])
-        
-        print(kwargs)
-
-        #
         instance = model(**kwargs)
 
         session.add(instance)
@@ -88,30 +60,12 @@ def session_delete(instance:tuple)->None:
         session.rollback()
         error_message('session_delete', e)
 
-def session_update(instance:tuple, attr_name:str, attr_value_new:int)->None:
+def session_update(instance:tuple, **kwargs)->None:
     from begin.globals import Token
 
-    print(MASTER_KEY)
-
     try:
-        field_encrypted = getattr(instance[0], "FIELD_ENCRYPTED", [])
-        field_hashed = getattr(instance[0], "FIELD_HASHED", [])
-
-        print(attr_name)
         for i in instance:
-            print('dek:', i.dek)
-            dek = key_unwrap(i.dek, MASTER_KEY)
-
-            #
-            if not i in field_encrypted and not i in field_hashed:
-                setattr(i, attr_name, attr_value_new)
-                continue
-
-            if i in field_hashed:
-                setattr(i, attr_name, Token.crypt_hash256(attr_value_new))
-                continue
-
-            setattr(i, attr_name, field_encrypt(dek, attr_value_new))
+            model_update(i, **kwargs)
 
         session.commit()
 
@@ -128,9 +82,6 @@ def session_get(model:object, **kwargs)->tuple|None:
     from begin.globals import Token
 
     try:
-        model_sample = model()
-        field_hashed = getattr(model_sample, "FIELD_HASHED", [])
-
         instances_get = ()
         filters = []
 
@@ -144,18 +95,68 @@ def session_get(model:object, **kwargs)->tuple|None:
                 column_name, op_type = i, 'eq'
 
             op = operator_comp[op_type]
-
-            if not i in field_hashed:
-                filters.append(op(model.__dict__[column_name], kwargs[i]))
-                continue
-
-            filters.append(op(model.__dict__[column_name], Token.crypt_hash256(kwargs[i])))
+            filters.append(op(model.__dict__[column_name], kwargs[i]))
 
         instances_get = session.query(model).filter(*filters).all()
-
         return instances_get
 
     except Exception as e:
         error_message(e, 'session_get')
 
         return None
+
+
+def model_get(instance:object, *args)->list|None:
+    try:
+        model = type("Model", (instance.__class__, ), {})
+
+        field_encrypted = getattr(model, "FIELD_CIPHER", [])
+        field_hashed = getattr(model, "FIELD_HASHED", [])
+        
+        #
+        values = []
+        for i in args:
+            print(instance.dek)
+            attr = getattr(instance, i, None)
+
+            #
+            dek = key_unwrap(instance.dek)
+        
+            if i in field_encrypted:
+                attr = field_decrypt(dek, attr)
+
+            values.append(attr)
+
+        return values
+
+    except Exception as e:
+        error_message("model_get", e)
+
+        return None
+
+def model_update(instance:object, **kwargs)->None:
+    from begin.globals import Token
+
+    ##
+    try:
+        model = type("Model", (instance.__class__, ), {})
+
+        field_cipher = getattr(model, "FIELD_CIPHER", [])
+        field_hashed = getattr(model, "FIELD_HASHED", [])
+
+        for i in kwargs.keys():
+            dek = key_unwrap(instance.dek)
+            value = kwargs[i]
+
+            if i in field_hashed:
+                value = Token,crypt_hash256(kwars[i])
+            elif i in field_cipher:
+                value = field_encrypt(dek, value)
+
+            setattr(instance, i, value)
+
+        session.commit()
+
+    except Exception as e:
+        error_message('model_update', e)
+        session.rollback()
