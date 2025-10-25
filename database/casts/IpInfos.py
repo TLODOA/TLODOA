@@ -15,7 +15,7 @@ IP_LEN = 16
 class IpInfos(Base):
     __tablename__ = 'IpInfos'
 
-    FIELD_ENCRYPTED = [ "cipher_ip" ]
+    FIELD_CIPHER= [ "cipher_ip" ]
     FIELD_HASHED = [ "hashed_ip" ]
 
     ##
@@ -40,39 +40,32 @@ class IpInfos(Base):
             ,email_send_count:int=0, email_send_last_time:int=0, auth_attempts:int = 0 \
             ,block_time_init:float|None= None \
             ,validity = time.time() + Token.VALIDITY_IPINFOS)->None:
+        
+        from database import model_update
 
+        ##
         dek = AESGCM.generate_key(bit_length=256)
         self.dek = key_wrap(dek)
 
-        self.cipher_ip = field_encrypt(dek, ip)
-
-        #
-        self.email_send_count = email_send_count
-        self.email_send_last_time = email_send_last_time
-        self.auth_attempts = auth_attempts
-
-        self.block_time_init = block_time_init
-        
-        self.validity = validity
-
-        #
-        self.hashed_ip = Token.crypt_hash256(ip)
+        model_update(self \
+                ,cipher_ip=ip, hashed_ip=ip \
+                ,email_send_count=email_send_count, email_send_last_time=email_send_last_time \
+                ,auth_attempts=auth_attempts \
+                ,block_time_init=block_time_init \
+                ,validity=validity)
 
     @property 
     def email_send_status(self)->int:
         from begin.globals import Email, Token
-        from database import session
+        from database import session, model_update
 
         import time
 
         ##
         if self.block_time_init != None and self.block_time_init + Token.VALIDITY_IPINFOS_BLOCK<= time.time():
-            self.block_time_init = None
-
-            self.email_send_count = 0
-            self.auth_attempts = 0
-
-            session.commit()
+            model_update(self \
+                    ,block_time_init=None \
+                    ,email_send_count=0, auth_attempts=0)
 
         elif self.block_time_init != None:
             return Email.SEND_NOT_ALLOW_BECAUSE_IP_BLOCKED
@@ -82,14 +75,12 @@ class IpInfos(Base):
             return Email.SEND_NOT_ALLOW_BECAUSE_INTERVAL
 
         if self.email_send_count >= Email.SEND_MAX:
-            self.block_time_init = time.time()
-            session.commit()
+            model_update(self, block_time_init=time.time())
 
             return Email.SEND_NOT_ALLOW_BECAUSE_AMOUNT
 
         if self.auth_attempts >= Token.AUTH_ATTEMPTS_MAX:
-            self.block_time_init = time.time()
-            session.commit()
+            model_update(self, block_time_init=time.time())
 
             return Email.SEND_NOT_ALLOW_BECAUSE_TOKEN_ATTEMPTS
 
@@ -102,7 +93,6 @@ class IpInfos(Base):
 
         ##
         send_status = self.email_send_status
-        print(self.email_send_count, Email.SEND_MAX)
 
         if send_status == Email.SEND_OK:
             return time.time()

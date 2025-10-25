@@ -37,6 +37,7 @@ class UserToken(Base):
             ,user_name:str=None \
             ,validity:str=time.time() + Token.VALIDITY_KEY_USER )->None:
 
+        from database import model_update
         from begin.globals import Token
 
         ##
@@ -48,16 +49,11 @@ class UserToken(Base):
 
         self.dek = key_wrap(dek)
 
-        self.cipher_ip = field_encrypt(dek, ip)
-        self.cipher_token = field_encrypt(dek, token_hashed)
-        self.cipher_userName = field_encrypt(dek, user_name)
-
-        self.validity = validity
-
-        #
-        self.hashed_ip = Token.crypt_hash256(ip)
-        self.hashed_userName = Token.crypt_hash256(user_name)
-
+        model_update(self \
+                ,cipher_ip=ip, hashed_ip=ip \
+                ,cipher_userName=user_name, hashed_userName=user_name \
+                ,cipher_token=token_hashed \
+                ,validity=validity)
 
     def token_auth(self, token_input:str)->bool:
         from database import model_get

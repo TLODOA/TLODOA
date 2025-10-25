@@ -149,7 +149,7 @@ def model_update(instance:object, **kwargs)->None:
             value = kwargs[i]
 
             if i in field_hashed:
-                value = Token,crypt_hash256(kwars[i])
+                value = Token.crypt_hash256(kwargs[i])
             elif i in field_cipher:
                 value = field_encrypt(dek, value)
 

@@ -38,7 +38,9 @@ class UserEmailCode(Base):
             ,token:str=None, validity=None \
             ,field:str=Email.FIELD_UNDEFINED)->None:
 
+        from database import model_update
         from begin.globals import Token
+
         import time
 
         ##
@@ -52,26 +54,20 @@ class UserEmailCode(Base):
         dek = AESGCM.generate_key(bit_length=256)
         self.dek = key_wrap(dek)
 
-        self.cipher_ip = field_encrypt(dek, ip)
-        self.cipher_name = field_encrypt(dek, name)
-        self.cipher_email = field_encrypt(dek, email)
-        self.cipher_token = field_encrypt(dek, token)
-
-        self.validity = validity
-
-        self.field = field
-
-        #
-        self.hashed_ip = Token.crypt_hash256(ip)
-        self.hashed_name = Token.crypt_hash256(name)
-        self.hashed_email = Token.crypt_hash256(email)
+        model_update(self \
+                ,cipher_ip=ip, hashed_ip=ip \
+                ,cipher_name=name, hashed_name=name \
+                ,cipher_email=email, hashed_email=email \
+                ,cipher_token=token \
+                ,validity=validity \
+                ,field=field)
 
     def token_send(self)->None:
-        from email.message import EmailMessage
-        import smtplib
-
         from database import session, session_update, session_get, model_get, model_update, IpInfos
         from begin.globals import Email, SMTP
+
+        from email.message import EmailMessage
+        import smtplib
 
         import time
 
