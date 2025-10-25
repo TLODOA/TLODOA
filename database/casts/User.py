@@ -1,5 +1,8 @@
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, CHAR
+from begin.globals import Token
+
 from .base import Base
+from .crypt import *
 
 ##
 USER_NAME_LEN = 100
@@ -10,17 +13,46 @@ USER_PASSWORD_LEN = 50
 class User(Base):
     __tablename__ = 'User'
 
-    name = Column(String(USER_NAME_LEN), primary_key=True)
-    email = Column(String(USER_EMAIL_LEN))
-    password = Column(String(USER_PASSWORD_LEN))
+    FIELD_CIPHER = ["cipher_name", "cipher_email", "cipher_password"]
+    FIELD_HASHED = ["hashed_name", "hashed_email"]
+
+    ##
+    dek = Column(CHAR(Token.DEK_LEN))
+
+    cipher_name = Column(String())
+    cipher_email = Column(String())
+    cipher_password = Column(String())
 
     status = Column(Integer)
+
+    #
+    hashed_name = Column(String(Token.FIELD_HASHED_SIZE), primary_key=True, index=True)
+    hashed_email = Column(String(Token.FIELD_HASHED_SIZE), index=True)
 
     ##
     def __init__(self, name:str=None, email:str=None, password:str=None, status:str=None)->None:
 
-        self.name = name
-        self.email = email
-        self.password = password
+        from database import model_update
+        from begin.globals import Token
 
-        self.status = status
+        ##
+        dek = AESGCM.generate_key(bit_length=256)
+        self.dek = key_wrap(dek)
+
+        password_hashed = Token.crypt_phash(password, hash_len=Token.PHASH_USER_PASSWORD_LEN)
+
+        model_update(self \
+                ,cipher_name=name, hashed_name=name \
+                ,cipher_email=email, hashed_email=email \
+                ,cipher_password=password_hashed \
+                ,status=status)
+
+    def password_auth(self, password_input:str)->bool:
+        from begin.globals import Token
+        from database.session import model_get
+
+        ##
+        password = model_get(self, "cipher_password")[0]
+        print('password_hashed: ', password)
+
+        return Token.crypt_phash_auth(password, password_input)

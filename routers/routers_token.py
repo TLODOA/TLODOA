@@ -6,7 +6,7 @@ def register_app(app:object)->None:
 
     @app.route('/token/email/generate', methods=['POST'])
     def email_token_generate()->object:
-        from begin.globals import Email, Messages
+        from begin.globals import Email, Messages, Token
 
         if flask.request.method != 'POST':
             return flask.jsonify({
@@ -15,23 +15,25 @@ def register_app(app:object)->None:
         
         #
         forms = flask.request.json
+        user_addr = flask.request.remote_addr
 
         user_name = forms["user_name"]
         user_email = forms["user_email"]
         user_email_field = forms["user_email_field"]
 
-        user_addr = flask.request.remote_addr
+        #
+        hashed_userAddr = Token.crypt_sha256(user_addr)
 
         #
-        ipInfos = session_get(IpInfos, ip=user_addr)
-        userEmail = session_get(UserEmailCode, ip=user_addr, field=user_email_field)
+        ipInfos = session_get(IpInfos, hashed_ip=hashed_userAddr)
+        userEmail = session_get(UserEmailCode, hashed_ip=hashed_userAddr, field=user_email_field)
 
         print(Token.email_generate())
         print(userEmail)
 
         ##
         if ipInfos == None or userEmail == None or not user_email_field in Email.FIELD_ABLE:
-            return flask.jsonfify({
+            return flask.jsonify({
                 'message': \
                     Messages.server_internal_error()
                 })
@@ -72,7 +74,9 @@ def register_app(app:object)->None:
             session_delete(userEmail)
         
         #
-        userEmail = session_insert(UserEmailCode, name=None, ip=user_addr, email=user_email, field=user_email_field)
+        email_token = Token.email_generate()
+
+        userEmail = session_insert(UserEmailCode, ip=user_addr, email=user_email, field=user_email_field, token=email_token)
 
         userEmail.token_send()
 
@@ -84,5 +88,5 @@ def register_app(app:object)->None:
         """
         return flask.jsonify({
             'message': \
-                'This is your email token: ' + userEmail.token
+                'This is your email token: ' + email_token
             })

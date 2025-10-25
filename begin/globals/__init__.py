@@ -1,3 +1,5 @@
+from .Auth import *
+
 from .Config import *
 
 from .Email import *

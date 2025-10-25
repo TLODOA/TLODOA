@@ -1,17 +1,71 @@
 from begin.xtensions import *
 from database import *
 
+from routers import cookie
+
 ##
 def register_app(app:object)->None:
 
     @app.before_request
     def before_request()->object|None:
+        from begin.globals import Token
+        from itsdangerous import BadSignature
+
+        ##
+        if not flask.request.path.startswith('/view'):
+            return 
+
+        #
         user_addr = flask.request.remote_addr
-        user_token = flask.request.cookies.get("user_token", None)
 
-        ipInfos = session_get(IpInfos, ip=user_addr)
-        userToken = session_get(UserToken, token=user_token)
+        print('cookie: ', cookie.valid("user_name"), cookie.valid("user_token"))
+        if not cookie.valid("user_name"):
+            userTokens = session_get(UserToken, hashed_ip=Token.crypt_sha256(user_addr))
+            session_delete(userTokens)
 
+            response = flask.make_response(flask.redirect('/'))
+            cookie.delete(response, "user_name")
+            cookie.delete(response, "user_token")
+
+            return response
+
+        user_name = cookie.get("user_name")
+
+
+        if not cookie.valid("user_token"):
+            hashed_userAddr, hashed_userName = Token.crypt_sha256(user_addr), Token.crypt_sha256(user_name)
+
+            #
+            userTokens = session_get(UserToken, hashed_ip=hashed_userAddr, hashed_userName=hashed_userName)
+            session_delete(userTokens)
+
+            response = flask.make_response(flask.redirect('/'))
+            cookie.delete(response, "user_name")
+            cookie.delete(response, "user_token")
+
+            return response
+
+        user_token = cookie.get("user_token")
+
+        #
+        hashed_userAddr, hashed_userName = Token.crypt_sha256(user_addr), Token.crypt_sha256(user_name)
+
+        ipInfos = session_get(IpInfos, hashed_ip=hashed_userAddr)
+        userToken = session_get(UserToken, hashed_ip=hashed_userAddr, hashed_userName=hashed_userName)
+
+        #
+        valid = False
+
+        for i in userToken:
+            valid = i.token_auth(user_token)
+
+            if valid:
+                break
+
+        if not valid:
+            userToken = ()
+
+        #
         if len(userToken) and userToken[0].validity < time.time():
             session_delete(userToken)
             userToken = ()
@@ -24,25 +78,22 @@ def register_app(app:object)->None:
 
         #
         if len(userToken):
-            flask.session["user_name"] = userToken[0].user_name
-            flask.session["user_card"] = 0
 
             return
 
         # print(flask.request.path, flask.session)
-        if not flask.request.path.startswith('/view'):
-            return 
+        response = flask.make_response(flask.redirect('/'))
+        cookies = flask.request.cookies
 
-        #
-        if "user_name" in flask.session:
-            del flask.session["user_name"]
+        for i in cookies.keys():
+            cookie.delete(response=response, cookie_name=i)
 
-        return flask.redirect('/')
+        return response
 
     #
     @app.route('/')
     def fork()->object:
-        if not "user_name" in flask.session:
+        if not "user_name" in flask.request.cookies:
             return flask.redirect('/login/display')
 
         return flask.redirect('/view/index')

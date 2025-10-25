@@ -2,6 +2,12 @@
 def request_not_allow_because_method()->str:
     return "Method not allow"
 
+def request_not_allow_because_fields_missing()->str:
+    return "Missing fields"
+
+def request_not_allow_because_fields_empty()->str:
+    return "Please, fill all required fileds"
+
 def server_internal_error()->str:
     return "Something goes wrong"
 
@@ -42,7 +48,7 @@ def email_already_sended()->str:
 def email_ok()->str:
     return "Email successful sended!"
 
-## Sign auth
+## Login auth
 def login_not_allow_because_user_not_found()->str:
     return "User not found"
 
@@ -70,7 +76,7 @@ def login_not_allow_because_client_behavior(timestamp)->str:
 
     return f"Because of your behavior, you cannot try sign after {date.tm_hour}:{date.tm_min}:{date.tm_sec}"
 
-## Login auth
+## Sing auth
 def sign_not_allow_because_user_found()->str:
     return "Invalid user name"
 

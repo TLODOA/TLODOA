@@ -1,24 +1,35 @@
-from sqlalchemy import Column, ForeignKey, String, Float, Integer
+from sqlalchemy import Column, ForeignKey, String, Float, Integer, CHAR
 from begin.globals import Token, Email
 
 from .base import Base
-
 from .IpInfos import IP_LEN
 from .User import USER_NAME_LEN, USER_EMAIL_LEN
+
+from .crypt import *
 
 ##
 class UserEmailCode(Base):
     __tablename__ = 'UserEmailCode'
 
-    ip = Column(String(IP_LEN), ForeignKey('IpInfos.ip'))
+    FIELD_CIPHER = ["cipher_ip", "cipher_name", "cipher_email", "cipher_token"]
+    FIELD_HASHED = ["hashed_ip", "hashed_name", "hashed_email"]
+    
+    ##
+    dek = Column(CHAR(Token.DEK_LEN))
 
-    name = Column(String(USER_NAME_LEN), ForeignKey('User.name'))
-    email = Column(String(USER_EMAIL_LEN))
+    cipher_ip = Column(String())
+    cipher_name = Column(String())
+    cipher_email = Column(String())
+    cipher_token = Column(String(), primary_key=True)
 
-    token = Column(String(Token.KEY_EMAIL_LEN), primary_key=True)
     validity = Column(Float)
 
     field = Column(Integer)
+
+    #
+    hashed_ip = Column(CHAR(Token.FIELD_HASHED_SIZE), ForeignKey("IpInfos.hashed_ip"), index=True)
+    hashed_name = Column(CHAR(Token.FIELD_HASHED_SIZE), index=True)
+    hashed_email = Column(CHAR(Token.FIELD_HASHED_SIZE), index=True)
 
     ##
     def __init__(self \
@@ -27,50 +38,58 @@ class UserEmailCode(Base):
             ,token:str=None, validity=None \
             ,field:str=Email.FIELD_UNDEFINED)->None:
 
+        from database import model_update
+        from begin.globals import Token
+
         import time
 
         ##
-        if token == None:
+        if token is None:
             token = Token.email_generate()
 
-        if validity == None:
+        if validity is None:
             validity = time.time() + Email.VALIDITY
 
         #
-        self.ip = ip
+        dek = AESGCM.generate_key(bit_length=256)
+        self.dek = key_wrap(dek)
 
-        self.name = name
-        self.email = email
-
-        self.token = token
-        self.validity = validity
-
-        self.field = field
+        model_update(self \
+                ,cipher_ip=ip, hashed_ip=ip \
+                ,cipher_name=name, hashed_name=name \
+                ,cipher_email=email, hashed_email=email \
+                ,cipher_token=token \
+                ,validity=validity \
+                ,field=field)
 
     def token_send(self)->None:
-        import smtplib
-        from email.message import EmailMessage
-
+        from database import session, session_update, session_get, model_get, model_update, IpInfos
         from begin.globals import Email, SMTP
-        from database import session, session_get, IpInfos
+
+        from email.message import EmailMessage
+        import smtplib
 
         import time
 
         ##
-        ipInfos = session_get(IpInfos, ip=self.ip)[0]
-        status = ipInfos.email_send_status
+        ipInfos = session_get(IpInfos, hashed_ip=self.hashed_ip)
+        status = ipInfos[0].email_send_status
 
         print('status send: ', status)
         if status != Email.SEND_OK:
             return
 
         ##
+        email = model_get(self, "cipher_email")[0]
+        token = model_get(self, "cipher_token")[0]
+
+        #
         msg = EmailMessage()
         msg['Subject'] = 'TLODOA email token'
         msg['From'] = SMTP.SENDER
-        msg['To'] = self.email
+        msg['To'] = email
 
-        msg.set_content(f'This is your email token: {self.token}')
+        msg.set_content(f'This is your email token: {token}')
 
         # This code passage doesn't works in the shit computers of school
         """
@@ -81,23 +100,27 @@ class UserEmailCode(Base):
             """
 
         ##
-        ipInfos.email_send_last_time = time.time()
-        ipInfos.email_send_count += 1
+        session_update(ipInfos, email_send_last_time = time.time())
+        session_update(ipInfos, email_send_count = ipInfos[0].email_send_count+1)
+
+        token_hashed = Token.crypt_phash(token, hash_len=Token.PHASH_EMAIL_TOKEN_LEN)
+        model_update(self, cipher_token=token_hashed)
 
         session.commit()
 
     def token_auth(self, token_input)->bool:
-        from database import session, session_get, IpInfos
+        from database import session_update, session_get, IpInfos, model_get
+        from begin.globals import Token
 
-        if self.token == token_input:
-            return True
+        ##
+        ipInfos = session_get(IpInfos, hashed_ip=self.hashed_ip)
+        session_update(ipInfos, auth_attempts=ipInfos[0].auth_attempts+1)
 
-        ipInfos = session_get(IpInfos, ip=self.ip)[0]
-        ipInfos.auth_attempts += 1
+        #
+        token = model_get(self, "cipher_token")[0]
+        print('email_token: ', token)
 
-        session.commit()
-
-        return False
+        return Token.crypt_phash_auth(token, token_input)
 
     def token_valid(self)->bool:
         import time

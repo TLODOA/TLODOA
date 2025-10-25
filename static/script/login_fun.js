@@ -55,6 +55,8 @@ login.BUTT_FINISH.addEventListener('click', (e) => {
         const href_link = data["href_link"];
         const message = data["message"];
 
+        console.log(data)
+
         if(href_link != undefined){
             window.location.href = href_link;
             return;
