@@ -15,7 +15,6 @@
     {% block javascript %}{% endblock %}
 </head>
 <body>
-<center>
     <header>
         {% if not "user_name" in session %}
             <div class="user_auth">
@@ -33,7 +32,7 @@
                 </a>
             </div>
 
-            <div class="user_infos">
+            <div class="hd-buttons">
                 <h3 class="btn">
                     <a href="{{ url_for("view_user_card", token="1234") }}">
                         {{ session.user_card }} Bitc
@@ -45,13 +44,14 @@
                         Hello {{ session.user_name }}!!
                     </a>
                 </h3>
-                </div>
-                <h3 class="exit">
+
+                <h3 class="btn" id="exit">
                     <a href="{{ url_for("logout_auth") }}">logout</a>
                 </h3>
             </div>
         {% endif %}
     </header>
+    <div class="header-space"></div>
 
     {% block content %}
         <main>
@@ -62,6 +62,5 @@
             {% block footer %}{% endblock %}
         </footer>
     {% endblock %}
-</center>
 </body>
 </html>
