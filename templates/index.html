@@ -1,7 +1,43 @@
-{% extends "default/layout_1.html" %}
+{% extends "default/layout_2.html" %}
 
 {% block title%}Index{% endblock %}
 
-{% block main %}
-<h1>Hello Wolrd!</h1>
+{% block style %}
+<link rel="stylesheet" href="{{ url_for("static", filename="style/index.css") }}">
+{% endblock %}
+
+<!-- -->
+<div class="header_space"></div>
+
+{% block content_nav %}
+<div class="search-box">
+    <form action="#" method="get">
+        <input type="text" name="q" placeholder="Buscar" required class="find-bar">
+        <button type="submit" class="find">🔍︎</button>
+    </form>
+</div>
+
+<div class="nav-buttons">
+    <div class="btn-nav">
+        <button class="sort-btn">Ordenar ▾</button>
+    </div>
+
+    <div class="btn-nav">
+        <button class="opt-btn">Opções</button>
+        <div class="options-winndow"></div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block content_main %}
+<div class="catalog-container">
+    <div class="featured">
+
+    </div>
+    <div class="products">
+
+    </div>
+</div>
+
 {% endblock %}

@@ -28,4 +28,4 @@ session_insert(User, name='Lorax', email='abcd@gmail.com', password='admin', sta
 ##
 if __name__ == "__main__":
     scheduler.start()
-    SocketIO.socketio.run(app, debug=True, host='0.0.0.0', port='5000')
+    SocketIO.socketio.run(app, debug=True, host='0.0.0.0', port='3533')
