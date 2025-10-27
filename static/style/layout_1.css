@@ -4,8 +4,8 @@
     --main_height: calc(100vh - var(--header_height));
 
     /* */
-    --user_data_input_width: 400px;
-    --user_data_input_height: 350px;
+    --user_data_input_width: 500px;
+    --user_data_input_height: 400px;
 
     --user_data_input_get_height: 250px;
 
@@ -38,26 +38,21 @@ header {
     justify-content: space-between;
 }
 
-main {
+main{
     display: flex;
-    align-items: center;
-    justify-content: center;
-
     height: var(--main_height);
-
-    padding: 10px;
 }
 
-p, input[type="text"]{
+p, input[type="text"], a{
     font-family: Outfit;
-    font-size: 22px;
+    font-size: 24px;
 }
 
 a {
     color: white;
     text-decoration: none;
-    font-family: Outfit;
 }
+
 
 /* */
 .tlodoa_logo_1 img{
