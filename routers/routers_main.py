@@ -1,7 +1,7 @@
 from begin.xtensions import *
-from database import *
+from begin.globals import Cookie
 
-from routers import cookie
+from database import *
 
 ##
 def register_app(app:object)->None:
@@ -18,21 +18,21 @@ def register_app(app:object)->None:
         #
         user_addr = flask.request.remote_addr
 
-        print('cookie: ', cookie.valid("user_name"), cookie.valid("user_token"))
-        if not cookie.valid("user_name"):
+        print('cookie: ', Cookie.valid("user_name"), Cookie.valid("user_token"))
+        if not Cookie.valid("user_name"):
             userTokens = session_get(UserToken, hashed_ip=Token.crypt_sha256(user_addr))
             session_delete(userTokens)
 
             response = flask.make_response(flask.redirect('/'))
-            cookie.delete(response, "user_name")
-            cookie.delete(response, "user_token")
+            Cookie.delete(response, "user_name")
+            Cookie.delete(response, "user_token")
 
             return response
 
-        user_name = cookie.get("user_name")
+        user_name = Cookie.get("user_name")
 
 
-        if not cookie.valid("user_token"):
+        if not Cookie.valid("user_token"):
             hashed_userAddr, hashed_userName = Token.crypt_sha256(user_addr), Token.crypt_sha256(user_name)
 
             #
@@ -40,12 +40,12 @@ def register_app(app:object)->None:
             session_delete(userTokens)
 
             response = flask.make_response(flask.redirect('/'))
-            cookie.delete(response, "user_name")
-            cookie.delete(response, "user_token")
+            Cookie.delete(response, "user_name")
+            Cookie.delete(response, "user_token")
 
             return response
 
-        user_token = cookie.get("user_token")
+        user_token = Cookie.get("user_token")
 
         #
         hashed_userAddr, hashed_userName = Token.crypt_sha256(user_addr), Token.crypt_sha256(user_name)
@@ -86,7 +86,7 @@ def register_app(app:object)->None:
         cookies = flask.request.cookies
 
         for i in cookies.keys():
-            cookie.delete(response=response, cookie_name=i)
+            Cookie.delete(response=response, cookie_name=i)
 
         return response
 

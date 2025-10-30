@@ -1,21 +1,15 @@
-from begin import *
-
+from begin.globals import Router, Scheduler, Config, SocketIO, Status
 from database import *
-
-from routers import *
-from schedulers import *
-
-from apscheduler.schedulers.background import BackgroundScheduler
 
 ##
 app = flask.Flask(__name__)
 app.config.from_object(Config)
 
-scheduler = BackgroundScheduler()
+scheduler = Scheduler.init()
 
 #
-register_router(app)
-register_jobs(scheduler)
+Router.register(app)
+Scheduler.register(scheduler)
 
 SocketIO.socketio.init_app(app)
 

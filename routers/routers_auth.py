@@ -1,9 +1,7 @@
-from begin.globals import Messages
+from begin.globals import Messages, Cookie
 from begin.xtensions import *
 
 from database import *
-
-from routers import cookie
 
 ##
 def register_app(app:object)->None:
@@ -103,8 +101,8 @@ def register_app(app:object)->None:
                     'href_link': "/"
                 })
             )
-        cookie.define(response=response, cookie_name="user_token", cookie_value=user_token, max_age=Token.VALIDITY_KEY_USER)
-        cookie.define(response=response, cookie_name="user_name", cookie_value=user_name, max_age=Token.VALIDITY_KEY_USER)
+        Cookie.define(response=response, cookie_name="user_token", cookie_value=user_token, max_age=Token.VALIDITY_KEY_USER)
+        Cookie.define(response=response, cookie_name="user_name", cookie_value=user_name, max_age=Token.VALIDITY_KEY_USER)
         
         return response
 
@@ -193,11 +191,11 @@ def register_app(app:object)->None:
         from begin.globals import Token
 
         ##
-        if not cookie.valid("user_name") or not cookie.valid("user_token"):
+        if not Cookie.valid("user_name") or not Cookie.valid("user_token"):
             return flask.redirect('/')
 
-        user_name = cookie.get("user_name")
-        user_token = cookie.get("user_token")
+        user_name = Cookie.get("user_name")
+        user_token = Cookie.get("user_token")
         user_addr = flask.request.remote_addr
 
         if user_token == None or user_name == None:
@@ -211,8 +209,8 @@ def register_app(app:object)->None:
         userToken = session_get(UserToken, hashed_ip=hashed_userAddr, hashed_userName=hashed_userName)
 
         response = flask.make_response(flask.redirect('/'))
-        cookie.delete(response, "user_name")
-        cookie.delete(response, "user_token")
+        Cookie.delete(response, "user_name")
+        Cookie.delete(response, "user_token")
 
         for i in userToken:
             if not i.token_auth(user_token):

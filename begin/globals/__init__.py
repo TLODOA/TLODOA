@@ -2,6 +2,8 @@ from .Auth import *
 
 from .Config import *
 
+from .Cookie import *
+
 from .Email import *
 from .SMTP import *
 

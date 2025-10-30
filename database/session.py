@@ -1,22 +1,26 @@
+from sqlalchemy.ext.automap import automap_base
 from begin import error_message
 from begin.xtensions import *
 
-from .casts import Base
+from .casts import *
 from .casts.crypt import *
 
 ##
 def foreign_key_enable(conn, branch)->None:
     conn.execute('PRAGMA foreign_keys = ON')
 
-def reset_database(engine:object):
+def reset_database(Base:object, engine:object):
     Base.metadata.drop_all(engine)
-    Base.metadata.create_all(engine)
+    
+    Base = automap_base()
+    Base.prepare(engine, reflect=True)
+    # Base.metadata.create_all(engine)
 
 engine = sqlalchemy.create_engine("sqlite:///data.db", echo=True)
 sqlalchemy.event.listen(engine, 'connect', foreign_key_enable)
 
-# Base.metadata.create_all(engine)
-reset_database(engine)
+reset_database(Base, engine)
+Base.metadata.create_all(engine)
 
 Session = sqlalchemy.orm.sessionmaker(bind=engine)
 session = Session()
