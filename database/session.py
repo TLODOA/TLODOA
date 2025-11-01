@@ -16,7 +16,7 @@ def reset_database(Base:object, engine:object):
     Base.prepare(engine, reflect=True)
     # Base.metadata.create_all(engine)
 
-engine = sqlalchemy.create_engine("sqlite:///data.db", echo=True)
+engine = sqlalchemy.create_engine("postgresql://lorax:@localhost/tlodoadb", echo=True)
 sqlalchemy.event.listen(engine, 'connect', foreign_key_enable)
 
 reset_database(Base, engine)

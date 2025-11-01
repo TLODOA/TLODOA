@@ -9,3 +9,5 @@ REQUIRED_FIELDS_SIGN = [
         ,"user_email", "user_email_code", "user_email_field"
         ,"user_password", "user_password_check"
     ]
+
+ATTEMPTS_MAX = 30

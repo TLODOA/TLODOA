@@ -51,7 +51,7 @@ def register_app(app:object)->None:
         hashed_userAddr, hashed_userName = Token.crypt_sha256(user_addr), Token.crypt_sha256(user_name)
 
         ipInfos = session_get(IpInfos, hashed_ip=hashed_userAddr)
-        userToken = session_get(UserToken, hashed_ip=hashed_userAddr, hashed_userName=hashed_userName)
+        userToken = session_get(UserToken, hashed_ip=hashed_userAddr, hashed_userName=hashed_userName, validty__gt=time.time())
 
         #
         valid = False

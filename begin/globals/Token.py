@@ -24,12 +24,6 @@ PHASH_USER_PASSWORD_LEN = 32
 PHASH_USER_TOKEN_LEN = 32
 
 ##
-VALIDITY_KEY_USER = 60*60*24 # one day
-
-VALIDITY_IPINFOS = 60*60*24*7 # one week
-VALIDITY_IPINFOS_BLOCK = 60*20 # twenty minutes
-
-##
 MASTER_KEY = os.environ.get("MASTER_KEY", None)
 SALT_GLOBAL = os.environ.get("SALT_GLOBAL", None)
 
