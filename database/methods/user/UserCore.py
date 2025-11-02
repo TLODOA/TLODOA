@@ -5,12 +5,26 @@ class UserCore(Base):
     __tablename__ = 'UserCore'
 
     ##
-    def password_auth(self, password_input:str)->bool:
+    def __init__(self, **kwargs)->None:
+
         from begin.globals import Token
-        from database.session import model_get
 
         ##
-        password = model_get(self, "cipher_password")[0]
-        print('password_hashed: ', password)
+        model = type("model", (self.__class__, ), {})
+
+        for i in kwargs.keys():
+            if not i in model.__dict__.keys():
+                continue
+
+            setattr(self, i, kwargs[i])
+
+        self.password = Token.crypt_phash(kwargs["password"])
+
+    def password_auth(self, password_input:str)->bool:
+        from begin.globals import Token
+        from database import model_get
+
+        ##
+        password = model_get(self, "password")[0]
 
         return Token.crypt_phash_auth(password, password_input)

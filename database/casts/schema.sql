@@ -2,9 +2,9 @@ CREATE TABLE "UserCore"(
     "dek" CHAR(255) NOT NULL,
     "hashed_name" CHAR(255) NOT NULL,
     "hashed_email" CHAR(255) NOT NULL,
+    "password" VARCHAR(255) NOT NULL,
     "cipher_name" VARCHAR(255) NOT NULL,
-    "cipher_email" VARCHAR(255) NOT NULL,
-    "cipher_password" VARCHAR(255) NOT NULL
+    "cipher_email" VARCHAR(255) NOT NULL
 );
 CREATE INDEX "usercore_hashed_name_index" ON
     "UserCore"("hashed_name");
@@ -36,35 +36,40 @@ ALTER TABLE
     "UserCard" ADD PRIMARY KEY("User_name");
 CREATE TABLE "UserToken"(
     "dek" CHAR(255) NOT NULL,
-    "ip" CHAR(255) NOT NULL,
-    "user_name" CHAR(255) NOT NULL,
-    "cipher_token" VARCHAR(255) NOT NULL,
-    "validity" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
+    "hashed_ip" CHAR(255) NOT NULL,
+    "hashed_userName" CHAR(255) NOT NULL,
+    "token" VARCHAR(255) NOT NULL,
+    "validity" DOUBLE PRECISION NOT NULL DEFAULT '0',
     "field" INTEGER NOT NULL
 );
 ALTER TABLE
-    "UserToken" ADD PRIMARY KEY("ip", "field");
-CREATE INDEX "usertoken_ip_index" ON
-    "UserToken"("ip");
-CREATE INDEX "usertoken_user_name_index" ON
-    "UserToken"("user_name");
+    "UserToken" ADD PRIMARY KEY("hashed_ip", "field");
+CREATE INDEX "usertoken_hashed_ip_index" ON
+    "UserToken"("hashed_ip");
+CREATE INDEX "usertoken_hashed_username_index" ON
+    "UserToken"("hashed_userName");
+CREATE INDEX "usertoken_field_index" ON
+    "UserToken"("field");
 CREATE TABLE "UserEmailCode"(
     "dek" CHAR(255) NOT NULL,
-    "ip" CHAR(255) NOT NULL,
-    "user_name" CHAR(255) NULL,
+    "hashed_ip" CHAR(255) NOT NULL,
+    "hashed_userName" CHAR(255) NULL,
     "hashed_email" CHAR(255) NOT NULL,
-    "cipher_token" VARCHAR(255) NOT NULL,
-    "validity" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
+    "token" VARCHAR(255) NOT NULL,
+    "cipher_email" VARCHAR(255) NOT NULL,
+    "validity" DOUBLE PRECISION NOT NULL DEFAULT '0',
     "field" INTEGER NOT NULL
 );
 ALTER TABLE
-    "UserEmailCode" ADD PRIMARY KEY("ip", "field");
-CREATE INDEX "useremailcode_ip_index" ON
-    "UserEmailCode"("ip");
-CREATE INDEX "useremailcode_user_name_index" ON
-    "UserEmailCode"("user_name");
+    "UserEmailCode" ADD PRIMARY KEY("hashed_ip", "field");
+CREATE INDEX "useremailcode_hashed_ip_index" ON
+    "UserEmailCode"("hashed_ip");
+CREATE INDEX "useremailcode_hashed_username_index" ON
+    "UserEmailCode"("hashed_userName");
 CREATE INDEX "useremailcode_hashed_email_index" ON
     "UserEmailCode"("hashed_email");
+CREATE INDEX "useremailcode_field_index" ON
+    "UserEmailCode"("field");
 CREATE TABLE "ObjectCore"(
     "dek" CHAR(255) NOT NULL,
     "hashed_id" CHAR(255) NOT NULL,
@@ -135,11 +140,11 @@ CREATE TABLE "IpInfos"(
     "dek" CHAR(255) NOT NULL,
     "hashed_ip" CHAR(255) NOT NULL,
     "cipher_ip" VARCHAR(255) NOT NULL,
-    "email_send_count" INTEGER NOT NULL,
-    "email_send_last_time" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-    "auth_attempts" INTEGER NOT NULL,
-    "block_time_init" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-    "validity" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
+    "email_send_count" INTEGER NOT NULL DEFAULT '0',
+    "email_send_last_time" DOUBLE PRECISION NULL DEFAULT '0',
+    "auth_attempts" INTEGER NOT NULL DEFAULT '0',
+    "block_time_init" DOUBLE PRECISION NULL DEFAULT '0',
+    "validity" DOUBLE PRECISION NOT NULL DEFAULT '0'
 );
 CREATE INDEX "ipinfos_hashed_ip_index" ON
     "IpInfos"("hashed_ip");
@@ -169,11 +174,11 @@ ALTER TABLE
 ALTER TABLE
     "ObjectExpost" ADD CONSTRAINT "objectexpost_id_foreign" FOREIGN KEY("id") REFERENCES "ObjectCore"("hashed_id");
 ALTER TABLE
-    "UserToken" ADD CONSTRAINT "usertoken_ip_foreign" FOREIGN KEY("ip") REFERENCES "IpInfos"("hashed_ip");
+    "UserToken" ADD CONSTRAINT "usertoken_hashed_ip_foreign" FOREIGN KEY("hashed_ip") REFERENCES "IpInfos"("hashed_ip");
 ALTER TABLE
     "Message" ADD CONSTRAINT "message_user_name_foreign" FOREIGN KEY("user_name") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE
-    "UserToken" ADD CONSTRAINT "usertoken_user_name_foreign" FOREIGN KEY("user_name") REFERENCES "UserCore"("hashed_name");
+    "UserToken" ADD CONSTRAINT "usertoken_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE
     "Message" ADD CONSTRAINT "message_object_title_foreign" FOREIGN KEY("object_title") REFERENCES "ObjectExpost"("hashed_title");
 ALTER TABLE
@@ -181,10 +186,10 @@ ALTER TABLE
 ALTER TABLE
     "UserCard" ADD CONSTRAINT "usercard_user_name_foreign" FOREIGN KEY("User_name") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE
-    "UserEmailCode" ADD CONSTRAINT "useremailcode_ip_foreign" FOREIGN KEY("ip") REFERENCES "IpInfos"("hashed_ip");
+    "UserEmailCode" ADD CONSTRAINT "useremailcode_hashed_ip_foreign" FOREIGN KEY("hashed_ip") REFERENCES "IpInfos"("hashed_ip");
 ALTER TABLE
     "Bid" ADD CONSTRAINT "bid_object_title_foreign" FOREIGN KEY("object_title") REFERENCES "ObjectExpost"("hashed_title");
 ALTER TABLE
-    "UserEmailCode" ADD CONSTRAINT "useremailcode_user_name_foreign" FOREIGN KEY("user_name") REFERENCES "UserCore"("hashed_name");
+    "UserEmailCode" ADD CONSTRAINT "useremailcode_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE
     "ObjectCore" ADD CONSTRAINT "objectcore_author_foreign" FOREIGN KEY("author") REFERENCES "UserCore"("hashed_name");

@@ -2,9 +2,6 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 import os
 
 ##
-AUTH_ATTEMPTS_MAX = 30
-
-#
 DEK_LEN = 80
 
 ##

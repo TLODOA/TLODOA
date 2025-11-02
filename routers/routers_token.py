@@ -17,22 +17,16 @@ def register_app(app:object)->None:
         forms = flask.request.json
         user_addr = flask.request.remote_addr
 
-        user_name = forms["user_name"]
-        user_email = forms["user_email"]
+        user_name = forms["user_name"].strip()
+        user_email = forms["user_email"].strip()
         user_email_field = forms["user_email_field"]
 
         #
-        hashed_userAddr = Token.crypt_sha256(user_addr)
-
-        #
-        ipInfos = session_get(IpInfos, hashed_ip=hashed_userAddr)
-        userEmail = session_get(UserEmailCode, hashed_ip=hashed_userAddr, field=user_email_field)
-
-        print(Token.email_generate())
-        print(userEmail)
+        ipInfos = session_query(IpInfos, ip=user_addr)
+        userEmail = session_query(UserEmailCode, ip=user_addr, field=user_email_field)
 
         ##
-        if ipInfos == None or userEmail == None or not user_email_field in Email.FIELD_ABLE:
+        if ipInfos == None or userEmail == None or not user_email_field in UserEmailCode.FIELD_ABLE:
             return flask.jsonify({
                 'message': \
                     Messages.server_internal_error()

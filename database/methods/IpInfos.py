@@ -4,6 +4,8 @@ from database.session import Base
 class IpInfos(Base):
     __tablename__ = 'IpInfos'
 
+    AUTH_ATTEMPTS_MAX = 30
+
     VALIDITY = 60*60*24*7
     VALIDITY_BLOCK = 60*20
 
@@ -20,7 +22,7 @@ class IpInfos(Base):
 
             setattr(self, i, kwargs[i])
 
-        self.validty = time.time() + self.VALIDITY
+        self.validity = time.time() + self.VALIDITY
 
 
     @property 
@@ -48,7 +50,7 @@ class IpInfos(Base):
 
             return Email.SEND_NOT_ALLOW_BECAUSE_AMOUNT
 
-        if self.auth_attempts >= AUTH_ATTEMPTS_MAX:
+        if self.auth_attempts >= self.AUTH_ATTEMPTS_MAX:
             model_update(self, block_time_init=time.time())
 
             return Email.SEND_NOT_ALLOW_BECAUSE_TOKEN_ATTEMPTS
@@ -82,7 +84,7 @@ class IpInfos(Base):
         if self.email_send_count >= Email.SEND_MAX:
             return False
 
-        if self.auth_attempts >= AUTH_ATTEMPTS_MAX:
+        if self.auth_attempts >= self.AUTH_ATTEMPTS_MAX:
             return False 
 
         if self.block_time_init != None:

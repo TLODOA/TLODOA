@@ -9,7 +9,8 @@ def register_app(app:object)->None:
     @app.before_request
     def before_request()->object|None:
         from begin.globals import Token
-        from itsdangerous import BadSignature
+
+        import time
 
         ##
         if not flask.request.path.startswith('/view'):
@@ -20,7 +21,7 @@ def register_app(app:object)->None:
 
         print('cookie: ', Cookie.valid("user_name"), Cookie.valid("user_token"))
         if not Cookie.valid("user_name"):
-            userTokens = session_get(UserToken, hashed_ip=Token.crypt_sha256(user_addr))
+            userTokens = session_query(UserToken, ip=user_addr)
             session_delete(userTokens)
 
             response = flask.make_response(flask.redirect('/'))
@@ -33,10 +34,7 @@ def register_app(app:object)->None:
 
 
         if not Cookie.valid("user_token"):
-            hashed_userAddr, hashed_userName = Token.crypt_sha256(user_addr), Token.crypt_sha256(user_name)
-
-            #
-            userTokens = session_get(UserToken, hashed_ip=hashed_userAddr, hashed_userName=hashed_userName)
+            userTokens = session_query(UserToken, ip=user_addr, userName=user_name)
             session_delete(userTokens)
 
             response = flask.make_response(flask.redirect('/'))
@@ -48,10 +46,11 @@ def register_app(app:object)->None:
         user_token = Cookie.get("user_token")
 
         #
-        hashed_userAddr, hashed_userName = Token.crypt_sha256(user_addr), Token.crypt_sha256(user_name)
+        ipInfos = session_query(IpInfos, ip=user_addr)
+        # userToken = session_query(UserToken, ip=user_addr, userName=user_name, validity__gt=time.time(), field=UserToken.FIELD_AUTH)
+        userToken = session_query(UserToken, ip=user_addr, userName=user_name, validity__gt=time.time())
 
-        ipInfos = session_get(IpInfos, hashed_ip=hashed_userAddr)
-        userToken = session_get(UserToken, hashed_ip=hashed_userAddr, hashed_userName=hashed_userName, validty__gt=time.time())
+        print(ipInfos, userToken)
 
         #
         valid = False

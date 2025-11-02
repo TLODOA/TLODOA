@@ -13,8 +13,8 @@ op_comp = {
     'lt': lambda column, value: column < value,
     'lte': lambda column, value: column <= value,
 
-    'gt': lambda column, value: column < value,
-    'gte': lambda column, value: column <= value,
+    'gt': lambda column, value: column > value,
+    'gte': lambda column, value: column >= value,
 
     'eq': lambda column, value: column == value,
     'ne': lambda column, value: column != value,
@@ -64,26 +64,52 @@ def session_query(model:object, **kwargs)->tuple|None:
 
     ##
     try:
+        field_cipher = FIELD_CIPHER(model)
         instances_get = ()
         filters = []
 
+        #
+        filter_args = model_args_filter(model, **kwargs)
+
         for i in kwargs.keys():
+            if i in filter_args.keys():
+                continue
+
+            column_name, op = i, 'eq'
+            if '__' in i:
+                column_name, op = i.split('__')
+
+            if not column_name in model.__dict__.keys() or not op in op_comp.keys():
+                continue
+
+            filter_args[i] = kwargs[i]
+
+        print('kwargs: ', kwargs)
+        print('filter_args: ', filter_args)
+        ##
+        for i in filter_args.keys():
             op = None
             column_name = op_type = None
 
+            column_name, op_type = i, 'eq'
             if '__' in i:
                 column_name, op_type = i.split('__')
-            else: 
-                column_name, op_type = i, 'eq'
 
+            if not op_type in op_comp.keys():
+                continue
+
+            #
             op = op_comp[op_type]
-            filters.append(op(model.__dict__[column_name], kwargs[i]))
+            column = getattr(model, column_name, None)
+            print(column, filter_args[i])
+
+            filters.append(op(column, filter_args[i]))
 
         instances_get = session.query(model).filter(*filters).all()
         return instances_get
 
     except Exception as e:
-        Messages.error(e, 'session_get')
+        Messages.error(e, 'session_query')
 
         return None
 
@@ -161,7 +187,7 @@ def model_update(instance:object, **kwargs)->None:
         Messages.error('model_update', e)
         session.rollback()
 
-def model_get(instance:object, *args)->list|None:
+def model_get(instance:object, *args)->tuple|None:
     try:
         model = type("Model", (instance.__class__, ), {})
 
@@ -185,7 +211,7 @@ def model_get(instance:object, *args)->list|None:
 
             values.append(value)
 
-        return values
+        return tuple(values)
 
     except Exception as e:
         Messages.error("model_get", e)

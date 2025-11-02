@@ -6,6 +6,13 @@ class UserEmailCode(Base):
 
     VALIDITY = 60*30
 
+    #
+    FIELD_UNDEFINED = 0
+    FIELD_LOGIN = 1
+    FIELD_SIGN = 2
+
+    FIELD_ABLE = [ FIELD_UNDEFINED, FIELD_SIGN, FIELD_LOGIN]
+
     ##
     def __init__(self, **kwargs)->None:
         from begin.globals import Token
@@ -18,25 +25,29 @@ class UserEmailCode(Base):
         if "token" not in kwargs.keys():
             kwargs["token"] = Token.email_generate()
 
+        if "field" not in kwargs.keys():
+            kwargs["field"] = self.FIELD_UNDEFINED
+
+        #
         for i in kwargs.keys():
             if not i in model.__dict__.keys():
                 continue
 
             setattr(self, i, kwargs[i])
 
-        self.validty = time.time() + self.VALIDITY
+        self.validity = time.time() + self.VALIDITY
 
     ##
     def token_send(self)->None:
-        from database import session_update, session_get, model_get, model_update, IpInfos
-        from begin.globals import Email, SMTP
+        from database import session_update, session_query, model_get, model_update, IpInfos
+        from begin.globals import Email, SMTP, Token
 
         from email.message import EmailMessage
         import smtplib
         import time
 
         ##
-        ipInfos = session_get(IpInfos, hashed_ip=self.hashed_ip)
+        ipInfos = session_query(IpInfos, hashed_ip=self.hashed_ip)
         status = ipInfos[0].email_send_status
 
         print('status send: ', status)
@@ -45,7 +56,7 @@ class UserEmailCode(Base):
 
         ##
         email = model_get(self, "cipher_email")[0]
-        token = model_get(self, "cipher_token")[0]
+        token = model_get(self, "token")[0]
 
         #
         msg = EmailMessage()
@@ -68,19 +79,18 @@ class UserEmailCode(Base):
         session_update(ipInfos, email_send_count = ipInfos[0].email_send_count+1)
 
         token_hashed = Token.crypt_phash(token, hash_len=Token.PHASH_EMAIL_TOKEN_LEN)
-        model_update(self, cipher_token=token_hashed)
+        model_update(self, token=token_hashed)
 
     def token_auth(self, token_input)->bool:
-        from database import session_update, session_get, IpInfos, model_get
+        from database import session_update, session_query, IpInfos, model_get
         from begin.globals import Token
 
         ##
-        ipInfos = session_get(IpInfos, hashed_ip=self.hashed_ip)
+        ipInfos = session_query(IpInfos, hashed_ip=self.hashed_ip)
         session_update(ipInfos, auth_attempts=ipInfos[0].auth_attempts+1)
 
         #
-        token = model_get(self, "cipher_token")[0]
-        print('email_token: ', token)
+        token = model_get(self, "token")[0]
 
         return Token.crypt_phash_auth(token, token_input)
 

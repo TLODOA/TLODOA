@@ -12,7 +12,7 @@ def register_app(app:object)->None:
         ##
         hashed_userName = Token.crypt_sha256(user_name)
 
-        user = session_get(User, hashed_name=hashed_userName)
+        user = session_get(UserCore, hashed_name=hashed_userName)
 
         return flask.render_template('user_infos.html', user=user[0])
 
