@@ -1,5 +1,5 @@
+from begin.globals import Messages
 from begin.xtensions import *
-from begin.error_handler import error_message
 
 from database import *
 
@@ -10,7 +10,7 @@ def userEmailCode_invalid_delete()->None:
         session_delete(userEmail_invalid)
 
     except Exception as e:
-        error_message('userEmailCode_invalid_remove', e)
+        Messages.error('userEmailCode_invalid_remove', e)
 
 #
 def jobs()->tuple:

@@ -1,5 +1,5 @@
+from begin.globals import Messages
 from database import *
-from begin.error_handler import error_message
 
 ##
 def userToken_invalid_delete()->None:
@@ -8,7 +8,7 @@ def userToken_invalid_delete()->None:
 
         session_delete(userToken_invalid)
     except Exception as e:
-        error_message('userToken_invalid_delete', e)
+        Messages.error('userToken_invalid_delete', e)
 
 #
 def jobs()->tuple:

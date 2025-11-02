@@ -1,4 +1,10 @@
+ANSI_COLOR_RED = '\033[91m'
+ANSI_COLOR_NULL = '\033[0m'
 
+def error(func_name:str, e:object)->None:
+    print(f"{func_name} {ANSI_COLOR_RED}ERROR{ANSI_COLOR_NULL}: {e}")
+
+##
 def request_not_allow_because_method()->str:
     return "Method not allow"
 

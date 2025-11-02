@@ -5,14 +5,17 @@ import base64
 import os
 
 ##
-def key_wrap(dek:bytes, master_key:bytes=MASTER_KEY)->str:
+def dek_generate()->bytes:
+    return AESGCM.generate_key(bit_length=256)
+
+def dek_encrypt(dek:bytes, master_key:bytes=MASTER_KEY)->str:
     aesgcm = AESGCM(master_key)
 
     nonce = os.urandom(12)
     ciphertext = aesgcm.encrypt(nonce, dek, None)
     return base64.b64encode(nonce + ciphertext).decode()
 
-def key_unwrap(dek:str, master_key:bytes=MASTER_KEY)->bytes:
+def dek_decrypt(dek:str, master_key:bytes=MASTER_KEY)->bytes:
     aesgcm = AESGCM(master_key)
     data = base64.b64decode(dek)
 
@@ -21,7 +24,7 @@ def key_unwrap(dek:str, master_key:bytes=MASTER_KEY)->bytes:
     return aesgcm.decrypt(nonce, ciphertext, None)
 
 
-def field_encrypt(dek:bytes, value:str)->str|None:
+def clm_encrypt(value:str, dek:bytes)->str|None:
     if value is None:
         return None
 
@@ -33,7 +36,7 @@ def field_encrypt(dek:bytes, value:str)->str|None:
 
     return base64.b64encode(nonce + ciphertext).decode()
 
-def field_decrypt(dek:bytes, value:str)->str:
+def clm_decrypt(value:str, dek:bytes)->str:
     aesgcm = AESGCM(dek)
     data = base64.b64decode(value)
 

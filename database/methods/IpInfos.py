@@ -8,11 +8,18 @@ class IpInfos(Base):
     VALIDITY_BLOCK = 60*20
 
     ##
-    def __init__(self)->None:
-        from dataabase import model_update
+    def __init__(self, **kwargs)->None:
+        from database import model_update
         import time
 
         ##
+        model = type("model", (self.__class__, ), {})
+        for i in kwargs.keys():
+            if not i in model.__dict__.keys():
+                continue
+
+            setattr(self, i, kwargs[i])
+
         self.validty = time.time() + self.VALIDITY
 
 
@@ -61,7 +68,7 @@ class IpInfos(Base):
 
         #
         if self.block_time_init != None:
-            return self.block_time_init + self..VALIDITY_BLOCK
+            return self.block_time_init + self.VALIDITY_BLOCK
 
         if send_status == Email.SEND_NOT_ALLOW_BECAUSE_INTERVAL:
             return self.email_send_last_time + Email.SEND_INTERVAL

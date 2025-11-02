@@ -7,18 +7,23 @@ class UserToken(Base):
     VALIDITY = 60*60*24
 
     ##
-    def __init__( self
-                 ,token:str=None
-                 )->None:
+    def __init__(self, **kwargs)->None:
 
         from database import Token
         import time
 
         ##
-        if token is None:
+        model = type("model", (self.__class__, ), {})
+
+        if not "token" in kwargs.keys():
             token = Token.user_generate()
 
-        self.token = token
+        for i in kwargs.keys():
+            if not i in model.__dict__.keys():
+                continue
+
+            setattr(self, i, kwargs[i])
+
         self.validity = time.time() + self.VALIDITY
 
     def token_auth(self, token_input:str)->bool:

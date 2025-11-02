@@ -1,8 +1,8 @@
 from database.session import Base
 
 ##
-class User(Base):
-    __tablename__ = 'User'
+class UserCore(Base):
+    __tablename__ = 'UserCore'
 
     ##
     def password_auth(self, password_input:str)->bool:

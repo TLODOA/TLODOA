@@ -7,18 +7,23 @@ class UserEmailCode(Base):
     VALIDITY = 60*30
 
     ##
-    def __init__( self
-                 ,token:str=None
-                 )->None:
+    def __init__(self, **kwargs)->None:
         from begin.globals import Token
 
         import time
 
         ##
-        if token is None:
-            token = Token.email_generate()
+        model = type("model", (self.__class__, ), {})
 
-        self.token = token
+        if "token" not in kwargs.keys():
+            kwargs["token"] = Token.email_generate()
+
+        for i in kwargs.keys():
+            if not i in model.__dict__.keys():
+                continue
+
+            setattr(self, i, kwargs[i])
+
         self.validty = time.time() + self.VALIDITY
 
     ##
