@@ -8,7 +8,7 @@
 !*.py
 
 ##
-!dataabase/casts/**/*.sql
+!database/casts/**/*.sql
 
 ##
 !templates/**/*.html
