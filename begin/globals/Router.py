@@ -40,3 +40,10 @@ def register(app:object, folder:str=DIR_PATH)->None:
 
         # print(module_name)
         module.register_app(app)
+
+def exists(app:object, path:str)->bool:
+    for i in app.url_map.iter_rules():
+        if i.rule == path or i.rule.split('<')[0] == path.split('<')[0]:
+            return True
+
+    return False

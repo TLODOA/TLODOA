@@ -1,0 +1,18 @@
+{% extends "../default/layout_1.html" %}
+
+{% style %}
+<link rel="stylesheet" href="{{ url_for("static", filename="style/error.css") }}">
+{% endblock %}
+
+{% block content_main %}
+<div class="ERROR">
+    <h1>
+        ERROR {% block error_name %}{% endblock %}
+    </h1>
+
+    <p>
+        {% block error_infos %}{% endblock %}
+    </p>
+
+</div>
+{% endblock %}

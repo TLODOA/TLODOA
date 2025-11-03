@@ -1,5 +1,5 @@
+from begin.globals import Cookie, Token, Router
 from begin.xtensions import *
-from begin.globals import Cookie
 
 from database import *
 
@@ -8,11 +8,15 @@ def register_app(app:object)->None:
 
     @app.before_request
     def before_request()->object|None:
-        from begin.globals import Token
-
         import time
 
         ##
+        if flask.request.path.startswith('/static'):
+            return
+
+        if not Router.exists(app, flask.request.path):
+            flask.abort(404)
+
         if not flask.request.path.startswith('/view'):
             return 
 
