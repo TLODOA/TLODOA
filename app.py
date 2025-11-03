@@ -17,7 +17,9 @@ SocketIO.socketio.init_app(app)
 
 ## Developer settings
 session_insert(IpInfos, ip='127.0.0.1')
+
 session_insert(UserCore, name='Lorax', email='abcd@gmail.com', password='admin', status=Status.OFFLINE)
+session_insert(UserInfos, userName='Lorax', description=UserInfos.DEFAULT_DESCRIPTION)
 
 ##
 if __name__ == "__main__":

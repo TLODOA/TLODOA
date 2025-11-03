@@ -47,10 +47,7 @@ def register_app(app:object)->None:
 
         #
         ipInfos = session_query(IpInfos, ip=user_addr)
-        # userToken = session_query(UserToken, ip=user_addr, userName=user_name, validity__gt=time.time(), field=UserToken.FIELD_AUTH)
-        userToken = session_query(UserToken, ip=user_addr, userName=user_name, validity__gt=time.time())
-
-        print(ipInfos, userToken)
+        userToken = session_query(UserToken, ip=user_addr, userName=user_name, validity__gt=time.time(), field=UserToken.FIELD_AUTH)
 
         #
         valid = False

@@ -14,26 +14,27 @@ CREATE INDEX "usercore_hashed_email_index" ON
     "UserCore"("hashed_email");
 CREATE TABLE "UserInfos"(
     "dek" CHAR(255) NOT NULL,
-    "User_name" CHAR(255) NOT NULL,
+    "hashed_userName" CHAR(255) NOT NULL,
+    "cipher_userName" VARCHAR(255) NOT NULL,
     "cipher_description" TEXT NULL,
+    "cipher_photoPath" TEXT NULL,
     "cipher_region" TEXT NULL,
-    "cipher_photoPath" VARCHAR(255) NULL,
-    "time_arrival" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-    "time_viewed_last" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-    "reputation" INTEGER NOT NULL
+    "time_arrival" DOUBLE PRECISION NOT NULL DEFAULT '0',
+    "time_viewed_last" DOUBLE PRECISION NOT NULL DEFAULT '0',
+    "reputation" INTEGER NOT NULL DEFAULT '0'
 );
-CREATE INDEX "userinfos_user_name_index" ON
-    "UserInfos"("User_name");
+CREATE INDEX "userinfos_hashed_username_index" ON
+    "UserInfos"("hashed_userName");
 ALTER TABLE
-    "UserInfos" ADD PRIMARY KEY("User_name");
+    "UserInfos" ADD PRIMARY KEY("hashed_userName");
 CREATE TABLE "UserCard"(
-    "User_name" CHAR(255) NOT NULL,
+    "hashed_userName" CHAR(255) NOT NULL,
     "balance" BIGINT NOT NULL
 );
-CREATE INDEX "usercard_user_name_index" ON
-    "UserCard"("User_name");
+CREATE INDEX "usercard_hashed_username_index" ON
+    "UserCard"("hashed_userName");
 ALTER TABLE
-    "UserCard" ADD PRIMARY KEY("User_name");
+    "UserCard" ADD PRIMARY KEY("hashed_userName");
 CREATE TABLE "UserToken"(
     "dek" CHAR(255) NOT NULL,
     "hashed_ip" CHAR(255) NOT NULL,
@@ -168,7 +169,7 @@ CREATE INDEX "bid_user_name_index" ON
 CREATE INDEX "bid_object_title_index" ON
     "Bid"("object_title");
 ALTER TABLE
-    "UserInfos" ADD CONSTRAINT "userinfos_user_name_foreign" FOREIGN KEY("User_name") REFERENCES "UserCore"("hashed_name");
+    "UserInfos" ADD CONSTRAINT "userinfos_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE
     "ObjectInfos" ADD CONSTRAINT "objectinfos_id_foreign" FOREIGN KEY("id") REFERENCES "ObjectCore"("hashed_id");
 ALTER TABLE
@@ -184,7 +185,7 @@ ALTER TABLE
 ALTER TABLE
     "Bid" ADD CONSTRAINT "bid_user_name_foreign" FOREIGN KEY("user_name") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE
-    "UserCard" ADD CONSTRAINT "usercard_user_name_foreign" FOREIGN KEY("User_name") REFERENCES "UserCore"("hashed_name");
+    "UserCard" ADD CONSTRAINT "usercard_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE
     "UserEmailCode" ADD CONSTRAINT "useremailcode_hashed_ip_foreign" FOREIGN KEY("hashed_ip") REFERENCES "IpInfos"("hashed_ip");
 ALTER TABLE

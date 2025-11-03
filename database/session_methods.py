@@ -211,9 +211,38 @@ def model_get(instance:object, *args)->tuple|None:
 
             values.append(value)
 
+        if not len(values):
+            values = [ None ]
+
         return tuple(values)
 
     except Exception as e:
         Messages.error("model_get", e)
+
+        return None
+
+
+def model_unwrap(instance:object)->dict|None:
+    try:
+        model = type("model", (instance.__class__, ), {})
+
+        field_cipher = FIELD_CIPHER(model)
+        field_hashed = FIELD_HASHED(model)
+
+        instance_unwrap = {}
+
+        #
+        for i in instance.__dict__.keys():
+            if i in field_hashed or i == '_sa_instance_state' or i == 'dek':
+                continue
+
+            key_name = i if not i in field_cipher else i.split('cipher_')[1]
+            instance_unwrap[key_name] = model_get(instance, i)[0]
+
+        return instance_unwrap
+
+    except Exception as e:
+        Messages.error('model_unwrap', e)
+        session.rollback()
 
         return None
