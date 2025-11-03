@@ -9,8 +9,8 @@ def database_create(engine:object)->object:
         sql = file.read()
 
     with engine.connect() as connection:
-        connection.execute(text(sql))
-        connection.commit()
+        for i in sql.split(';'):
+            connection.execute(text(i))
 
     metadata = MetaData()
     metadata.reflect(bind=engine)
@@ -34,7 +34,7 @@ def reset_database(Base:object, engine:object):
     # Base.metadata.create_all(engine)
 """
 
-engine = create_engine("postgresql://lorax:@localhost/tlodoadb", echo=True)
+engine = create_engine("sqlite:///data.db", echo=True)
 
 database_drop_tables(engine)
 Base = database_create(engine)
