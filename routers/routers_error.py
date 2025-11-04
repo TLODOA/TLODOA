@@ -1,4 +1,5 @@
 from begin.xtensions import *
+from werkzeug.exceptions import HTTPException
 
 ##
 def register_app(app:object)->None:
@@ -6,9 +7,16 @@ def register_app(app:object)->None:
     @app.errorhandler(Exception)
     def handler_error_generic(e)->object:
         response = {
-            "name": e.name,
-            "message": e.description,
-            "status_code": e.code
+            "name": "Internal Error",
+            "message": "Cool! The problem isn't you!",
+            "status_code": 0
         }
+
+        if isinstance(e, HTTPException) and e.code >= 400 and e.code < 500:
+            response = {
+                "name": e.name,
+                "message": e.description,
+                "status_code": e.code
+            }
 
         return flask.render_template('errors/ERROR.html', response=response)

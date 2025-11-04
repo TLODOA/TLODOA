@@ -42,8 +42,25 @@ def register(app:object, folder:str=DIR_PATH)->None:
         module.register_app(app)
 
 def exists(app:object, path:str)->bool:
-    for i in app.url_map.iter_rules():
-        if i.rule == path or i.rule.split('<')[0] == path.split('<')[0]:
-            return True
+    path_splited = re.split(r'<[^>]*>', path)
+    equal = False
 
-    return False
+    for i in app.url_map.iter_rules():
+        i_splited = re.split(r'<[^>]*>', i.rule)
+        print('rule_splited: ', i_splited)
+        print('path_splited: ', path_splited)
+
+        if len(path_splited) != len(i_splited):
+            continue
+
+        for i in range(len(path_splited)):
+            if path_splited[i] != i_splited[i]:
+                equal = False
+                break
+
+            equal = True
+
+        if equal:
+            break
+
+    return equal
