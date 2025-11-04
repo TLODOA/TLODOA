@@ -1,18 +1,26 @@
-{% extends "../default/layout_1.html" %}
+{% extends "/default/layout_1.html" %}
 
-{% style %}
-<link rel="stylesheet" href="{{ url_for("static", filename="style/error.css") }}">
+{% block style %}
+<link rel="stylesheet" href="{{ url_for("static", filename="style/ERROR.css") }}">
 {% endblock %}
 
 {% block content_main %}
 <div class="ERROR">
-    <h1>
-        ERROR {% block error_name %}{% endblock %}
-    </h1>
+    <div class="ERROR_title">
+        <h1>
+            ERROR {{ response.status_code }}
+        </h1>
+    </div>
 
-    <p>
-        {% block error_infos %}{% endblock %}
-    </p>
+    <div class="ERROR_content">
+        <h3>
+            {{ response.name }}
+        </h3>
+
+        <p>
+            {{ response.message }}
+        </p>
+    </div>
 
 </div>
 {% endblock %}

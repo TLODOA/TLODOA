@@ -1,0 +1,28 @@
+main{
+    display: flex;
+    justify-content: center;
+}
+
+h1{
+    font-size: 45px;
+}
+
+.ERROR{
+    /* background-color: red; */
+
+    width: 50vw;
+    height: 40vh;
+}
+
+.ERROR_title{
+    padding: 30px;
+}
+
+.ERROR_title > h1{
+    text-align: center;
+}
+
+.ERROR_content{
+    background-color: #7ed957;
+    padding: 20px;
+}
