@@ -3,8 +3,6 @@ def define(response:object, cookie_name:str, cookie_value:object, max_age:int=60
 
     ##
     cookie_value_dumps = serializer.dumps(cookie_value)
-    print(cookie_value)
-
     response.set_cookie(cookie_name, cookie_value_dumps, secure=True, httponly=True, max_age=max_age)
 
 def delete(response:object, cookie_name)->None:
