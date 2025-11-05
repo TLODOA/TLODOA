@@ -8,7 +8,7 @@ def register_app(app:object)->None:
     def handler_error_generic(e)->object:
         response = {
             "name": "Internal Error",
-            "message": "Cool! The problem isn't you!",
+            "message": "Cool! The problem isn't you!" + str(e),
             "status_code": 0
         }
 
