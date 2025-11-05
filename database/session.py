@@ -4,13 +4,15 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.ext.declarative import declarative_base
 
 ##
-def database_create(engine:object)->object:
-    with open('./database/casts/schema.sql', 'r') as file:
+def sqlite_database_create(engine:object)->object:
+    with open('./database/casts/schema_sqlite.sql', 'r') as file:
         sql = file.read()
 
     with engine.connect() as connection:
         for i in sql.split(';'):
             connection.execute(text(i))
+
+        connection.commit()
 
     metadata = MetaData()
     metadata.reflect(bind=engine)
@@ -18,26 +20,66 @@ def database_create(engine:object)->object:
     Base = declarative_base(metadata=metadata)
     return Base
 
-def database_drop_tables(engine:object)->None:
+def sqlite_database_drop_tables(engine:object)->None:
     metadata = MetaData()
     metadata.reflect(bind=engine)
 
     metadata.drop_all(engine)
 
+def sqlite_database_init()->None:
+    global engine
 
-"""
-def reset_database(Base:object, engine:object):
-    Base.metadata.drop_all(engine)
+    global Base
+    global session
+
+    #
+    engine = create_engine("sqlite:///tlodoadb.db", echo=True)
+
+    sqlite_database_drop_tables(engine)
+    Base = sqlite_database_create(engine)
+
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+
+def postgres_database_create(engine:object)->object:
+    with open('./database/casts/schema_postgres.sql', 'r') as file:
+        sql = file.read()
+
+    with engine.connect() as connection:
+        connection.execute(text(sql))
+        connection.commit()
+
+    metadata = MetaData()
+    metadata.reflect(bind=engine)
+
+    Base = declarative_base(metadata=metadata)
+    return Base
+
+def postgres_database_drop_tables(engine:object)->None:
+    metadata = MetaData()
+    metadata.reflect(bind=engine)
+
+    metadata.drop_all(engine)
+
+def postgres_database_init()->None:
+    global engine
+
+    global Base
+    global session
+
+    #
+    engine = create_engine("postgresql://lorax:@localhost/tlodoadb", echo=True)
+
+    postgres_database_drop_tables(engine)
+    Base = postgres_database_create(engine)
     
-    Base = automap_base()
-    Base.prepare(engine, reflect=True)
-    # Base.metadata.create_all(engine)
-"""
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
-engine = create_engine("sqlite:///data.db", echo=True)
+#
+engine, Base, session = None, None, None
 
-database_drop_tables(engine)
-Base = database_create(engine)
-
-Session = sessionmaker(bind=engine)
-session = Session()
+# Not run postgres ? Comment the below line and uncomment the next statement
+postgres_database_init()
+# sqlite_database_init()
