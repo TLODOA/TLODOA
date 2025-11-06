@@ -61,6 +61,70 @@ export class Time{
     }
 }
 
+// Layouts / CSS
+export class Layout_1{
+    constructor(){
+        this.TAGS_NAMES = [ ...(document.getElementsByTagName("*")) ];
+
+        this.ELEMENTS_BY_CLASS = {};
+        this.ELEMENTS_BY_TAG = {};
+        this.ELEMENT_BY_ID = {};
+
+        this.CLASS_ATTR_DEFAULT = {};
+
+        this.TAGS_NAMES.forEach( (i) => {
+            if(!(i.className in Object.keys(this.ELEMENTS_BY_CLASS)) && i.className){
+                this.ELEMENTS_BY_CLASS[i.className] = [ ...(document.getElementsByClassName(i.className)) ];
+                this.CLASS_ATTR_DEFAULT[i.className] = window.getComputedStyle(this.ELEMENTS_BY_CLASS[i.className][0]);
+            }
+
+            if(!(i.tagName in Object.keys(this.ELEMENTS_BY_TAG)) && i.tagName)
+                this.ELEMENTS_BY_TAG[i.tagName] = [ ...(document.getElementsByTagName(i.tagName)) ];
+
+            if(!(i.id in Object.keys(this.ELEMENT_BY_ID)) && i.id)
+                this.ELEMENT_BY_ID[i.id] = document.getElementById(i.id);
+        })
+
+        //
+        this.CSS_VARS = window.getComputedStyle(document.body);
+
+        //
+        this.resize_timeout;
+
+        window.addEventListener('resize', () => {
+            clearTimeout(this.resize_timeout);
+
+            this.resize_timeout = setTimeout(() =>{
+                this.resize();
+            }, 200);
+        });
+    }
+
+    get_css_var(var_name){
+        return this.CSS_VARS.getPropertyValue(var_name);
+    }
+
+    get_screen_ratio(){
+        return window.screen.width / window.screen.height;
+    }
+
+    resize(){}
+}
+
+export class Layout_3 extends Layout_1{
+    resize(){
+        const MAIN_1 = this.ELEMENT_BY_ID[this.MAIN_1_ID];
+        const MAIN_2 = this.ELEMENT_BY_ID[this.MAIN_2_ID];
+
+        const vp_ratio = this.get_css_var("--vp_ratio");
+
+        //
+        console.log(this.get_screen_ratio());
+    }
+}
+
+
+
 // MessageLogs
 export class MessageLogs{
     constructor(){

@@ -1,8 +1,12 @@
 {% extends "/default/layout_1.html" %}
 
+<!-- -->
 {% block style %}
 <link rel="stylesheet" href="{{ url_for("static", filename="style/ERROR.css") }}">
 {% endblock %}
+
+<!-- -->
+{% block title %}ERROR {{ response.status_code }} {% endblock %}
 
 {% block content_main %}
 <div class="ERROR">

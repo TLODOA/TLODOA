@@ -98,6 +98,7 @@ a {
     height: var(--user_data_input_get_height);
 }
 
+/* */
 .hd-buttons {
     display: flex;
     height: 75px;

@@ -15,6 +15,23 @@ main{
     align-items:center;
 }
 
+#main_1{
+    width: var(--main_1_width);
+    height: var(--main_1_height);
+
+    display: flex;
+    justify-content: center;
+}
+
+#main_2{
+    width: var(--main_2_width);
+    height: var(--main_2_height);
+
+    display: flex;
+    justify-content: center;
+
+}
+
 @media screen and (max-height: 880px){
     main {
         display: flex;
@@ -52,23 +69,6 @@ main{
 
         margin: 10px 0px 0px 0px;
     }
-
-}
-
-.main_1{
-    width: var(--main_1_width);
-    height: var(--main_1_height);
-
-    display: flex;
-    justify-content: center;
-}
-
-.main_2{
-    width: var(--main_2_width);
-    height: var(--main_2_height);
-
-    display: flex;
-    justify-content: center;
 
 }
 
