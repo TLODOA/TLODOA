@@ -3,27 +3,51 @@
 }
 
 /* */
-.user_infos_core{
-    display: flex;
-    justify-content: space-around;
-
-    align-items: center;
-    
+#user_infos_core{
     padding: 0px 10px 0px 10px;
 }
 
-.user_infos_core > div{
-    padding: 0px 10px 0px 10px;
+#user_infos_core > div{
+    padding: 10px;
 }
 
-.profile_photo{
-    width: 200px;
 
+#profile_photo{
     border-radius: 50%;
+
+    max-height: 100%;
 }
 
-.user_header{
+
+#user_header{
     height: 100%;
 
     display: grid;
+}
+
+#user_header > h1 {
+    text-align: center;
+}
+
+/* Expand */
+.user_infos_core_expand{
+    display: flex;
+    justify-content: space-around;
+
+    align-items:center;
+}
+
+
+.profile_photo_expand{
+    width: 50%;
+}
+
+/* Reduce */
+.user_infos_core_reduce{
+    display: grid;
+    align-content: flex-start;
+}
+
+.profile_photo_reduce{
+    width: 100%;
 }

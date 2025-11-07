@@ -1,9 +1,9 @@
 :root{
     --interface_left_width: 50%;
-    --interface_left_height: 75%;
+    --interface_left_height: 100%;
 
     --interface_right_width: 50%;
-    --interface_right_height: 75%;
+    --interface_right_height: 100%;
 
     /* */
     --main_1_width: 90%;

@@ -6,17 +6,19 @@
     <link rel="stylesheet" href="{{ url_for("static", filename="style/fonts.css") }}">
     <link rel="stylesheet" href="{{ url_for("static", filename="style/layout_1.css") }}">
 
+    <script src="{{ url_for("static", filename="script/layout/layout_1.js") }}" type="module" defer></script>
+
     <!--
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     -->
 
-    {% block style_system %}{% endblock %}
-    {% block style_page %}{% endblock %}
+    {% block system_style %}{% endblock %}
+    {% block system_javascript %}{% endblock %}
 
-    {% block javascript_page %}{% endblock %}
-    {% block javascript_system %}{% endblock %}
+    {% block page_style %}{% endblock %}
+    {% block page_javascript %}{% endblock %}
      
 </head>
 <body>

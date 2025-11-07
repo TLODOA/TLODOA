@@ -1,7 +1,7 @@
 {% extends "default/layout_4.html" %}
 
 <!-- -->
-{% block style_page %}
+{% block page_style %}
 <link href="{{ url_for("static", filename="style/user_page.css") }}" rel="stylesheet">
 {% endblock %}
 
@@ -11,10 +11,10 @@
 {% endblock %}
 
 {% block content_main_1 %}
-<div class="user_infos_core">
-    <img class="profile_photo" src="{{ url_for("static", filename=user["photoPath"]) }}">
+<div id="user_infos_core">
+    <img id="profile_photo" src="{{ url_for("static", filename=user["photoPath"]) }}">
 
-    <div class="user_header">
+    <div id="user_header">
         <h1>{{ user["userName"] }}</h1>
         <h3>{{ user["description"] }}</h3>
     </div>

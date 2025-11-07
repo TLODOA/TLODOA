@@ -1,7 +1,7 @@
 :root{
     --header_height: 120px;
 
-    --main_height: calc(100vh - var(--header_height));
+    --main_height: calc(100% - var(--header_height) - 50px);
 
     /* */
     --user_data_input_width: 500px;
