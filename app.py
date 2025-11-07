@@ -19,7 +19,7 @@ SocketIO.socketio.init_app(app)
 session_insert(IpInfos, ip='127.0.0.1')
 
 session_insert(UserCore, name='Lorax', email='abcd@gmail.com', password='admin', status=Status.OFFLINE)
-session_insert(UserInfos, userName='Lorax', description=UserInfos.DEFAULT_DESCRIPTION)
+session_insert(UserInfos, userName='Lorax', description=UserInfos.DEFAULT_DESCRIPTION, photoPath = UserInfos.DEFAULT_PHOTO_PATH)
 
 ##
 if __name__ == "__main__":

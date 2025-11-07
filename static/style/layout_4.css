@@ -55,6 +55,9 @@ main{
 
     width: var(--main_1_width);
     height: var(--main_1_height);
+
+    display: flex;
+    justify-content: space-between;
 }
 
 .main_2{
@@ -69,4 +72,10 @@ main{
 
     width: var(--main_3_width);
     height: var(--main_3_height);
+}
+
+
+.main_1, .main_2, .main_3{
+    padding: 10px;
+    margin: 5px;
 }

@@ -1,0 +1,29 @@
+.main_1{
+    overflow-x: scroll;
+}
+
+/* */
+.user_infos_core{
+    display: flex;
+    justify-content: space-around;
+
+    align-items: center;
+    
+    padding: 0px 10px 0px 10px;
+}
+
+.user_infos_core > div{
+    padding: 0px 10px 0px 10px;
+}
+
+.profile_photo{
+    width: 200px;
+
+    border-radius: 50%;
+}
+
+.user_header{
+    height: 100%;
+
+    display: grid;
+}

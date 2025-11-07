@@ -5,6 +5,7 @@ class UserInfos(Base):
     __tablename__ = "UserInfos"
 
     DEFAULT_DESCRIPTION = "Description not provide"
+    DEFAULT_PHOTO_PATH = "image/icons/profile/icon_profile_0.png"
 
     ##
     def __init__(self, **kwargs)->None:
