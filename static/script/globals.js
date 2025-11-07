@@ -61,6 +61,91 @@ export class Time{
     }
 }
 
+// Layouts / CSS
+export class Layout_1{
+    constructor(){
+        this.TAGS_NAMES = [ ...(document.getElementsByTagName("*")) ];
+
+        this.ELEMENTS_BY_CLASS = {};
+        this.ELEMENTS_BY_TAG = {};
+        this.ELEMENT_BY_ID = {};
+
+        this.CLASS_ATTR_DEFAULT = {};
+
+        this.TAGS_NAMES.forEach( (i) => {
+            if(!(i.className in Object.keys(this.ELEMENTS_BY_CLASS)) && i.className){
+                this.ELEMENTS_BY_CLASS[i.className] = [ ...(document.getElementsByClassName(i.className)) ];
+                this.CLASS_ATTR_DEFAULT[i.className] = window.getComputedStyle(this.ELEMENTS_BY_CLASS[i.className][0]);
+            }
+
+            if(!(i.tagName in Object.keys(this.ELEMENTS_BY_TAG)) && i.tagName)
+                this.ELEMENTS_BY_TAG[i.tagName.toLowerCase()] = [ ...(document.getElementsByTagName(i.tagName)) ];
+
+            if(!(i.id in Object.keys(this.ELEMENT_BY_ID)) && i.id)
+                this.ELEMENT_BY_ID[i.id] = document.getElementById(i.id);
+        })
+
+        //
+        this.CSS_VARS = window.getComputedStyle(document.body);
+
+        //
+        this.resize_timeout;
+
+        window.addEventListener('resize', () => {
+            clearTimeout(this.resize_timeout);
+
+            this.resize_timeout = setTimeout(() =>{
+                this.set_dynamic_classNames();
+            }, 200);
+        });
+    }
+
+    set_dynamic_classNames(){
+        const className_by_tagName= (element, suffix) => {
+            return `${element.tagName.toLowerCase()}_${suffix}`
+        };
+        const className_by_id = (element, suffix) => {
+            return `${element.id}_${suffix}`
+        };
+
+        //
+        const vp_ratio = this.get_screen_ratio();
+        const suffixes = [ "reduce", "expand" ];
+        const index = ( vp_ratio >= 1 ) + 0;
+
+        const suffix_remove = suffixes[!index + 0];
+        const suffix_add = suffixes[index];
+
+        //
+        for(const i of Object.keys(this.ELEMENTS_BY_TAG)){
+            this.ELEMENTS_BY_TAG[i].forEach((j) => {
+                j.classList.remove(className_by_tagName(j, suffix_remove));
+                j.classList.add(className_by_tagName(j, suffix_add));
+
+                if(!j.id)
+                    return;
+
+                j.classList.add(className_by_id(j, suffix_add));
+                j.classList.remove(className_by_id(j, suffix_remove));
+            });
+        }
+    }
+
+    get_css_var(var_name){
+        return this.CSS_VARS.getPropertyValue(var_name);
+    }
+
+    get_screen_ratio(){
+        return window.screen.width / window.screen.height;
+    }
+}
+
+export class Layout_2 extends Layout_1{}
+
+export class Layout_3 extends Layout_1{}
+
+export class Layout_4 extends Layout_1{}
+
 // MessageLogs
 export class MessageLogs{
     constructor(){

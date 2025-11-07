@@ -45,7 +45,6 @@ main{
 
 p, input[type="text"], a{
     font-family: Outfit;
-    font-size: 24px;
 }
 
 a {
@@ -53,6 +52,14 @@ a {
     text-decoration: none;
 }
 
+
+.p_expand, .a_expand{
+    font-size: 24px;
+}
+
+.p_reduce, .a_reduce{
+    font-size: 27px;
+}
 
 /* */
 .tlodoa_logo_1 img{
@@ -98,6 +105,7 @@ a {
     height: var(--user_data_input_get_height);
 }
 
+/* */
 .hd-buttons {
     display: flex;
     height: 75px;

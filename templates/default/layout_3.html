@@ -1,18 +1,22 @@
 {% extends "default/layout_1.html" %}
 
 <!-- --->
-{% block style %}
+{% block style_system %}
 <link href="{{ url_for("static", filename="style/layout_3.css") }}" rel="stylesheet">
+{% endblock %}
+
+{% block javascript_system %}
+<script src="{{ url_for("static", filename="script/layout/layout_3.js") }}" type="module" defer></script>
 {% endblock %}
 
 <!-- --->
 {% block content %}
 <main>
-    <section class="main_1">
+    <section id="main_1">
         {% block content_main_1 %}{% endblock %}
     </section>
 
-    <section class="main_2">
+    <section id="main_2">
         {% block content_main_2 %}{% endblock %}
     </section>
 </main>
