@@ -1,79 +1,34 @@
-:root{
-    /*
-    --main_1_width: 45%;
-    --main_1_height: 80%;
+.main_expand{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 
-    --main_2_width: 45%;
-    --main_2_height: 80%;
-    */
-
-    /* */
+    padding: 10px;
 }
 
-main{
-    justify-content: center;
-    align-items:center;
+.main_reduce{
+    display: grid;
+    align-content: start;
+
+    margin: 20px 0px 20px 0px;
 }
+
+.main_reduce > .section_reduce {
+    position: relative;
+
+    margin: 20px 0px 0px 0px;
+}
+
 
 #main_1{
-    width: var(--main_1_width);
-    height: var(--main_1_height);
-
     display: flex;
     justify-content: center;
 }
 
 #main_2{
-    width: var(--main_2_width);
-    height: var(--main_2_height);
-
     display: flex;
     justify-content: center;
 
-}
-
-@media screen and (max-height: 880px){
-    main {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-
-        height: var(--main_height);
-
-        padding: 10px;
-    }
-}
-
-@media screen and (min-height: 881px){
-    :root{
-        --main_1_width: auto;
-        --main_1_height: auto;
-
-        --main_2_width: auto;
-        --main_2_height: auto;
-
-        /* */
-        --user_data_input_width: 500px;
-        --user_data_input_height: 400px;
-    }
-
-    main{
-        display: grid;
-        align-content: start;
-
-        margin: 20px 0px 20px 0px;
-    }
-
-    main > section {
-        position: relative;
-
-        margin: 10px 0px 0px 0px;
-    }
-
-}
-
-input{
-    width:400px;
 }
 
 button{
