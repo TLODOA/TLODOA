@@ -4,9 +4,9 @@
     <title>{% block title %}{% endblock %}</title>
 
     <link rel="stylesheet" href="{{ url_for("static", filename="style/fonts.css") }}">
-    <link rel="stylesheet" href="{{ url_for("static", filename="style/layout_1.css") }}">
+    <link rel="stylesheet" href="{{ url_for("static", filename="style/layouts/layout_1.css") }}">
 
-    <script src="{{ url_for("static", filename="script/layout/layout_1.js") }}" type="module" defer></script>
+    <script src="{{ url_for("static", filename="script/layouts/layout_1.js") }}" type="module" defer></script>
 
     <!--
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,8 +27,17 @@
     <header>
         {% if not "user_name" in request.cookies %}
             <div class="user_auth">
-                <a href="{{ url_for("login_display") }}">login</a>
-                <a href="{{ url_for("sign_display") }}">sign</a>
+                <a href="{{ url_for("login_display") }}">
+                    <h3 class="btn">
+                        Login
+                    </h3>
+                </a>
+
+                <a href="{{ url_for("sign_display") }}">
+                    <h3 class="btn">
+                        Sign
+                    </h3>
+                </a>
             </div>
 
             <div class="tlodoa_banner_1">
@@ -41,7 +50,7 @@
                 </a>
             </div>
 
-            <div class="hd-buttons">
+            <div class="user_auth">
                 <a href="{{ url_for("view_user_card", token="1234") }}">
                     <h3 class="btn">
                         {{ session.user_card }} Bitc
@@ -56,7 +65,7 @@
 
                 <a href="{{ url_for("logout_auth") }}">
                     <h3 class="btn btn_exit">
-                        logout
+                        Logout
                     </h3>
                 </a>
             </div>

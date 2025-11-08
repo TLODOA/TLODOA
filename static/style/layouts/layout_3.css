@@ -1,0 +1,31 @@
+#main_1{
+    display: flex;
+    justify-content: center;
+}
+
+#main_2{
+    display: flex;
+    justify-content: center;
+
+}
+
+/* Expand */
+.expand__main{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    padding: 10px;
+}
+
+/* Reduce */
+.reduce__main{
+    display: grid;
+    align-content: start;
+
+    margin: 20px 0px 20px 0px;
+}
+
+.reduce__main > .reduce__section {
+    margin: 20px 0px 0px 0px;
+}

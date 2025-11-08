@@ -30,53 +30,54 @@
 #user_header > h3 {
     padding: 10px;
     overflow-y: scroll;
+    max-height: 200px;
 
     background-color: var(--block_slide_2_color);
 }
 
 /* Expand */
-.user_infos_core_expand{
+.expand__user_infos_core{
     display: flex;
     justify-content: space-between;
 
     align-items:center;
 }
 
-.profile_photo_expand{
+.expand__profile_photo{
     width: 50%;
 }
 
-.user_header_expand{
+.expand__user_header{
     display: grid;
-    align-items: center;
+    grid-template-rows: 60px calc(100% - 60px);
 
     width: 50%;
     margin: 0px 0px 0px 30px;
 }
 
-.user_header_expand > h3{
-    height: 70%;
+.expand__user_header > h3{
     margin: 0px 10px 0px 10px;
 }
 
 /* Reduce */
-.user_infos_core_reduce{
+.reduce__user_infos_core{
     display: grid;
-    justify-content: flex-start;
+    grid-template-rows: 50% 50%;
 }
 
-.profile_photo_reduce{
+.reduce__profile_photo{
     width: 100%;
+    margin: 20px 0px 0px 0px;
 }
 
-.user_header_reduce{
+.reduce__user_header{
     display: grid;
-    align-items: center;
+    grid-template-rows: 20% 80%;
 
     width: 100%;
-    margin: 30px 0px 0px 0px;
+    margin: 30px 0px 30px 0px;
 }
 
-.user_header_reduce > h3{
+.reduce__user_header > h3{
     margin: 10px 0px 10px 0px;
 }

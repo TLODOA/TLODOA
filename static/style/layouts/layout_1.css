@@ -4,9 +4,6 @@
     --main_height: calc(100% - var(--header_height) - 50px);
 
     /* */
-    --user_data_input_width: 400px;
-    --user_data_input_height: 400px;
-
     --user_data_input_get_height: 250px;
 
     --input_width: 80%;
@@ -55,7 +52,8 @@ a {
     text-decoration: none;
 }
 
-p{
+/* */
+p, input[type="text"]{
     font-size: 1em;
 }
 
@@ -84,9 +82,9 @@ h6{
 }
 
 
-/* */
+/* Banner */
 .tlodoa_banner_1 img{
-    width: 90px;
+    width: 120px;
     
 }
 
@@ -94,47 +92,35 @@ h6{
     width: 420px;
 }
 
-/* */
-.user_auth > a {
-    background-color: blue;
-    padding: 20px;
-    margin: 5px;
-
-    color: white;
+/* User auth / User input */
+.user_auth {
+    display: flex;
+    justify-content: space-between;
 }
 
 .user_data_input{
-    padding: 5px 20px 5px 20px;
-
-    background-color: ;
-
-    width: var(--user_data_input_width);
-    height: var(--user_data_input_height);
-
     display: grid;
     align-items: center;
 
+    background-color: var(--block_slide_1_color);
+
+    padding: 30px;
     border-radius: 25px;
 }
 
 .user_data_input_get input{
-    padding: 5px;
-    margin: 0px 0px 5px 0px;
+    padding: 12px;
+    margin: 0px 0px 15px 0px;
+    border-radius: 5px;
 
-    width: var(--input_width);
+    width: 90%;
 }
 
 .user_data_input_get{
     height: var(--user_data_input_get_height);
 }
 
-/* */
-.hd-buttons {
-    display: flex;
-    height: 75px;
-    width: auto;
-}
-
+/* Buttons */
 .btn {
     background-color: rgb(25, 25, 150);
     padding: 25px;
@@ -163,11 +149,23 @@ h6{
 }
 
 /* Expand */
-.body_expand{
+.expand__body{
     font-size: 17px !important;
 }
 
+.expand__user_data_input{
+    width: 400px;
+    height: 400px;
+
+    padding: 5px 20px 5px 20px;
+}
+
 /* Reduce */
-.body_reduce{
-    font-size: 20px !important;
+.reduce__body{
+    font-size: 22px !important;
+}
+
+.reduce__user_data_input{
+    height: 500px;
+    width: 450px;
 }
