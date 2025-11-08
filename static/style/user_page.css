@@ -1,5 +1,8 @@
-.main_1{
+.main_1, .main_2, .main_3{
+    background-color: var(--block_1_color);
     overflow-x: scroll;
+
+    border-radius: 5px;
 }
 
 /* User portfolio */
@@ -34,18 +37,19 @@
     padding: 10px;
     overflow-y: scroll;
     max-height: 200px;
+
+    background-color: var(--block_2_color);
+
+    font-weight: normal;
 }
 
 /* User Infos */
 .user_infos_core{
-    height: 100%;
-    width: 100%;
+    height: calc(100% - 20px);
+    width: calc(100% - 20px);
+    padding: 10px;
 
     overflow-y: scroll;
-}
-
-.infos{
-    padding: 10px;
 }
 
 .infos > ul{
@@ -54,10 +58,25 @@
 }
 
 .infos > ul > li{
-    padding: 5px;
-    background-color: white;
+    padding: 10px;
+    background-color: var(--block_2_color);
+}
 
-    border-radius: 10px;
+/* User activity */
+.user_activity{
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+
+    padding: 10px;
+}
+
+.activity > ul { 
+    margin: 10px 0px 0px 0px;
+    list-style-type: none;
+
+    padding: 10px;
+
+    background-color: var(--block_2_color);
 }
 
 /* Expand */
@@ -85,7 +104,7 @@
 }
 
 .expand__infos > ul > li{
-    margin: 5px 0px 5px 0px;
+    margin: 0px 0px 10px 0px;
 }
 
 
@@ -113,5 +132,5 @@
 }
 
 .reduce__infos > ul > li{
-    margin: 10px 0px 10px 0px;
+    margin: 0px 0px 20px 0px;
 }

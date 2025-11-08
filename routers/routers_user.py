@@ -25,7 +25,9 @@ def register_app(app:object)->None:
                 "infos": {
                     "Last connection": f"{ time.strftime("%d/%m/%Y, %H:%M:%S", time_viewed_last) } ",
                     "Here since": f"{ time.strftime("%A, %B %d, %Y %H:%M:%S GMT%Z", time_arrival) }"
-                }
+                },
+
+                "activity": []
             }
 
             return flask.render_template('user_page.html', user=user_data)

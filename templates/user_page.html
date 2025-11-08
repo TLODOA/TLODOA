@@ -20,7 +20,7 @@
                 {{ user["userName"] }}
             </h1>
 
-            <h3 class="block_2_generic">
+            <h3>
                 {{ user["description"] }}
             </h3>
         </div>
@@ -35,15 +35,37 @@
     <div class="infos">
         <ul>
         {% for i in user["infos"].keys() %}
-            <li>
-                <p>
-                    <b>{{ i }}</b>: {{ user["infos"][i] }} 
-                </p>
-            </li>
+        <li>
+            <p>
+                <b>{{ i }}</b>: {{ user["infos"][i] }} 
+            </p>
+        </li>
         {% endfor %}
+
         </ul>
-
     </div>
+</div>
+{% endblock %}
 
+{% block content_main_2 %}
+<div class="user_activity block_1_generic">
+    <div class="activity">
+        <h2>User Activity</h2>
+
+        <ul>
+            {% for i in user["activity"] %}
+            <li>
+                <p> {{ i }} </p>
+            </li>
+            {% endfor %}
+
+            {% if not user["activity"] %}
+            <li>
+                <p> This user doesn't have activity </p>
+            </li>
+            {% endif %}
+
+        </ul>
+    </div>
 </div>
 {% endblock %}
