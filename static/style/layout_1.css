@@ -4,17 +4,24 @@
     --main_height: calc(100% - var(--header_height) - 50px);
 
     /* */
-    --user_data_input_width: 500px;
+    --user_data_input_width: 400px;
     --user_data_input_height: 400px;
 
     --user_data_input_get_height: 250px;
 
     --input_width: 80%;
+
+    /* */
+    --block_slide_1_color: #7ed957;
+    --block_slide_2_color: #ffde59;
 }
 
 /* */
-*{
+html *{
     margin: 0px;
+
+    font-size: 1em;
+    font-family: Outfit !important;
 }
 
 body{
@@ -43,23 +50,39 @@ main{
     height: var(--main_height);
 }
 
-p, input[type="text"], a{
-    font-family: Outfit;
-}
-
 a {
     color: white;
     text-decoration: none;
 }
 
-
-.p_expand, .a_expand, input[type="text"]{
-    font-size: 24px;
+p{
+    font-size: 1em;
 }
 
-.p_reduce, .a_reduce{
-    font-size: 27px;
+h1{
+    font-size: 2em;
 }
+
+h2{
+    font-size: 1.5em;
+}
+
+h3{
+    font-size: 1.17em;
+}
+
+h4{
+    font-size: 1.33em;
+}
+
+h5{
+    font-size:  1.67em;
+}
+
+h6{
+    font-size: 2.33em
+}
+
 
 /* */
 .tlodoa_banner_1 img{
@@ -77,13 +100,13 @@ a {
     padding: 20px;
     margin: 5px;
 
-    color:white;
+    color: white;
 }
 
 .user_data_input{
     padding: 5px 20px 5px 20px;
 
-    background-color: #7ed957;
+    background-color: ;
 
     width: var(--user_data_input_width);
     height: var(--user_data_input_height);
@@ -122,7 +145,7 @@ a {
 
 .btn_exit {
     padding: 25px;
-    background-color: #7ed957;
+    background-color: var(--block_slide_1_color);
     box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -137,4 +160,14 @@ a {
     justify-content: center;
 
     background-color: green;
+}
+
+/* Expand */
+.body_expand{
+    font-size: 17px !important;
+}
+
+/* Reduce */
+.body_reduce{
+    font-size: 20px !important;
 }
