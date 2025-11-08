@@ -3,8 +3,11 @@
 }
 
 /* User portfolio */
-.user_portfolio{
-    padding: 10px;
+.portfolio{
+    height: 100%;
+    width: 100%;
+
+    overflow-y: scroll;
 }
 
 .profile_photo{
@@ -34,10 +37,31 @@
 }
 
 /* User Infos */
-.user_infos_core{}
+.user_infos_core{
+    height: 100%;
+    width: 100%;
+
+    overflow-y: scroll;
+}
+
+.infos{
+    padding: 10px;
+}
+
+.infos > ul{
+    list-style-type: none;
+    padding: 0px;
+}
+
+.infos > ul > li{
+    padding: 5px;
+    background-color: white;
+
+    border-radius: 10px;
+}
 
 /* Expand */
-.expand__user_portfolio{
+.expand__portfolio{
     display: flex;
     justify-content: space-between;
 
@@ -60,8 +84,13 @@
     margin: 0px 10px 0px 10px;
 }
 
+.expand__infos > ul > li{
+    margin: 5px 0px 5px 0px;
+}
+
+
 /* Reduce */
-.reduce__user_portfolio{
+.reduce__portfolio{
     display: grid;
     grid-template-rows: 50% 50%;
 }
@@ -80,5 +109,9 @@
 }
 
 .reduce__user_header > h3{
+    margin: 10px 0px 10px 0px;
+}
+
+.reduce__infos > ul > li{
     margin: 10px 0px 10px 0px;
 }

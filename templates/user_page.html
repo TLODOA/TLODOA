@@ -12,16 +12,37 @@
 
 {% block content_main_1 %}
 <div class="user_portfolio block_1_generic">
-    <img class="profile_photo" src="{{ url_for("static", filename=user["photoPath"]) }}">
+    <div class="portfolio">
+        <img class="profile_photo" src="{{ url_for("static", filename=user["photoPath"]) }}">
 
-    <div class="user_header">
-        <h1>
-            {{ user["userName"] }}
-        </h1>
+        <div class="user_header">
+            <h1>
+                {{ user["userName"] }}
+            </h1>
 
-        <h3 class="block_2_generic">
-            {{ user["description"] }}
-        </h3>
+            <h3 class="block_2_generic">
+                {{ user["description"] }}
+            </h3>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block content_main_3 %}
+<div class="user_infos_core block_1_generic">
+    <div class="infos">
+        <ul>
+        {% for i in user["infos"].keys() %}
+            <li>
+                <p>
+                    <b>{{ i }}</b>: {{ user["infos"][i] }} 
+                </p>
+            </li>
+        {% endfor %}
+        </ul>
+
     </div>
 
 </div>
