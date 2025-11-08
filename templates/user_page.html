@@ -11,12 +11,17 @@
 {% endblock %}
 
 {% block content_main_1 %}
-<div id="user_infos_core">
-    <img id="profile_photo" src="{{ url_for("static", filename=user["photoPath"]) }}">
+<div class="user_portfolio block_1_generic">
+    <img class="profile_photo" src="{{ url_for("static", filename=user["photoPath"]) }}">
 
-    <div id="user_header">
-        <h1>{{ user["userName"] }}</h1>
-        <h3>{{ user["description"] }}</h3>
+    <div class="user_header">
+        <h1>
+            {{ user["userName"] }}
+        </h1>
+
+        <h3 class="block_2_generic">
+            {{ user["description"] }}
+        </h3>
     </div>
 
 </div>

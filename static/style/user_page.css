@@ -2,12 +2,12 @@
     overflow-x: scroll;
 }
 
-/* */
-#user_infos_core{
-    padding: 0px 10px 0px 10px;
+/* User portfolio */
+.user_portfolio{
+    padding: 10px;
 }
 
-#profile_photo{
+.profile_photo{
     border-radius: 50%;
 
     min-width: 100px;
@@ -19,24 +19,25 @@
     object-fit: cover;
 }
 
-#user_header{
+.user_header{
     height: 100%;
 }
 
-#user_header > h1 {
+.user_header > h1 {
     text-align: center;
 }
 
-#user_header > h3 {
+.user_header > h3 {
     padding: 10px;
     overflow-y: scroll;
     max-height: 200px;
-
-    background-color: var(--block_slide_2_color);
 }
 
+/* User Infos */
+.user_infos_core{}
+
 /* Expand */
-.expand__user_infos_core{
+.expand__user_portfolio{
     display: flex;
     justify-content: space-between;
 
@@ -60,7 +61,7 @@
 }
 
 /* Reduce */
-.reduce__user_infos_core{
+.reduce__user_portfolio{
     display: grid;
     grid-template-rows: 50% 50%;
 }
