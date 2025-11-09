@@ -19,6 +19,7 @@ def register_app(app:object)->None:
 
             user_data = {
                 "userName": userInfos["userName"],
+                "nickname": userInfos["nickname"],
                 "description": userInfos["description"],
                 "photoPath": userInfos["photoPath"],
 
@@ -29,7 +30,7 @@ def register_app(app:object)->None:
 
                 "activity": [],
 
-                "is_user": Cookie.get("user_name") == userInfos["userName"]
+                "is_same": Cookie.get("user_name") == userInfos["userName"]
             }
 
             return flask.render_template('user_page.html', user=user_data)
@@ -44,8 +45,15 @@ def register_app(app:object)->None:
 
         return flask.redirect(flask.url_for("view_user_infos", user_name=user_name))
 
-
     @app.route('/view/user/<token>/card')
     def view_user_card(token:str)->object:
 
         return "Building..."
+
+    ##
+    @app.route('/user/profile/edit', methods=['POST'])
+    def user_profile_edit()->object:
+        form_json = flask.request.json
+        user_name = Cookie.get("user_name")
+
+        return flask.jsonify({})

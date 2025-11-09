@@ -226,7 +226,7 @@ export class UserPage {
         this.BUTT_EDIT_PROFILE_OK = ELEMENT_BY_ID["userPage_button_edit_profile_ok"]
         
         this.FIELD_PORTFOLIO = ELEMENT_BY_ID["portfolio"]
-        this.FIELD_USER_NAME = ELEMENT_BY_ID["userName"];
+        this.FIELD_USER_NICK = ELEMENT_BY_ID["nickname"];
         this.FIELD_USER_ABOUT = ELEMENT_BY_ID["userAbout"];
     }
 

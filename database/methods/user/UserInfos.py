@@ -6,7 +6,7 @@ class UserInfos(Base):
 
     DEFAULT_description = "Description not provide"
     DEFAULT_photoPath = "image/icons/profile/icon_profile_0.png"
-    DEFAULT_nickname = 'Lorax'
+    DEFAULT_nickname = "Nickname not provide"
 
     ##
     def __init__(self, **kwargs)->None:

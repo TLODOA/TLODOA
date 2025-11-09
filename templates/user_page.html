@@ -20,17 +20,18 @@
         <img class="profile_photo" src="{{ url_for("static", filename=user["photoPath"]) }}">
 
         <div class="user_header">
-            {% if not user["is_user"] %}
-            <h1>
-                {{ user["userName"] }}
-            </h1>
+            <div class="user_header_bar">
+                <div class="user_name_and_nick">
+                    <h1>
+                        {{ user["userName"] }}
+                    </h1>
 
-            {% else %}
-            <div class="portfolio_bar">
-                <h1 id="userName">
-                    {{ user["userName"] }}
-                </h1>
+                    <h4 id="nickname">
+                        <u>{{ user["nickname"] }}</u>
+                    </h4>
+                </div>
 
+                {% if user["is_same"] %}
                 <button id="userPage_button_edit_profile">
                     <img src="{{ url_for("static", filename="image/icons/setting/setting.png") }}">
                 </button>
@@ -38,8 +39,8 @@
                 <button id="userPage_button_edit_profile_ok">
                     <h2>OK</h2>
                 </button>
+                {% endif %}
             </div>
-            {% endif %}
 
             <h3 id="userAbout">
                 {{ user["description"] }}

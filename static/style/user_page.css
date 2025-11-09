@@ -13,20 +13,9 @@
     overflow-y: scroll;
 }
 
-.portfolio_bar{
+.user_header_bar{
     display: flex;
     justify-content: space-between;
-}
-
-.portfolio_bar > button {
-    background-color: transparent;
-    border: none;
-
-    height: 50px;
-}
-
-.portfolio_bar > button > img{
-    height: 100%;
 }
 
 /* Portfolio buttons */
@@ -64,6 +53,22 @@
     background-color: var(--block_2_color);
 
     font-weight: normal;
+}
+
+.user_header_bar> button {
+    background-color: transparent;
+    border: none;
+
+    height: 50px;
+}
+
+.user_header_bar > button > img{
+    height: 100%;
+}
+
+.user_name_and_nick > h4{
+    position: relative;
+    bottom: 10px;
 }
 
 /* User Infos */
@@ -116,7 +121,7 @@
 
 .expand__user_header{
     display: grid;
-    grid-template-rows: 60px calc(100% - 60px);
+    grid-template-rows: 80px calc(100% - 80px);
 
     width: 50%;
     margin: 0px 0px 0px 30px;
@@ -144,10 +149,10 @@
 
 .reduce__user_header{
     display: grid;
-    grid-template-rows: 20% 80%;
+    grid-template-rows: 80px calc(100% - 80px);
 
     width: 100%;
-    margin: 30px 0px 30px 0px;
+    margin: 0px 0px 30px 0px;
 }
 
 .reduce__user_header > h3{

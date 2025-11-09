@@ -165,7 +165,7 @@ def register_app(app:object)->None:
         
         ##
         session_insert(UserCore, name=user_name, email=user_email, password=user_password, status=Status.OFFLINE)
-        session_insert(UserInfos, userName=user_name, description=UserInfos.DEFAULT_DESCRIPTION, photoPath = UserInfos.DEFAULT_PHOTO_PATH)
+        session_insert(UserInfos, userName=user_name, nickname=user_name)
 
         session_delete(userEmail)
 

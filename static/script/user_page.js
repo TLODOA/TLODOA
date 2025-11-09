@@ -2,26 +2,27 @@ import * as global from './globals.js'
 
 //
 const userPage = new global.UserPage();
+const logs = new global.MessageLogs();
 
 userPage.CLICK_BUTT_EDIT_PROFILE = (e) => {
     e.preventDefault();
 
     //
-    const form = userPage.replace_element_for(userPage.FIELD_PORTFOLIO, {
+    userPage.replace_element_for(userPage.FIELD_PORTFOLIO, {
         tag: "form",
 
-        method: "GET",
+        method: "POST",
         innerHTML: userPage.FIELD_PORTFOLIO.innerHTML.trim()
     });
 
-    const input_userName = userPage.replace_element_for(userPage.FIELD_USER_NAME, {
+    userPage.replace_element_for(userPage.FIELD_USER_NICK, {
         tag: "input",
 
         name: "user_name",
-        value: userPage.FIELD_USER_NAME.textContent.trim()
+        value: userPage.FIELD_USER_NICK.textContent.trim()
     });
 
-    const input_userAbout = userPage.replace_element_for(userPage.FIELD_USER_ABOUT, {
+    userPage.replace_element_for(userPage.FIELD_USER_ABOUT, {
         tag: "input",
 
         name: "user_about",
@@ -38,19 +39,33 @@ userPage.CLICK_BUTT_EDIT_PROFILE_OK = (e) => {
 
     //
     const form_data = Object.fromEntries(new FormData(userPage.FIELD_PORTFOLIO))
-    console.log(form_data);
 
-    const portfolio = userPage.replace_element_for(userPage.FIELD_PORTFOLIO, {
+    fetch('/user/profile/edit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+
+        body: JSON.stringify(form_data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    });
+
+    //
+    userPage.replace_element_for(userPage.FIELD_PORTFOLIO, {
         tag: "div",
         innerHTML: userPage.FIELD_PORTFOLIO.innerHTML.trim()
     });
 
-    const userName = userPage.replace_element_for(userPage.FIELD_USER_NAME, {
-        tag: "h1",
-        textContent: form_data["user_name"]
+    userPage.replace_element_for(userPage.FIELD_USER_NICK, {
+        tag: "h4",
+        innerHTML: `
+        <u>
+            ${form_data["user_name"]}
+        </u>`
     });
 
-    const userAbout = userPage.replace_element_for(userPage.FIELD_USER_ABOUT, {
+    userPage.replace_element_for(userPage.FIELD_USER_ABOUT, {
         tag: "h3",
         textContent: form_data["user_about"]
     });
