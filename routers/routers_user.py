@@ -27,7 +27,9 @@ def register_app(app:object)->None:
                     "Here since": f"{ time.strftime("%A, %B %d, %Y %H:%M:%S GMT%Z", time_arrival) }"
                 },
 
-                "activity": []
+                "activity": [],
+
+                "is_user": Cookie.get("user_name") == userInfos["userName"]
             }
 
             return flask.render_template('user_page.html', user=user_data)

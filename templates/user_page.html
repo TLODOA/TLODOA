@@ -5,6 +5,10 @@
 <link href="{{ url_for("static", filename="style/user_page.css") }}" rel="stylesheet">
 {% endblock %}
 
+{% block page_javascript %}
+<script src="{{ url_for("static", filename="script/user_page.js") }}" type="module" defer></script>
+{% endblock %}
+
 <!-- -->
 {% block title %}
 {{ user["userName"] }}
@@ -12,15 +16,32 @@
 
 {% block content_main_1 %}
 <div class="user_portfolio block_1_generic">
-    <div class="portfolio">
+    <div class="portfolio" id="portfolio">
         <img class="profile_photo" src="{{ url_for("static", filename=user["photoPath"]) }}">
 
         <div class="user_header">
+            {% if not user["is_user"] %}
             <h1>
                 {{ user["userName"] }}
             </h1>
 
-            <h3>
+            {% else %}
+            <div class="portfolio_bar">
+                <h1 id="userName">
+                    {{ user["userName"] }}
+                </h1>
+
+                <button id="userPage_button_edit_profile">
+                    <img src="{{ url_for("static", filename="image/icons/setting/setting.png") }}">
+                </button>
+
+                <button id="userPage_button_edit_profile_ok">
+                    <h2>OK</h2>
+                </button>
+            </div>
+            {% endif %}
+
+            <h3 id="userAbout">
                 {{ user["description"] }}
             </h3>
         </div>

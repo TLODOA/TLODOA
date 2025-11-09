@@ -13,6 +13,29 @@
     overflow-y: scroll;
 }
 
+.portfolio_bar{
+    display: flex;
+    justify-content: space-between;
+}
+
+.portfolio_bar > button {
+    background-color: transparent;
+    border: none;
+
+    height: 50px;
+}
+
+.portfolio_bar > button > img{
+    height: 100%;
+}
+
+/* Portfolio buttons */
+#userPage_button_edit_profile_ok{
+    display: none;
+}
+
+/* */
+
 .profile_photo{
     border-radius: 50%;
 

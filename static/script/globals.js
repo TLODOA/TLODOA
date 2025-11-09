@@ -185,38 +185,92 @@ export class MessageLogs{
 // login.html
 export class Login {
     constructor(){
-        this.FORM_EMAIL_ID = 'login_form_email';
-        this.FORM_PASSWORD_ID = 'login_form_password';
+        const page_layout = new Layout_1();
+        const ELEMENT_BY_ID = page_layout.ELEMENT_BY_ID;
 
-        this.FORM_EMAIL = document.getElementById(this.FORM_EMAIL_ID);
-        this.FORM_PASSWORD = document.getElementById(this.FORM_PASSWORD_ID);
+        this.FORM_EMAIL = ELEMENT_BY_ID['login_form_email'];
+        this.FORM_PASSWORD = ELEMENT_BY_ID['login_form_password'];
 
-        //
-        this.BUTT_EMAIL_CODE_GET_ID = 'login_button_email_code_get';
-        this.BUTT_FINISH_ID = 'login_button_finish';
-
-
-        this.BUTT_EMAIL_CODE_GET = document.getElementById(this.BUTT_EMAIL_CODE_GET_ID);
-        this.BUTT_FINISH = document.getElementById(this.BUTT_FINISH_ID);
+        this.BUTT_EMAIL_CODE_GET = ELEMENT_BY_ID['login_button_email_code_get'];
+        this.BUTT_FINISH = ELEMENT_BY_ID['login_button_finish'];
     }
 }
 
 // sign.html
 export class Sign {
     constructor(){
-        this.FORM_EMAIL_ID  ='sign_form_email';
-        this.FORM_PASSWORD_ID = 'sign_form_password';
+        const page_layout = new Layout_1();
+        const ELEMENT_BY_ID = page_layout.ELEMENT_BY_ID;
 
+        this.FORM_EMAIL = ELEMENT_BY_ID['sign_form_email'];
+        this.FORM_PASSWORD = ELEMENT_BY_ID['sign_form_password'];
 
-        this.FORM_EMAIL = document.getElementById(this.FORM_EMAIL_ID);
-        this.FORM_PASSWORD = document.getElementById(this.FORM_PASSWORD_ID);
+        this.BUTT_EMAIL_CODE_GET = ELEMENT_BY_ID['sign_button_email_code_get'];
+        this.BUTT_FINISH = ELEMENT_BY_ID['sign_button_finish'];
+    }
+}
+
+// user_page.html
+export class UserPage {
+    constructor(){
+        const page_layout = new Layout_1();
+        const ELEMENT_BY_ID = page_layout.ELEMENT_BY_ID;
 
         //
-        this.BUTT_EMAIL_CODE_GET_ID = 'sign_button_email_code_get';
-        this.BUTT_FINISH = 'sign_button_finish';
+        this.CLICK_BUTT_EDIT_PROFILE = null;
+        this.CLICK_BUTT_EDIT_PROFILE_OK = null;
+        
+        this.eventListeners = null;
 
+        this.BUTT_EDIT_PROFILE = ELEMENT_BY_ID["userPage_button_edit_profile"];
+        this.BUTT_EDIT_PROFILE_OK = ELEMENT_BY_ID["userPage_button_edit_profile_ok"]
+        
+        this.FIELD_PORTFOLIO = ELEMENT_BY_ID["portfolio"]
+        this.FIELD_USER_NAME = ELEMENT_BY_ID["userName"];
+        this.FIELD_USER_ABOUT = ELEMENT_BY_ID["userAbout"];
+    }
 
-        this.BUTT_EMAIL_CODE_GET = document.getElementById(this.BUTT_EMAIL_CODE_GET_ID);
-        this.BUTT_FINISH = document.getElementById(this.BUTT_FINISH);
+    init_eventListeners(){
+        this.eventListeners = [
+            {type: "click", func: this.CLICK_BUTT_EDIT_PROFILE, to:"BUTT_EDIT_PROFILE"},
+            {type: "click", func: this.CLICK_BUTT_EDIT_PROFILE_OK, to:"BUTT_EDIT_PROFILE_OK"}
+        ]
+
+        for(const i of this.eventListeners){
+            this[i.to].addEventListener(i.type, i.func)
+        }
+    }
+
+    //
+    replace_element_for(element, flags) {
+        const instance = document.createElement(flags["tag"]);
+        instance.id = element.id;
+        instance.classList = element.classList;
+
+        for(const i of Object.keys(flags)){
+            instance[i] = flags[i];
+        }
+
+        //
+        element.replaceWith(instance);
+        this.attr_reload();
+    }
+
+    attr_reload() {
+        const page_layout = new Layout_1();
+        const ELEMENT_BY_ID = page_layout.ELEMENT_BY_ID;
+
+        for(const i of Object.keys(this)){
+            if(!this[i] || !(this[i].id))
+                continue;
+
+            if(!(this[i].id in ELEMENT_BY_ID))
+                continue;
+
+            this[i] = ELEMENT_BY_ID[this[i].id]
+        }
+
+        for(const i of this.eventListeners)
+            this[i.to].addEventListener(i.type, i.func);
     }
 }
