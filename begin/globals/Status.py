@@ -1,4 +1,0 @@
-ONLINE = 0
-OFFLINE = 1
-
-DEAD = -1

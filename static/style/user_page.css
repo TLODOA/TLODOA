@@ -5,6 +5,7 @@
     border-radius: 5px;
 }
 
+
 /* User portfolio */
 .portfolio{
     height: 100%;
@@ -23,7 +24,23 @@
     display: none;
 }
 
-/* */
+#userPage_button_edit_profile, #userPage_button_edit_profile_ok{
+    background-color: transparent;
+    border: none;
+
+    height: 100%;
+    width: 87px;
+}
+
+#userPage_button_edit_profile > img{
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
+/* Other elmenents of portfolio... */
 
 .profile_photo{
     border-radius: 50%;
@@ -45,7 +62,30 @@
     text-align: center;
 }
 
-.user_header > h3 {
+.user_header input {
+    background-color: white !important;
+    border: none;
+    width: 100%;
+}
+
+
+.user_name_and_nick{
+    max-width: 50%;
+}
+
+#nickname{
+    text-decoration-line: underline;
+    font-weight: bold;
+    font-size: 1.33em;
+    
+    padding: 0px;
+
+    position: relative;
+    bottom: 7px;
+}
+
+
+#userAbout{
     padding: 10px;
     overflow-y: scroll;
     max-height: 200px;
@@ -53,22 +93,7 @@
     background-color: var(--block_2_color);
 
     font-weight: normal;
-}
 
-.user_header_bar> button {
-    background-color: transparent;
-    border: none;
-
-    height: 50px;
-}
-
-.user_header_bar > button > img{
-    height: 100%;
-}
-
-.user_name_and_nick > h4{
-    position: relative;
-    bottom: 10px;
 }
 
 /* User Infos */
@@ -90,6 +115,7 @@
     background-color: var(--block_2_color);
 }
 
+
 /* User activity */
 .user_activity{
     width: calc(100% - 20px);
@@ -106,6 +132,7 @@
 
     background-color: var(--block_2_color);
 }
+
 
 /* Expand */
 .expand__portfolio{
@@ -127,13 +154,16 @@
     margin: 0px 0px 0px 30px;
 }
 
-.expand__user_header > h3{
+.expand__userAbout{
     margin: 0px 10px 0px 10px;
+
+    max-width: calc(100% - 40px);
 }
 
 .expand__infos > ul > li{
     margin: 0px 0px 10px 0px;
 }
+
 
 
 /* Reduce */
@@ -155,8 +185,10 @@
     margin: 0px 0px 30px 0px;
 }
 
-.reduce__user_header > h3{
+.reduce__userAbout{
     margin: 10px 0px 10px 0px;
+
+    max-width: calc(100% - 20px);
 }
 
 .reduce__infos > ul > li{

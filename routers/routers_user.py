@@ -13,7 +13,13 @@ def register_app(app:object)->None:
         try:
             userInfos_wrap = session_query(UserInfos, userName=user_name)[0]
             userInfos = model_unwrap(userInfos_wrap)
+            
+            print(userInfos)
+            icon_wrap = session_query(Icon, name=userInfos["iconProfileName"])[0]
+            icon = model_unwrap(icon_wrap)
+            print('icon: ', icon)
 
+            ##
             time_viewed_last = time.localtime(userInfos["time_viewed_last"])
             time_arrival = time.localtime(userInfos["time_arrival"])
 
@@ -21,7 +27,7 @@ def register_app(app:object)->None:
                 "userName": userInfos["userName"],
                 "nickname": userInfos["nickname"],
                 "description": userInfos["description"],
-                "photoPath": userInfos["photoPath"],
+                "photoPath": icon["pathIcon"],
 
                 "infos": {
                     "Last connection": f"{ time.strftime("%d/%m/%Y, %H:%M:%S", time_viewed_last) } ",
@@ -37,6 +43,8 @@ def register_app(app:object)->None:
 
         ## Where needs a dedicate error page
         except IndexError as e:
+            Messages.error("view_user_infos", e)
+
             return flask.abort(404)
 
     @app.route('/view/user/self')

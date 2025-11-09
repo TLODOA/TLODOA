@@ -8,6 +8,7 @@ userPage.CLICK_BUTT_EDIT_PROFILE = (e) => {
     e.preventDefault();
 
     //
+    console.log(userPage.FIELD_PORTFOLIO.innerHTML.trim());
     userPage.replace_element_for(userPage.FIELD_PORTFOLIO, {
         tag: "form",
 
@@ -19,17 +20,21 @@ userPage.CLICK_BUTT_EDIT_PROFILE = (e) => {
         tag: "input",
 
         name: "user_name",
-        value: userPage.FIELD_USER_NICK.textContent.trim()
+        value: userPage.FIELD_USER_NICK.textContent.trim(),
+        autocomplete: "off"
     });
 
     userPage.replace_element_for(userPage.FIELD_USER_ABOUT, {
         tag: "input",
 
         name: "user_about",
-        value: userPage.FIELD_USER_ABOUT.textContent.trim()
+        value: userPage.FIELD_USER_ABOUT.textContent.trim(),
+        autocomplete: "off"
     });
 
     //
+    console.log(userPage.BUTT_EDIT_PROFILE_OK);
+
     userPage.BUTT_EDIT_PROFILE.style.display = 'none';
     userPage.BUTT_EDIT_PROFILE_OK.style.display = 'block';
 }

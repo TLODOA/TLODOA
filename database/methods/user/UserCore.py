@@ -4,6 +4,11 @@ from database.session import Base
 class UserCore(Base):
     __tablename__ = 'UserCore'
 
+    STATUS_OFFLINE = 0
+    STATUS_ONLINE = 1
+
+    DEFAULT_status = STATUS_OFFLINE
+
     ##
     def __init__(self, **kwargs)->None:
 

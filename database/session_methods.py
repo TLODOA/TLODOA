@@ -185,6 +185,9 @@ def model_create(model:object, **kwargs)->object|None:
 
                 kwargs_copy[attr_name] = model.__dict__[i]
                 break
+            
+            if attr_name in model.__dict__.keys():
+                kwargs_copy[attr_name] = model.__dict__[i]
 
         ##
         print('kwargs_copy', kwargs_copy)

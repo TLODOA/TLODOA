@@ -10,6 +10,4 @@ from .SMTP import *
 from .Router import *
 from .Token import *
 
-from .Status import *
-
 from .SocketIO import *
