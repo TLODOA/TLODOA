@@ -18,8 +18,8 @@ CREATE TABLE "UserInfos"(
     "hashed_nickname" CHAR(255) NOT NULL,
     "cipher_userName" VARCHAR(255) NOT NULL,
     "cipher_description" TEXT NULL,
-    "cipher_photoPath" TEXT NULL,
     "cipher_nickname" TEXT NOT NULL,
+    "iconProfileName" VARCHAR(255) NOT NULL,
     "time_arrival" DOUBLE PRECISION NOT NULL DEFAULT '0',
     "time_viewed_last" DOUBLE PRECISION NOT NULL DEFAULT '0',
     "reputation" INTEGER NOT NULL DEFAULT '0'
@@ -28,6 +28,10 @@ CREATE INDEX "userinfos_hashed_username_index" ON
     "UserInfos"("hashed_userName");
 ALTER TABLE
     "UserInfos" ADD PRIMARY KEY("hashed_userName");
+CREATE INDEX "userinfos_hashed_nickname_index" ON
+    "UserInfos"("hashed_nickname");
+CREATE INDEX "userinfos_iconprofilename_index" ON
+    "UserInfos"("iconProfileName");
 CREATE TABLE "UserCard"(
     "hashed_userName" CHAR(255) NOT NULL,
     "balance" BIGINT NOT NULL
@@ -169,6 +173,14 @@ CREATE INDEX "bid_user_name_index" ON
     "Bid"("user_name");
 CREATE INDEX "bid_object_title_index" ON
     "Bid"("object_title");
+CREATE TABLE "Icon"(
+    "dek" CHAR(255) NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "type" VARCHAR(255) NOT NULL,
+    "cipher_pathIcon" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "Icon" ADD PRIMARY KEY("name");
 ALTER TABLE
     "UserInfos" ADD CONSTRAINT "userinfos_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE
@@ -179,6 +191,8 @@ ALTER TABLE
     "UserToken" ADD CONSTRAINT "usertoken_hashed_ip_foreign" FOREIGN KEY("hashed_ip") REFERENCES "IpInfos"("hashed_ip");
 ALTER TABLE
     "Message" ADD CONSTRAINT "message_user_name_foreign" FOREIGN KEY("user_name") REFERENCES "UserCore"("hashed_name");
+ALTER TABLE
+    "UserInfos" ADD CONSTRAINT "userinfos_iconprofilename_foreign" FOREIGN KEY("iconProfileName") REFERENCES "Icon"("name");
 ALTER TABLE
     "UserToken" ADD CONSTRAINT "usertoken_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE
