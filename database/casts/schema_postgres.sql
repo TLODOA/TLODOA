@@ -15,10 +15,11 @@ CREATE INDEX "usercore_hashed_email_index" ON
 CREATE TABLE "UserInfos"(
     "dek" CHAR(255) NOT NULL,
     "hashed_userName" CHAR(255) NOT NULL,
+    "hashed_nickname" CHAR(255) NOT NULL,
     "cipher_userName" VARCHAR(255) NOT NULL,
     "cipher_description" TEXT NULL,
     "cipher_photoPath" TEXT NULL,
-    "cipher_region" TEXT NULL,
+    "cipher_nickname" TEXT NOT NULL,
     "time_arrival" DOUBLE PRECISION NOT NULL DEFAULT '0',
     "time_viewed_last" DOUBLE PRECISION NOT NULL DEFAULT '0',
     "reputation" INTEGER NOT NULL DEFAULT '0'
@@ -127,7 +128,7 @@ CREATE TABLE "Message"(
     "object_title" CHAR(255) NOT NULL,
     "cipher_id" VARCHAR(255) NOT NULL,
     "cipher_content" VARCHAR(255) NOT NULL,
-    "time_send" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
+    "time_send" DOUBLE PRECISION NOT NULL
 );
 CREATE INDEX "message_hashed_id_index" ON
     "Message"("hashed_id");

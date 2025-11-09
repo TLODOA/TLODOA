@@ -6,8 +6,9 @@ from begin.globals import Messages
 import re
 
 ##
-FIELD_CIPHER = lambda model : [ i for i in model.__dict__.keys() if re.search("^cipher_*.", i) ]
-FIELD_HASHED = lambda model : [ i for i in model.__dict__.keys() if re.search("^hashed_*.", i) ]
+FIELD_CIPHER = lambda model : [ i for i in model.__dict__.keys() if re.search("^cipher_.*", i) ]
+FIELD_HASHED = lambda model : [ i for i in model.__dict__.keys() if re.search("^hashed_.*", i) ]
+FIELD_DEFAULT = lambda model : [ i for i in model.__dict__.keys() if re.search("^DEFAULT_.*", i) ]
 
 op_comp = {
     'lt': lambda column, value: column < value,
@@ -123,6 +124,7 @@ def model_args_filter(model:object, **kwargs)->dict:
 
     kwargs_copy = kwargs.copy()
 
+    ##
     for i in field_cipher:
         dek_wrap = kwargs_copy.get("dek", None)
         if dek_wrap is None:
@@ -145,6 +147,7 @@ def model_args_filter(model:object, **kwargs)->dict:
         kwargs_copy[i] = Token.crypt_sha256(kwargs_copy[attr_name])
 
 
+    ##
     for i in list(kwargs_copy.keys()):
         if i in model.__dict__.keys():
             continue
@@ -159,7 +162,34 @@ def model_create(model:object, **kwargs)->object|None:
         if not "dek" in kwargs_copy.keys() and "dek" in model.__dict__.keys():
             kwargs_copy["dek"] = dek_encrypt(dek_generate())
 
+        ##
+        field_cipher = FIELD_CIPHER(model)
+        field_hashed = FIELD_HASHED(model)
+        default_value = FIELD_DEFAULT(model)
+
+        for i in default_value:
+            _, attr_name = i.split('DEFAULT_')
+            if attr_name in kwargs.keys():
+                continue
+
+            for j in field_cipher:
+                if not re.search(f".*_{attr_name}$", j):
+                    continue
+
+                kwargs_copy[attr_name] = model.__dict__[i]
+                break
+
+            for j in field_hashed:
+                if not re.search(f".*_{attr_name}$", j):
+                    continue
+
+                kwargs_copy[attr_name] = model.__dict__[i]
+                break
+
+        ##
+        print('kwargs_copy', kwargs_copy)
         model_args = model_args_filter(model, **kwargs_copy)
+        print('model_args: ', model_args, field_cipher)
         instance = model(**model_args)
 
         return instance

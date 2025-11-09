@@ -4,8 +4,9 @@ from database.session import Base
 class UserInfos(Base):
     __tablename__ = "UserInfos"
 
-    DEFAULT_DESCRIPTION = "Description not provide"
-    DEFAULT_PHOTO_PATH = "image/icons/profile/icon_profile_0.png"
+    DEFAULT_description = "Description not provide"
+    DEFAULT_photoPath = "image/icons/profile/icon_profile_0.png"
+    DEFAULT_nickname = 'Lorax'
 
     ##
     def __init__(self, **kwargs)->None:

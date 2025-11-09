@@ -1,4 +1,5 @@
 from database.session import Base
+from begin.globals import Token
 
 ##
 class UserToken(Base):
@@ -10,20 +11,23 @@ class UserToken(Base):
     FIELD_UNDEFINED = 0
     FIELD_AUTH = 1
 
+    DEFAULT_field = FIELD_UNDEFINED
+    DEFAULT_token = Token.user_generate()
+
     ##
     def __init__(self, **kwargs)->None:
-
-        from begin.globals import Token
         import time
 
         ##
         model = type("model", (self.__class__, ), {})
 
+        """
         if not "token" in kwargs.keys():
             kwargs["token"] = Token.user_generate()
 
         if not "field" in kwargs.keys():
             kwargs["field"] = self.FIELD_UNDEFINED
+        """
 
         #
         for i in kwargs.keys():

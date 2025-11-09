@@ -1,4 +1,5 @@
 from database.session import Base
+from begin.globals import Token
 
 ##
 class UserEmailCode(Base):
@@ -13,20 +14,24 @@ class UserEmailCode(Base):
 
     FIELD_ABLE = [ FIELD_UNDEFINED, FIELD_SIGN, FIELD_LOGIN]
 
+    #
+    DEFAULT_field = FIELD_UNDEFINED
+    DEFAULT_token = Token.email_generate()
+
     ##
     def __init__(self, **kwargs)->None:
-        from begin.globals import Token
-
         import time
 
         ##
         model = type("model", (self.__class__, ), {})
 
+        """
         if "token" not in kwargs.keys():
             kwargs["token"] = Token.email_generate()
 
         if "field" not in kwargs.keys():
             kwargs["field"] = self.FIELD_UNDEFINED
+        """
 
         #
         for i in kwargs.keys():
