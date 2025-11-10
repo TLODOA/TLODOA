@@ -1,6 +1,8 @@
 from begin.xtensions import *
 from werkzeug.exceptions import HTTPException
 
+from begin.globals import Messages
+
 ##
 def register_app(app:object)->None:
 
@@ -18,5 +20,7 @@ def register_app(app:object)->None:
                 "message": e.description,
                 "status_code": e.code
             }
+
+        Messages.error('generic_funcion: ', e)
 
         return flask.render_template('errors/ERROR.html', response=response)

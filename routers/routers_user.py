@@ -14,7 +14,7 @@ def register_app(app:object)->None:
             userInfos_wrap = session_query(UserInfos, userName=user_name)[0]
             userInfos = model_unwrap(userInfos_wrap)
             
-            icon_wrap = session_query(Icon, name=userInfos["iconProfileName"])[0]
+            icon_wrap = session_query(Icon, hashed_name=userInfos["hashed_iconProfileName"])[0]
             icon = model_unwrap(icon_wrap)
 
             icons_profile = session_query(Icon, type=Icon.TYPE_PROFILE)
@@ -28,7 +28,7 @@ def register_app(app:object)->None:
                 "nickname": userInfos["nickname"],
                 "description": userInfos["description"],
 
-                "iconName": userInfos["iconProfileName"],
+                "iconName": icon["name"],
                 "iconPath": icon["pathIcon"],
 
                 "infos": {
@@ -42,15 +42,12 @@ def register_app(app:object)->None:
             }
 
             system_data = {
-                "icons": {model_get(i, "name")[0]: model_get(i, "cipher_pathIcon")[0] for i in icons_profile }
+                "icons": {model_get(i, "cipher_name")[0]: model_get(i, "cipher_pathIcon")[0] for i in icons_profile }
             }
 
             return flask.render_template('user_page.html', user=user_data, system=system_data)
 
-        ## Where needs a dedicate error page
         except IndexError as e:
-            Messages.error("view_user_infos", e)
-
             return flask.abort(404)
 
     @app.route('/view/user/self')

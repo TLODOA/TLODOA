@@ -266,7 +266,7 @@ def model_unwrap(instance:object)->dict|None:
 
         #
         for i in instance.__dict__.keys():
-            if i in field_hashed or i == '_sa_instance_state' or i == 'dek':
+            if i == '_sa_instance_state' or i == 'dek':
                 continue
 
             key_name = i if not i in field_cipher else i.split('cipher_')[1]

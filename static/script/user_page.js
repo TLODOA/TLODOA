@@ -8,7 +8,7 @@ userPage.CLICK_BUTT_EDIT_PROFILE = (e) => {
     e.preventDefault();
 
     //
-    console.log(userPage.FIELD_PORTFOLIO.innerHTML.trim());
+    // console.log(userPage.FIELD_PORTFOLIO.innerHTML.trim());
     userPage.replace_element_for(userPage.FIELD_PORTFOLIO, {
         tag: "form",
 
@@ -35,7 +35,7 @@ userPage.CLICK_BUTT_EDIT_PROFILE = (e) => {
     });
 
     //
-    console.log(userPage.BUTT_EDIT_PROFILE_OK);
+    // console.log(userPage.BUTT_EDIT_PROFILE_OK);
 
     userPage.BUTT_EDIT_PROFILE.style.display = 'none';
     userPage.BUTT_EDIT_PROFILE_OK.style.display = 'block';
@@ -91,7 +91,7 @@ userPage.CHANGE_SELECT_USER_PHOTO = (e) => {
 
     //
     const value_selected = e.target.value;
-    console.log(value_selected);
+    // console.log(value_selected);
 
     userPage.FIELD_USER_PHOTO.src = value_selected;
 }
