@@ -8,13 +8,18 @@ import re
 class Icon(Base):
     __tablename__ = "Icon"
 
+    #
+    TYPE_UNDEFINED = 0
+    TYPE_PROFILE = 1
+    TYPE_BID = 2
+
     ICONS_PATH = "./static/image/icons"
     ICONS_TYPE = {
-        "profile": f"{ICONS_PATH}/profile"
+        TYPE_PROFILE: f"{ICONS_PATH}/profile"
         }
 
     ##
-    def register(path:str, icon_type:str)->None:
+    def register(path:str, icon_type:int)->None:
         files = os.listdir(path)
 
         for i in files:
@@ -29,7 +34,7 @@ class Icon(Base):
                 continue
 
             icon_name = file_name.split('.')[0]
-            a, b, *icon_path = file_path.split('/')
+            _, _, *icon_path = file_path.split('/')
             icon_path = '/'.join(icon_path)
 
             session_insert(Icon, type=icon_type, name=icon_name, pathIcon=icon_path)

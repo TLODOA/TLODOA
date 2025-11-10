@@ -176,8 +176,8 @@ CREATE INDEX "bid_object_title_index" ON
 CREATE TABLE "Icon"(
     "dek" CHAR(255) NOT NULL,
     "name" VARCHAR(255) NOT NULL,
-    "type" VARCHAR(255) NOT NULL,
-    "cipher_pathIcon" VARCHAR(255) NOT NULL
+    "cipher_pathIcon" VARCHAR(255) NOT NULL,
+    "type" INTEGER NOT NULL
 );
 ALTER TABLE
     "Icon" ADD PRIMARY KEY("name");

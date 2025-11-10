@@ -3,8 +3,6 @@ from .session_methods import *
 
 from .methods import *
 
-from begin.globals import Token
-
 ##
 Icon.init_instances()
 

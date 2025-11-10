@@ -217,23 +217,30 @@ export class UserPage {
         const ELEMENT_BY_ID = page_layout.ELEMENT_BY_ID;
 
         //
+        // Event listeners
         this.CLICK_BUTT_EDIT_PROFILE = null;
         this.CLICK_BUTT_EDIT_PROFILE_OK = null;
+        this.CHANGE_SELECT_USER_PHOTO = null;
         
         this.eventListeners = null;
 
+        //
         this.BUTT_EDIT_PROFILE = ELEMENT_BY_ID["userPage_button_edit_profile"];
-        this.BUTT_EDIT_PROFILE_OK = ELEMENT_BY_ID["userPage_button_edit_profile_ok"]
-        
+        this.BUTT_EDIT_PROFILE_OK = ELEMENT_BY_ID["userPage_button_edit_profile_ok"];
+
+        this.SELECT_USER_PHOTO = ELEMENT_BY_ID["userPage_select_userPhoto"];
+
         this.FIELD_PORTFOLIO = ELEMENT_BY_ID["portfolio"]
         this.FIELD_USER_NICK = ELEMENT_BY_ID["nickname"];
         this.FIELD_USER_ABOUT = ELEMENT_BY_ID["userAbout"];
+        this.FIELD_USER_PHOTO = ELEMENT_BY_ID["userPhoto"];
     }
 
     init_eventListeners(){
         this.eventListeners = [
             {type: "click", func: this.CLICK_BUTT_EDIT_PROFILE, to:"BUTT_EDIT_PROFILE"},
-            {type: "click", func: this.CLICK_BUTT_EDIT_PROFILE_OK, to:"BUTT_EDIT_PROFILE_OK"}
+            {type: "click", func: this.CLICK_BUTT_EDIT_PROFILE_OK, to:"BUTT_EDIT_PROFILE_OK"},
+            {type: "change", func: this.CHANGE_SELECT_USER_PHOTO, to:"SELECT_USER_PHOTO"}
         ]
 
         for(const i of this.eventListeners){

@@ -17,7 +17,25 @@
 {% block content_main_1 %}
 <div class="user_portfolio block_1_generic">
     <div class="portfolio" id="portfolio">
-        <img class="profile_photo" src="{{ url_for("static", filename=user["photoPath"]) }}">
+        <div class="profile_photo">
+            <img id="userPhoto" src="{{ url_for("static", filename=user["iconPath"]) }}">
+
+            {% if user["is_same"] %}
+            <div class="box_select_userPhoto">
+                <select name="user_photo_selected" id="userPage_select_userPhoto">
+                    {% for i in system["icons"].keys() %}
+
+                    {% if i == user["iconName"] %}
+                    <option value="{{ url_for("static", filename=system["icons"][i]) }}" selected>{{ i }}</option>
+                    {% else %}
+                    <option value="{{ url_for("static", filename=system["icons"][i]) }}">{{ i }}</option>
+                    {% endif %}
+
+                    {% endfor %}
+                </select>
+            </div>
+            {% endif %}
+        </div>
 
         <div class="user_header">
             <div class="user_header_bar">

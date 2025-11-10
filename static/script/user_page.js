@@ -25,10 +25,12 @@ userPage.CLICK_BUTT_EDIT_PROFILE = (e) => {
     });
 
     userPage.replace_element_for(userPage.FIELD_USER_ABOUT, {
-        tag: "input",
+        tag: "textarea",
 
         name: "user_about",
-        value: userPage.FIELD_USER_ABOUT.textContent.trim(),
+        rows: "10",
+        cols: "50",
+        innerHTML: userPage.FIELD_USER_ABOUT.textContent.trim(),
         autocomplete: "off"
     });
 
@@ -37,6 +39,8 @@ userPage.CLICK_BUTT_EDIT_PROFILE = (e) => {
 
     userPage.BUTT_EDIT_PROFILE.style.display = 'none';
     userPage.BUTT_EDIT_PROFILE_OK.style.display = 'block';
+
+    userPage.SELECT_USER_PHOTO.style.display = 'block';
 }
 
 userPage.CLICK_BUTT_EDIT_PROFILE_OK = (e) => {
@@ -78,6 +82,18 @@ userPage.CLICK_BUTT_EDIT_PROFILE_OK = (e) => {
     //
     userPage.BUTT_EDIT_PROFILE.style.display = 'block';
     userPage.BUTT_EDIT_PROFILE_OK.style.display = 'none';
+
+    userPage.SELECT_USER_PHOTO.style.display = 'none';
+}
+
+userPage.CHANGE_SELECT_USER_PHOTO = (e) => {
+    e.preventDefault();
+
+    //
+    const value_selected = e.target.value;
+    console.log(value_selected);
+
+    userPage.FIELD_USER_PHOTO.src = value_selected;
 }
 
 userPage.init_eventListeners();
