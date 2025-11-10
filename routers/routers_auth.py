@@ -98,7 +98,7 @@ def register_app(app:object)->None:
 
     @app.route('/sign/auth', methods=["POST"])
     def sign_auth()->object:
-        from begin.globals import Email, Status, Auth
+        from begin.globals import Email, Auth
 
         ##
         if flask.request.method != "POST":
@@ -164,7 +164,7 @@ def register_app(app:object)->None:
             })
         
         ##
-        session_insert(UserCore, name=user_name, email=user_email, password=user_password, status=Status.OFFLINE)
+        session_insert(UserCore, name=user_name, email=user_email, password=user_password)
         session_insert(UserInfos, userName=user_name, nickname=user_name)
 
         session_delete(userEmail)

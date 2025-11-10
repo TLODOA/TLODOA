@@ -46,7 +46,8 @@ sign.BUTT_FINISH.addEventListener('click', (e) => {
     //
     fetch('/sign/auth', {
         method: 'POST',
-        headers: { 'Content-Type': "application/json; charset=utf-8" },
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+
         body: JSON.stringify(form_data_json)
     })
     .then(response => response.json())
@@ -62,5 +63,4 @@ sign.BUTT_FINISH.addEventListener('click', (e) => {
         logs.MESSAGE_LOGS_CLEAN();
         logs.MESSAGE_LOGS_INSERT(message, logs.MESSAGE_ERROR_ID);
     })
-
 });

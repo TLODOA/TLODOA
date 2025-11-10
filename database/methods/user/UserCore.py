@@ -11,7 +11,6 @@ class UserCore(Base):
 
     ##
     def __init__(self, **kwargs)->None:
-
         from begin.globals import Token
 
         ##
