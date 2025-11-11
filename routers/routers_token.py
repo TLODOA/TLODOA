@@ -1,3 +1,4 @@
+from begin.globals import Messages
 from begin.xtensions import *
 from database import *
 
@@ -10,7 +11,7 @@ def register_app(app:object)->None:
 
         if flask.request.method != 'POST':
             return flask.jsonify({
-                'message': "Invalid method request"
+                'message': [ Messages.EmailCode.Request.Error.invalid_method, error_js_class ]
             })
         
         #
@@ -25,11 +26,13 @@ def register_app(app:object)->None:
         ipInfos = session_query(IpInfos, ip=user_addr)
         userEmail = session_query(UserEmailCode, ip=user_addr, field=user_email_field)
 
+        error_js_class = Messages.Error.js_class 
+
         ##
         if ipInfos == None or userEmail == None or not user_email_field in UserEmailCode.FIELD_ABLE:
             return flask.jsonify({
                 'message': \
-                    Messages.server_internal_error()
+                    [ Messages.EmailCode.Request.Error.interval(), error_js_class ]
                 })
 
 
@@ -42,25 +45,25 @@ def register_app(app:object)->None:
         if emailSend_status == Email.SEND_NOT_ALLOW_BECAUSE_AMOUNT:
             return flask.jsonify({
                 'message': \
-                    Messages.email_not_allow_because_amount(ipInfos[0].email_send_time_allow)
+                    [ Messages.EmailCode.Email.Error.invalid_amount(ipInfos[0].email_send_time_allow), error_js_class ]
                 })
 
         if emailSend_status == Email.SEND_NOT_ALLOW_BECAUSE_INTERVAL:
             return flask.jsonify({
                 'message': \
-                    Messages.email_not_allow_because_interval(ipInfos[0].email_send_time_allow)
+                    [ Messages.EmailCode.Email.Error.invalid_interval(ipInfos[0].email_send_time_allow), error_js_class ]
                 })
 
         if emailSend_status == Email.SEND_NOT_ALLOW_BECAUSE_TOKEN_ATTEMPTS:
             return flask.jsonify({
                 'message': \
-                    Messages.email_not_allow_because_token_attempts(ipInfos[0].email_send_time_allow)
+                    [ Messages.EmailCode.Email.Error.invalid_token_attempts(ipInfos[0].email_send_time_allow), error_js_class ]
             })
 
         if emailSend_status == Email.SEND_NOT_ALLOW_BECAUSE_IP_BLOCKED:
             return flask.jsonify({
                 'message': \
-                    Messages.email_not_allow_because_ip_blocked(ipInfos[0].email_send_time_allow)
+                    [ Messages.EmailCode.Email.Error.ip_blocked(ipInfos[0].email_send_time_allow), error_js_class ]
             })
 
         ##

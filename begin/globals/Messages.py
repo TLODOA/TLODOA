@@ -10,7 +10,7 @@ class Error():
 
 ## Request
 class Request():
-    class Error(ERROR):
+    class Error(Error):
         internal = "Something goes wrong"
 
         invalid_method = "Method not allow"
@@ -85,7 +85,7 @@ class Login():
         incorrect_user_email = "User email incorrect"
         incorrect_user_password = "User password incorrect"
 
-    class EmailCode(Email):
+    class EmailCode(EmailCode):
         pass
 
     class Request(Request):
@@ -93,6 +93,6 @@ class Login():
 
 ## Sing auth
 class Sign(Login):
-    class Error(Login.error):
+    class Error(Login.Error):
         user_found = "Invalid user name"
         password_not_match = "Passwords not match"
