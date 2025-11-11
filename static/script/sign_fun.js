@@ -12,8 +12,8 @@ sign.BUTT_EMAIL_CODE_GET.addEventListener('click', (e) => {
     const form_data_json = Object.fromEntries(form_data);
 
     if(!form_data_json["user_name"] || !form_data_json["user_email"]){
-        logs.MESSAGE_LOGS_CLEAN();
-        logs.MESSAGE_LOGS_INSERT("Please, fill all required fields");
+        logs.CLEAN();
+        logs.ADD("Please, fill all required fields");
 
         return;
     }
@@ -37,8 +37,8 @@ sign.BUTT_FINISH.addEventListener('click', (e) => {
         if(form_data_json[i])
             continue;
 
-        logs.MESSAGE_LOGS_CLEAN();
-        logs.MESSAGE_LOGS_INSERT("Please, fill all required fields");
+        logs.CLEAN();
+        logs.ADD("Please, fill all required fields");
 
         return;
     }
@@ -60,7 +60,7 @@ sign.BUTT_FINISH.addEventListener('click', (e) => {
             return;
         }
 
-        logs.MESSAGE_LOGS_CLEAN();
-        logs.MESSAGE_LOGS_INSERT(message, logs.MESSAGE_ERROR_ID);
+        logs.CLEAN();
+        logs.ADD(logs.MESSAGE_ERROR_CLASS, message);
     })
 });

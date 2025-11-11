@@ -20,6 +20,7 @@ def register_app(app:object)->None:
         if not flask.request.path.startswith('/view'):
             return 
 
+        print('request_path: ', flask.request.path)
         #
         user_addr = flask.request.remote_addr
 

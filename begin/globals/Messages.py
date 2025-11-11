@@ -1,111 +1,98 @@
 ANSI_COLOR_RED = '\033[91m'
 ANSI_COLOR_NULL = '\033[0m'
 
-def error(func_name:str, e:object)->None:
-    print(f"{func_name} {ANSI_COLOR_RED}ERROR{ANSI_COLOR_NULL}: {e}")
-
 ##
-def request_not_allow_because_method()->str:
-    return "Method not allow"
+class Error():
+    js_class="log_message_erro"
 
-def request_not_allow_because_fields_missing()->str:
-    return "Missing fields"
+    def print(func_name:str, e:object)->None:
+        print(f"{func_name} {ANSI_COLOR_RED}ERROR{ANSI_COLOR_NULL}: {e}")
 
-def request_not_allow_because_fields_empty()->str:
-    return "Please, fill all required fileds"
+## Request
+class Request():
+    class Error(ERROR):
+        internal = "Something goes wrong"
 
-def server_internal_error()->str:
-    return "Something goes wrong"
+        invalid_method = "Method not allow"
+        invalid_fields = "Invalid fields"
+
+        missing_fields = "Missing fields"
+        empty_fields = "Please, fill all required fields"
+
+        def invalid_client_behavior(timestamp):
+            import time
+
+            date = time.localtime(timestamp)
+
+            return f"Because of your behavior, you cannot try sign after {date.tm_hour}:{date.tm_min}:{date.tm_sec}"
 
 ## Email
-def email_not_allow_because_interval(timestamp)->str:
-    import time
+class Email():
+    class Request(Request):
+        pass
 
-    date = time.localtime(timestamp)
+    class Error(Error):
+        def invalid_interval(timestamp)->str:
+            import time
 
-    return f"You request an email recently, asked other at {date.tm_hour}:{date.tm_min}:{date.tm_sec}s"
+            date = time.localtime(timestamp)
 
-def email_not_allow_because_amount(timestamp)->str:
-    import time
+            return f"You request an email recently, asked other at {date.tm_hour}:{date.tm_min}:{date.tm_sec}s"
 
-    date = time.localtime(timestamp)
+        def invalid_amount(timestamp)->str:
+            import time
 
-    return f"You request many emails once. Plase, wait until {date.tm_hour}:{date.tm_min}:{date.tm_sec}s to do other request"
+            date = time.localtime(timestamp)
 
-def email_not_allow_because_token_attempts(timestamp)->str:
-    import time
+            return f"You request many emails once. Plase, wait until {date.tm_hour}:{date.tm_min}:{date.tm_sec}s to do other request"
 
-    date = time.localtime(timestamp)
+        def invalid_token_attempts(timestamp)->str:
+            import time
 
-    return f"You do many attempts of token authentication once, try again in {date.tm_hour}:{date.tm_min}:{date.tm_sec}"
+            date = time.localtime(timestamp)
 
-def email_not_allow_because_ip_blocked(timestamp)->str:
-    import time
+            return f"You do many attempts of token authentication once, try again in {date.tm_hour}:{date.tm_min}:{date.tm_sec}"
 
-    date = time.localtime(timestamp)
+        def ip_blocked(timestamp)->str:
+            import time
 
-    return f"You ip was be blocked because of your activity, try send email again after {date.tm_hour}:{date.tm_min}:{date.tm_sec}"
+            date = time.localtime(timestamp)
 
+            return f"You ip was be blocked because of your activity, try send email again after {date.tm_hour}:{date.tm_min}:{date.tm_sec}"
 
-def email_already_sended()->str:
-    return "You already receive the email"
+        already_sended = "You alread receive the email"
 
+    ok = "Emaill successful send!"
 
-def email_ok()->str:
-    return "Email successful sended!"
+class EmailCode():
+    class Request(Request):
+        pass
 
+    class Email(Email):
+        pass
+
+    class Error(Error):
+        incorrect_code = "Email Code incorrect"
+        code_not_send = "Email code not requested"
+
+        invalid_code_validity = "Email token was be expired"
+        
 ## Login auth
-def login_not_allow_because_user_not_found()->str:
-    return "User not found"
+class Login():
+    class Error(Error):
+        user_not_found = "User not found"
 
-def login_not_allow_because_user_email_incorrect()->str:
-    return "User email incorrect"
+        incorrect_user_email = "User email incorrect"
+        incorrect_user_password = "User password incorrect"
 
-def login_not_allow_because_user_password_incorrect()->str:
-    return "User password incorrect"
+    class EmailCode(Email):
+        pass
 
-
-def login_not_allow_because_email_code_incorrect()->str:
-    return "Email code incorrect"
-
-def login_not_allow_because_email_code_not_send()->str:
-    return "Email code not requested"
-
-def login_not_allow_because_email_code_validity()->str:
-    return "Email token was be expired"
-
-
-def login_not_allow_because_client_behavior(timestamp)->str:
-    import time
-
-    date = time.localtime(timestamp)
-
-    return f"Because of your behavior, you cannot try sign after {date.tm_hour}:{date.tm_min}:{date.tm_sec}"
+    class Request(Request):
+        pass
 
 ## Sing auth
-def sign_not_allow_because_user_found()->str:
-    return "Invalid user name"
-
-def sign_not_allow_because_user_email_incorrect()->str:
-    return "User email incorrect"
-
-def sign_not_allow_because_user_password_check_incorrect()->str:
-    return "User password check incorrect"
-
-
-def sign_not_allow_because_email_code_not_send()->str:
-    return "Email code not requested"
-
-def sign_not_allow_because_email_code_incorrect()->str:
-    return "Email code is incorrect"
-
-def sign_not_allow_because_email_code_validity()->str:
-    return "Email token was be expired"
-
-
-def sign_not_allow_because_client_behavior(timestamp)->str:
-    import time
-
-    date = time.localtime(timestamp)
-
-    return f"Because of your behavior, you cannot try login after {date.tm_hour}:{date.tm_min}:{date.tm_sec}"
+class Sign(Login):
+    class Error(Login.error):
+        user_found = "Invalid user name"
+        password_not_match = "Passwords not match"

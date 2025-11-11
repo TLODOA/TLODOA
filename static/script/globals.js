@@ -11,7 +11,7 @@ export function request_token_email(json){
     .then(data => {
         const logs = new MessageLogs();
 
-        logs.MESSAGE_LOGS_CLEAN();
+        logs.CLEAN();
 
         console.log(data);
 
@@ -19,7 +19,7 @@ export function request_token_email(json){
         if(message == undefined)
             return;
 
-        logs.MESSAGE_LOGS_INSERT(message, logs.MESSAGE_ERROR_ID);
+        logs.ADD(logs.MESSAGE_ERROR_CLASS, message);
     });
 }
 
@@ -163,20 +163,22 @@ export class Layout_4 extends Layout_1{}
 // MessageLogs
 export class MessageLogs{
     constructor(){
-        this.MESSAGE_LOGS_ID = 'message_logs';
-        this.MESSAGE_LOGS = document.getElementById(this.MESSAGE_LOGS_ID);
+        const page_layout = new Layout_1();
+        const ELEMENT_BY_ID = page_layout.ELEMENT_BY_ID;
 
         //
-        this.MESSAGE_ERROR_ID = 'message_error';
+        this.BOX = ELEMENT_BY_ID["message_logs"];
+
+        this.MESSAGE_ERROR_CLASS = 'message_error';
 
         //
-        this.MESSAGE_LOGS_CLEAN = () => {
-            this.MESSAGE_LOGS.innerHTML = '';
+        this.CLEAN = () => {
+            this.BOX.innerHTML = '';
         };
 
-        this.MESSAGE_LOGS_INSERT = (message, message_id) => {
-            this.MESSAGE_LOGS.innerHTML += `
-                <p id=${message_id}>${message}</p>
+        this.ADD = (message_class, message) => {
+            this.BOX.innerHTML += `
+                <p class="${message_class}">${message}</p>
         `
         };
     }

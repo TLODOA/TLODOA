@@ -56,7 +56,7 @@ def register_app(app:object)->None:
 
         return flask.redirect(flask.url_for("view_user_infos", user_name=user_name))
 
-    @app.route('/view/user/<token>/card')
+    @app.route('/view/user/card')
     def view_user_card(token:str)->object:
 
         return "Building..."
@@ -64,7 +64,22 @@ def register_app(app:object)->None:
     ##
     @app.route('/user/profile/edit', methods=['POST'])
     def user_profile_edit()->object:
+        if flask.request.method != 'POST':
+            return flask.jsonify({
+                'message': [ Messages.Request.Error.invalid_method, Messages.error_js_class ]
+            })
+
         form_json = flask.request.json
         user_name = Cookie.get("user_name")
+
+        #
+        user_nickname = form_json["user_nickname"].trim()
+        user_description = form_json["user_about"].trim()
+        user_iconProfile = form_json["user_photo_select"]
+
+        if not len(user_nickname) or not len(user_description):
+            return flask.jsonify({
+                'message': [ Messages.Request.empty_fields, Messages.error_js_class ]
+            })
 
         return flask.jsonify({})

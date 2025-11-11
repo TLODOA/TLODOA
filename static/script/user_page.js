@@ -19,7 +19,7 @@ userPage.CLICK_BUTT_EDIT_PROFILE = (e) => {
     userPage.replace_element_for(userPage.FIELD_USER_NICK, {
         tag: "input",
 
-        name: "user_name",
+        name: "user_nickname",
         value: userPage.FIELD_USER_NICK.textContent.trim(),
         autocomplete: "off"
     });
@@ -48,7 +48,19 @@ userPage.CLICK_BUTT_EDIT_PROFILE_OK = (e) => {
 
     //
     const form_data = Object.fromEntries(new FormData(userPage.FIELD_PORTFOLIO))
+    console.log(form_data);
 
+    for(const i in form_data){
+        if(form_data[i].trim())
+            continue;
+
+        logs.CLEAN();
+        logs.ADD(logs.MESSAGE_ERROR_CLASS, "Please, don't let any empty field");
+
+        return;
+    }
+
+    //
     fetch('/user/profile/edit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -57,6 +69,7 @@ userPage.CLICK_BUTT_EDIT_PROFILE_OK = (e) => {
     })
     .then(response => response.json())
     .then(data => {
+        logs.CLEAN()
         console.log(data);
     });
 
