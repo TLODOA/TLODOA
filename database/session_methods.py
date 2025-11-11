@@ -33,7 +33,7 @@ def session_insert(model:object, **kwargs)->object:
         return instance
 
     except Exception as e:
-        Messages.error('session_insert', e)
+        Messages.Error.print('session_insert', e)
         session.rollback()
 
 def session_delete(instances:tuple)->None:
@@ -44,7 +44,7 @@ def session_delete(instances:tuple)->None:
         session.commit()
     except Exception as e:
         session.rollback()
-        Messages.error('session_delete', e)
+        Messages.Error.print('session_delete', e)
 
 def session_update(instances:tuple, **kwargs)->None:
     from begin.globals import Token
@@ -58,7 +58,7 @@ def session_update(instances:tuple, **kwargs)->None:
 
     except Exception as e:
         session.rollback()
-        Messages.error('session_update', e)
+        Messages.Error.print('session_update', e)
 
 def session_query(model:object, **kwargs)->tuple|None:
     from begin.globals import Token
@@ -110,7 +110,7 @@ def session_query(model:object, **kwargs)->tuple|None:
         return instances_get
 
     except Exception as e:
-        Messages.error(e, 'session_query')
+        Messages.Error.print(e, 'session_query')
 
         return None
 
@@ -198,7 +198,7 @@ def model_create(model:object, **kwargs)->object|None:
         return instance
 
     except Exception as e:
-        Messages.error('model_create', e)
+        Messages.Error.print('model_create', e)
         session.rollback()
 
         return None
@@ -217,7 +217,7 @@ def model_update(instance:object, **kwargs)->None:
         session.commit()
 
     except Exception as e:
-        Messages.error('model_update', e)
+        Messages.Error.print('model_update', e)
         session.rollback()
 
 def model_get(instance:object, *args)->tuple|None:
@@ -250,7 +250,7 @@ def model_get(instance:object, *args)->tuple|None:
         return tuple(values)
 
     except Exception as e:
-        Messages.error("model_get", e)
+        Messages.Error.print("model_get", e)
 
         return None
 
@@ -275,7 +275,7 @@ def model_unwrap(instance:object)->dict|None:
         return instance_unwrap
 
     except Exception as e:
-        Messages.error('model_unwrap', e)
+        Messages.Error.print('model_unwrap', e)
         session.rollback()
 
         return None

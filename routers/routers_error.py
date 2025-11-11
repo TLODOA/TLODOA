@@ -21,6 +21,6 @@ def register_app(app:object)->None:
                 "status_code": e.code
             }
 
-        Messages.error('generic_funcion: ', e)
+        Messages.Error.print('generic_funcion: ', e)
 
         return flask.render_template('errors/ERROR.html', response=response)
