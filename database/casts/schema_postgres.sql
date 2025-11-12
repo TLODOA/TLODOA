@@ -176,12 +176,19 @@ CREATE INDEX "bid_object_title_index" ON
 CREATE TABLE "Icon"(
     "dek" CHAR(255) NOT NULL,
     "hashed_name" CHAR(255) NOT NULL,
+    "hashed_pathIcon" CHAR(255) NOT NULL,
     "cipher_name" VARCHAR(255) NOT NULL,
     "cipher_pathIcon" VARCHAR(255) NOT NULL,
     "type" INTEGER NOT NULL
 );
 ALTER TABLE
-    "Icon" ADD PRIMARY KEY("hashed_name");
+    "Icon" ADD PRIMARY KEY("hashed_pathIcon", "type");
+ALTER TABLE
+    "Icon" ADD CONSTRAINT "icon_hashed_name_unique" UNIQUE("hashed_name");
+CREATE INDEX "icon_hashed_pathicon_index" ON
+    "Icon"("hashed_pathIcon");
+CREATE INDEX "icon_type_index" ON
+    "Icon"("type");
 ALTER TABLE
     "UserInfos" ADD CONSTRAINT "userinfos_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE

@@ -8,6 +8,7 @@ CREATE TABLE UserCore (
     cipher_name TEXT NOT NULL,
     cipher_email TEXT NOT NULL
 );
+CREATE INDEX usercore_hashed_name_index ON UserCore(hashed_name);
 CREATE INDEX usercore_hashed_email_index ON UserCore(hashed_email);
 
 CREATE TABLE UserInfos (
@@ -79,6 +80,7 @@ CREATE TABLE ObjectCore (
     object_physical TEXT NOT NULL,
     FOREIGN KEY (author) REFERENCES UserCore(hashed_name)
 );
+CREATE INDEX objectcore_hashed_id_index ON ObjectCore(hashed_id);
 CREATE INDEX objectcore_hashed_name_index ON ObjectCore(hashed_name);
 CREATE INDEX objectcore_author_index ON ObjectCore(author);
 
@@ -87,7 +89,7 @@ CREATE TABLE ObjectInfos (
     id TEXT NOT NULL PRIMARY KEY,
     cipher_id TEXT NOT NULL,
     status TEXT NOT NULL,
-    time_init TEXT NOT NULL,
+    time_init TEXT NOT NULL,  -- SQLite uses TEXT for datetime by convention
     time_end TEXT,
     price INTEGER NOT NULL,
     FOREIGN KEY (id) REFERENCES ObjectCore(hashed_id)
@@ -119,6 +121,7 @@ CREATE TABLE Message (
     FOREIGN KEY (user_name) REFERENCES UserCore(hashed_name),
     FOREIGN KEY (object_title) REFERENCES ObjectExpost(hashed_title)
 );
+CREATE INDEX message_hashed_id_index ON Message(hashed_id);
 CREATE INDEX message_user_name_index ON Message(user_name);
 CREATE INDEX message_object_title_index ON Message(object_title);
 
@@ -145,13 +148,18 @@ CREATE TABLE Bid (
     FOREIGN KEY (user_name) REFERENCES UserCore(hashed_name),
     FOREIGN KEY (object_title) REFERENCES ObjectExpost(hashed_title)
 );
+CREATE INDEX bid_hashed_id_index ON Bid(hashed_id);
 CREATE INDEX bid_user_name_index ON Bid(user_name);
 CREATE INDEX bid_object_title_index ON Bid(object_title);
 
 CREATE TABLE Icon (
     dek TEXT NOT NULL,
-    hashed_name TEXT NOT NULL PRIMARY KEY,
+    hashed_name TEXT NOT NULL UNIQUE,
+    hashed_pathIcon TEXT NOT NULL,
     cipher_name TEXT NOT NULL,
     cipher_pathIcon TEXT NOT NULL,
-    type INTEGER NOT NULL
+    type INTEGER NOT NULL,
+    PRIMARY KEY (hashed_pathIcon, type)
 );
+CREATE INDEX icon_hashed_pathicon_index ON Icon(hashed_pathIcon);
+CREATE INDEX icon_type_index ON Icon(type);
