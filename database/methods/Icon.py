@@ -1,3 +1,5 @@
+from begin.globals import Token
+
 from database.session import Base
 from database.session_methods import session_insert
 
@@ -37,6 +39,7 @@ class Icon(Base):
             _, _, *icon_path = file_path.split('/')
             icon_path = '/'.join(icon_path)
 
+            print('file_path:', file_path.encode())
             session_insert(Icon, type=icon_type, name=icon_name, pathIcon=icon_path)
 
     def init_instances()->None:

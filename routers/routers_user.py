@@ -66,20 +66,64 @@ def register_app(app:object)->None:
     def user_profile_edit()->object:
         if flask.request.method != 'POST':
             return flask.jsonify({
-                'message': [ Messages.Request.Error.invalid_method, Messages.error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.ProfileEdit.Request.Error.invalid_method,
+                    type = Messages.ProfileEdit.Error.js_class
+                ).json
             })
 
         form_json = flask.request.json
         user_name = Cookie.get("user_name")
 
+        error_class = Messages.Error.js_class
+        success_class = Messages.Success.js_class
+
         #
-        user_nickname = form_json["user_nickname"].trim()
-        user_description = form_json["user_about"].trim()
-        user_iconProfile = form_json["user_photo_select"]
+        user_nickname = form_json["user_nickname"].strip()
+        user_description = form_json["user_about"].strip()
+
+        user_iconProfile = form_json["user_photo_selection"]
+        user_iconProfile = user_iconProfile.split('/')[-1]
+        user_iconProfile = user_iconProfile.split('.')[0]
+
+        print('profile icon: ', user_iconProfile)
+
 
         if not len(user_nickname) or not len(user_description):
             return flask.jsonify({
-                'message': [ Messages.Request.empty_fields, Messages.error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.ProfileEdit.Error.empty_fields,
+                    type = error_class
+                ).json
             })
 
-        return flask.jsonify({})
+        #
+        userInfos = session_query(UserInfos, name=user_name)
+        icon = session_query(Icon, name=user_iconProfile)
+
+        if not len(userInfos):
+            return flask.jsonify({
+                'message': Messages.Message(
+                    content = Messages.ProfileEdit.Error.user_not_found,
+                    type = error_class
+                ).json
+            })
+
+        if not len(icon):
+            return flask.jsonify({
+                'message': Messages.Message(
+                    content = Messages.ProfileEdit.Error.icon_not_found,
+                    type = error_class
+                ).json
+            })
+
+        icon_name = model_get(icon[0], "cipher_name")[0]
+        model_update(userInfos[0], nickname=user_nickname, description=user_description, iconProfileName=icon_name)
+
+
+        return flask.jsonify({
+            'message': Messages.Message(
+                content = Messages.ProfileEdit.Success.ok,
+                type = success_class
+            ).json
+        })

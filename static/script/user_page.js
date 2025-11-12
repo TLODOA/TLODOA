@@ -43,10 +43,21 @@ userPage.CLICK_BUTT_EDIT_PROFILE = (e) => {
     userPage.SELECT_USER_PHOTO.style.display = 'block';
 }
 
-userPage.CLICK_BUTT_EDIT_PROFILE_OK = (e) => {
+userPage.CHANGE_SELECT_USER_PHOTO = (e) => {
     e.preventDefault();
 
     //
+    const value_selected = e.target.value;
+    // console.log(value_selected);
+
+    userPage.FIELD_USER_PHOTO.src = value_selected;
+}
+
+//
+userPage.CLICK_BUTT_EDIT_PROFILE_OK = (e) => {
+    e.preventDefault();
+
+    // 
     const form_data = Object.fromEntries(new FormData(userPage.FIELD_PORTFOLIO))
     console.log(form_data);
 
@@ -60,7 +71,7 @@ userPage.CLICK_BUTT_EDIT_PROFILE_OK = (e) => {
         return;
     }
 
-    //
+    // Ajax
     fetch('/user/profile/edit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -69,11 +80,13 @@ userPage.CLICK_BUTT_EDIT_PROFILE_OK = (e) => {
     })
     .then(response => response.json())
     .then(data => {
-        logs.CLEAN()
-        console.log(data);
+        const message = data["message"];
+
+        logs.CLEAN();
+        logs.ADD(message["type"], message["content"]);
     });
 
-    //
+    // Return default page
     userPage.replace_element_for(userPage.FIELD_PORTFOLIO, {
         tag: "div",
         innerHTML: userPage.FIELD_PORTFOLIO.innerHTML.trim()
@@ -83,7 +96,7 @@ userPage.CLICK_BUTT_EDIT_PROFILE_OK = (e) => {
         tag: "h4",
         innerHTML: `
         <u>
-            ${form_data["user_name"]}
+            ${form_data["user_nickname"]}
         </u>`
     });
 
@@ -92,21 +105,10 @@ userPage.CLICK_BUTT_EDIT_PROFILE_OK = (e) => {
         textContent: form_data["user_about"]
     });
 
-    //
     userPage.BUTT_EDIT_PROFILE.style.display = 'block';
     userPage.BUTT_EDIT_PROFILE_OK.style.display = 'none';
 
     userPage.SELECT_USER_PHOTO.style.display = 'none';
-}
-
-userPage.CHANGE_SELECT_USER_PHOTO = (e) => {
-    e.preventDefault();
-
-    //
-    const value_selected = e.target.value;
-    // console.log(value_selected);
-
-    userPage.FIELD_USER_PHOTO.src = value_selected;
 }
 
 userPage.init_eventListeners();

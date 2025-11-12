@@ -2,11 +2,27 @@ ANSI_COLOR_RED = '\033[91m'
 ANSI_COLOR_NULL = '\033[0m'
 
 ##
+class Message():
+    def __init__(self, type:str, content:str):
+        self.type = type
+        self.content = content
+
+    @property
+    def json(self)->dict:
+        return {
+            "content": self.content,
+            "type": self.type
+        }
+
+##
 class Error():
     js_class="log_message_erro"
 
     def print(func_name:str, e:object)->None:
         print(f"{func_name} {ANSI_COLOR_RED}ERROR{ANSI_COLOR_NULL}: {e}")
+
+class Success():
+    js_class = "log_message_ok"
 
 ## Request
 class Request():
@@ -62,7 +78,8 @@ class Email():
 
         already_sended = "You alread receive the email"
 
-    ok = "Emaill successful send!"
+    class Success(Success):
+        ok = "Emaill successful send!"
 
 class EmailCode():
     class Request(Request):
@@ -96,3 +113,15 @@ class Sign(Login):
     class Error(Login.Error):
         user_found = "Invalid user name"
         password_not_match = "Passwords not match"
+
+## Profile edit
+class ProfileEdit():
+    class Error(Error):
+        user_not_found = "This user doens't exist"
+        icon_not_found = "The selected icon doen't exist"
+
+    class Request(Request):
+        pass
+
+    class Success(Success):
+        ok = "User successful modified!"

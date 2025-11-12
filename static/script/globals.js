@@ -10,16 +10,16 @@ export function request_token_email(json){
     .then(response => response.json())
     .then(data => {
         const logs = new MessageLogs();
+        const message = data["message"];
 
         logs.CLEAN();
 
         console.log(data);
 
-        const message = data["message"];
         if(message == undefined)
             return;
 
-        logs.ADD(logs.MESSAGE_ERROR_CLASS, message);
+        logs.ADD(message["type"], message["content"]);
     });
 }
 

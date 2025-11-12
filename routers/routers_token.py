@@ -11,7 +11,10 @@ def register_app(app:object)->None:
 
         if flask.request.method != 'POST':
             return flask.jsonify({
-                'message': [ Messages.EmailCode.Request.Error.invalid_method, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.EmailCode.Request.Error.invalid_method,
+                    type = error_js_class
+                ).json
             })
         
         #
@@ -31,8 +34,10 @@ def register_app(app:object)->None:
         ##
         if ipInfos == None or userEmail == None or not user_email_field in UserEmailCode.FIELD_ABLE:
             return flask.jsonify({
-                'message': \
-                    [ Messages.EmailCode.Request.Error.interval(), error_js_class ]
+                'message': Messages.Message(
+                        content = Messages.EmailCode.Request.Error.interval(),
+                        type = error_js_class
+                    ).json
                 })
 
 
@@ -44,26 +49,34 @@ def register_app(app:object)->None:
 
         if emailSend_status == Email.SEND_NOT_ALLOW_BECAUSE_AMOUNT:
             return flask.jsonify({
-                'message': \
-                    [ Messages.EmailCode.Email.Error.invalid_amount(ipInfos[0].email_send_time_allow), error_js_class ]
+                'message': Messages.Message(
+                        content = Messages.EmailCode.Email.Error.invalid_amount(ipInfos[0].email_send_time_allow),
+                        type = error_js_class
+                    ).json
                 })
 
         if emailSend_status == Email.SEND_NOT_ALLOW_BECAUSE_INTERVAL:
             return flask.jsonify({
-                'message': \
-                    [ Messages.EmailCode.Email.Error.invalid_interval(ipInfos[0].email_send_time_allow), error_js_class ]
+                'message': Messages.Message(
+                        content = Messages.EmailCode.Email.Error.invalid_interval(ipInfos[0].email_send_time_allow),
+                        type = error_js_class
+                    ).json
                 })
 
         if emailSend_status == Email.SEND_NOT_ALLOW_BECAUSE_TOKEN_ATTEMPTS:
             return flask.jsonify({
-                'message': \
-                    [ Messages.EmailCode.Email.Error.invalid_token_attempts(ipInfos[0].email_send_time_allow), error_js_class ]
+                'message': Messages.Message(
+                        content = Messages.EmailCode.Email.Error.invalid_token_attempts(ipInfos[0].email_send_time_allow),
+                        type = error_js_class
+                    ).json
             })
 
         if emailSend_status == Email.SEND_NOT_ALLOW_BECAUSE_IP_BLOCKED:
             return flask.jsonify({
-                'message': \
-                    [ Messages.EmailCode.Email.Error.ip_blocked(ipInfos[0].email_send_time_allow), error_js_class ]
+                'message': Messages.Message(
+                        content = Messages.EmailCode.Email.Error.ip_blocked(ipInfos[0].email_send_time_allow),
+                        type = error_js_class
+                    ).json
             })
 
         ##
@@ -84,6 +97,8 @@ def register_app(app:object)->None:
             })
         """
         return flask.jsonify({
-            'message': \
-                'This is your email token: ' + email_token
+            'message': Messages.Message(
+                    content = 'This is your email token: ' + email_token,
+                    type = Messages.Success.js_class
+                ).json
             })

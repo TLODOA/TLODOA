@@ -61,6 +61,6 @@ sign.BUTT_FINISH.addEventListener('click', (e) => {
         }
 
         logs.CLEAN();
-        logs.ADD(logs.MESSAGE_ERROR_CLASS, message);
+        logs.ADD(message["type"], message["content"]);
     })
 });

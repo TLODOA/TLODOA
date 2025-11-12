@@ -21,7 +21,10 @@ def register_app(app:object)->None:
 
         if flask.request.method != "POST":
             return flask.jsonify({
-                'message': [ Messages.Login.Request.Error.invalid_method, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Login.Request.Error.invalid_method,
+                    type = error_js_class
+                ).json
             })
 
         forms = flask.request.json
@@ -43,48 +46,72 @@ def register_app(app:object)->None:
         ##
         if user is None or userEmail is None or ipInfos is None:
             return flask.jsonify({
-                'message': [ Messages.Login.Error.internal, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Login.Error.internal,
+                    type = error_js_class
+                ).json
             })
 
         ipInfos[0].status_update()
 
         if not ipInfos[0].client_behavior_normal:
             return flask.jsonify({
-                'message': [ Messages.Login.Request.Error.invalid_client_behavior(ipInfos[0].email_send_time_allow), error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Login.Request.Error.invalid_client_behavior(ipInfos[0].email_send_time_allow),
+                    type = error_js_class
+                ).json
             })
 
         session_update(ipInfos, auth_attempts=ipInfos[0].auth_attempts+1)
         #
         if not len(user):
             return flask.jsonify({
-                'message': [ Messages.Login.Error.user_not_found, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Login.Error.user_not_found,
+                    type = error_js_class
+                ).json
             })
 
         if not user[0].hashed_email.strip() == Token.crypt_sha256(user_email):
             return flask.jsonify({
-                'message': [ Messages.Login.Error.incorrect_user_email, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Login.Error.incorrect_user_email,
+                    type = error_js_class
+                ).json
             })
 
 
         if not len(userEmail):
             return flask.jsonify({
-                'message': [ Messages.Login.EmailCode.Error.code_not_send, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Login.EmailCode.Error.code_not_send,
+                    type = error_js_class
+                ).json
             })
 
         if not userEmail[0].token_auth(user_email_code):
             return flask.jsonify({
-                'message': [ Messages.Login.EmailCode.Error.incorrect_code, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Login.EmailCode.Error.incorrect_code,
+                    type = error_js_class
+                ).json
             })
 
         if not userEmail[0].token_valid():
             return flask.jsonify({
-                'message': [ Messages.Login.EmailCode.Error.invalid_code_validity, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Login.EmailCode.Error.invalid_code_validity,
+                    type = error_js_class
+                ).json
             })
             
 
         if not user[0].password_auth(user_password):
             return flask.jsonify({
-                'message': [ Messages.Login.Error.incorrect_user_password, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Login.Error.incorrect_user_password,
+                    type = error_js_class
+                ).json
             })
 
         ##
@@ -110,7 +137,10 @@ def register_app(app:object)->None:
         ##
         if flask.request.method != "POST":
             return flask.jsonify({
-                'message': [ Messages.Sign.Request.Error.invalid_method, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Sign.Request.Error.invalid_method,
+                    type = error_js_class
+                ).json
             })
 
         forms = flask.request.json
@@ -133,7 +163,10 @@ def register_app(app:object)->None:
         ##
         if user == None or ipInfos == None or userEmail == None:
             return flask.jsonify({
-                'message': [ Messages.Sign.Request.Error.internal, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Sign.Request.Error.internal,
+                    type = error_js_class
+                ).json
             })
 
         ipInfos[0].status_update()
@@ -141,35 +174,53 @@ def register_app(app:object)->None:
 
         if not ipInfos[0].client_behavior_normal:
             return flask.jsonify({
-                'message': [ Messages.Sign.Request.Error.invalid_client_behavior(ipInfos[0].email_send_time_allow), error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Sign.Request.Error.invalid_client_behavior(ipInfos[0].email_send_time_allow),
+                    type = error_js_class
+                ).json
             })
 
         #
         if len(user):
             return flask.jsonify({
-                'message': [ Messages.Sign.Error.user_found, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Sign.Error.user_found,
+                    type = error_js_class
+                ).json
             })
 
 
         if not len(userEmail):
             return flask.jsonify({
-                'message': [ Messages.Sign.EmailCode.Error.code_not_send, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Sign.EmailCode.Error.code_not_send,
+                    type = error_js_class
+                ).json
             })
 
         if not userEmail[0].token_auth(user_email_code):
             return flask.jsonify({
-                'message': [ Messages.Sign.EmailCode.Error.incorrect_code, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Sign.EmailCode.Error.incorrect_code,
+                    type = error_js_class
+                ).json
             })
 
         if not userEmail[0].token_valid():
             return flask.jsonify({
-                'message': [ Messages.Sign.EmailCode.Error.invalid_code_validity, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Sign.EmailCode.Error.invalid_code_validity,
+                    type = error_js_class
+                ).json
             })
 
 
         if user_password != user_password_check:
             return flask.jsonify({
-                'message': [ Messages.Sign.Error.password_not_match, error_js_class ]
+                'message': Messages.Message(
+                    content = Messages.Sign.Error.password_not_match,
+                    type = error_js_class
+                ).json
             })
         
         ##

@@ -55,14 +55,12 @@ login.BUTT_FINISH.addEventListener('click', (e) => {
         const href_link = data["href_link"];
         const message = data["message"];
 
-        console.log(data)
-
         if(href_link != undefined){
             window.location.href = href_link;
             return;
         }
 
         logs.CLEAN();
-        logs.ADD(logs.MESSAGE_ERROR_CLASS, message);
+        logs.ADD(message["type"], message["content"]);
     });
 });
