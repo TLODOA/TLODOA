@@ -56,10 +56,15 @@ def register_app(app:object)->None:
 
         return flask.redirect(flask.url_for("view_user_infos", user_name=user_name))
 
+    ##
     @app.route('/view/user/card')
-    def view_user_card(token:str)->object:
+    def view_user_card()->object:
 
         return "Building..."
+
+    @app.route('/view/user/objects')
+    def view_user_objects()->object:
+        return flask.render_template('user_objects.html')
 
     ##
     @app.route('/user/profile/edit', methods=['POST'])
@@ -127,3 +132,7 @@ def register_app(app:object)->None:
                 type = success_class
             ).json
         })
+
+    @app.route('/user/profile/settings')
+    def view_user_settings()->object:
+        return flask.render_template('user_settings.html')

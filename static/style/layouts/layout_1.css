@@ -107,9 +107,11 @@ button:hover{
 }
 
 /* User auth / User input */
-.user_auth {
+.user_menu{
     display: flex;
     justify-content: space-between;
+
+    overflow-x: scroll;
 }
 
 .user_data_input{
