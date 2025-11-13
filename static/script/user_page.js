@@ -48,7 +48,19 @@ userPage.CHANGE_SELECT_USER_PHOTO = (e) => {
 
     //
     const value_selected = e.target.value;
-    // console.log(value_selected);
+    for(const i of userPage.SELECT_USER_PHOTO){
+        const attributes = i.attributes;
+
+        if(attributes.getNamedItem("selected") != null){
+            attributes.removeNamedItem("selected");
+            continue;
+        }
+
+        if(i.value != value_selected)
+            continue;
+
+        attributes.setNamedItem(document.createAttribute("selected"));
+    }
 
     userPage.FIELD_USER_PHOTO.src = value_selected;
 }

@@ -5,7 +5,7 @@ from begin.globals import Token
 class UserInfos(Base):
     __tablename__ = "UserInfos"
 
-    DEFAULT_iconProfileName = "Profile_Lorax"
+    DEFAULT_iconProfileName = "Lorax"
     DEFAULT_description = "Description not provide"
     DEFAULT_nickname = "Nickname not provide"
 
