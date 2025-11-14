@@ -111,9 +111,21 @@ button:hover{
     display: flex;
     justify-content: space-between;
 
-    overflow-x: scroll;
+    width: 30%;
+    height: 100%;
+
+    align-items: center;
 }
 
+#menu {
+    height: 70%;
+}
+
+#menu > img {
+    height: 100%;
+}
+
+/* */
 .user_data_input{
     display: grid;
     align-items: center;

@@ -58,31 +58,11 @@
                 </h3>
             </a>
 
-            <a href="{{ url_for("view_user_objects") }}">
-                <h3 class="btn">
-                    My objects
-                </h3>
-            </a>
+            <div id="menu">
+                <img src="https://cdn-icons-png.flaticon.com/512/2311/2311531.png">
 
-            <a href="{{ url_for("view_user_card") }}">
-                <h3 class="btn">
-                    {{ session.user_card }} Bitc
-                </h3>
-            </a>
+            </div>
 
-            <a href="{{ url_for("view_user_settings") }}">
-                <h3 class="btn">
-                    Settings
-                </h3>
-            </a>
-
-            <a href="{{ url_for("logout_auth") }}">
-                <h3 class="btn btn_exit">
-                    Logout
-                </h3>
-            </a>
-
-        </div>
         {% endif %}
     </header>
     <div class="header_space"></div>
