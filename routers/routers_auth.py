@@ -8,11 +8,11 @@ def register_app(app:object)->None:
 
     @app.route('/login/display')
     def login_display()->object:
-        return flask.render_template('login.html')
+        return flask.render_template('user/user_login.html')
 
     @app.route('/sign/display')
     def sign_display()->object:
-        return flask.render_template('sign.html')
+        return flask.render_template('user/user_sign.html')
 
     ##
     @app.route('/login/auth', methods=["POST"])

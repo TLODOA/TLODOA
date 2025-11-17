@@ -28,20 +28,9 @@ sign.BUTT_FINISH.addEventListener('click', (e) => {
     e.preventDefault();
     
     //
-    const form_data_email = Object.fromEntries(new FormData(sign.FORM_EMAIL));
-    const form_data_passw = Object.fromEntries(new FormData(sign.FORM_PASSWORD));
-
-    const form_data_json = { ...form_data_email, ...form_data_passw };
-
-    for(var i in form_data_json){
-        if(form_data_json[i])
-            continue;
-
-        logs.CLEAN();
-        logs.ADD("Please, fill all required fields");
-
+    const form_data_json = global.forms_validation(sign.FORM_EMAIL, sign.FORM_PASSWORD);
+    if(!form_data_json)
         return;
-    }
 
     //
     fetch('/sign/auth', {

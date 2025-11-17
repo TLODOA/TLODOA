@@ -2,6 +2,7 @@ import * as global from "./globals.js"
 
 //
 const objectCreation = new global.ObjectCreation();
+const logs = new global.MessageLogs();
 
 objectCreation.CHANGE_SLCT_OBJECT_PHOTO = (e) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ objectCreation.CHANGE_SLCT_OBJECT_PHOTO = (e) => {
     objectCreation.OBJECT_PHOTO.src = value;
 }
 
-objectCreation.CHANGE_OBJECT_PHYSIC = (e) => {
+objectCreation.CHANGE_SLCT_OBJECT_PHYSIC = (e) => {
     e.preventDefault();
 
     //
@@ -33,8 +34,19 @@ objectCreation.CHANGE_OBJECT_PHYSIC = (e) => {
     if(!file)
         return;
 
-    console.log(file);
     objectCreation.OBJECT_PHYSIC_NAME.textContent = file.name;
+}
+
+//
+objectCreation.CLICK_BUTT_SUBMIT = (e) => {
+    e.preventDefault();
+
+    //
+    const form_data = global.forms_validation(objectCreation.FORM_OBJECT_HEADER, objectCreation.FORM_OBJECT_PHYSIC);
+    if(!form_data)
+        return;
+
+    // console.log(form_data);
 }
 
 objectCreation.init_eventListeners();

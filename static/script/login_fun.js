@@ -28,20 +28,9 @@ login.BUTT_FINISH.addEventListener('click', (e) => {
     e.preventDefault();
 
     //
-    const form_data_email_json = Object.fromEntries(new FormData(login.FORM_EMAIL));
-    const form_data_passw_json = Object.fromEntries(new FormData(login.FORM_PASSWORD));
-
-    const form_data_json = { ...form_data_email_json, ...form_data_passw_json };
-
-    for(var i in form_data_json){
-        if(form_data_json[i])
-            continue;
-
-        logs.CLEAN();
-        logs.ADD(logs.MESSAGE_ERROR_CLASS, "Please, fill all required fields");
-
+    const form_data_json = global.forms_validation(login.FORM_EMAIL, login.FORM_PASSWORD);
+    if(!form_data_json)
         return;
-    }
 
     //
     fetch('/login/auth', {

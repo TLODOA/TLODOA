@@ -15,4 +15,4 @@ def register_app(app:object)->None:
             "icon_default": model_get(random.choice(iconsBid_wrap), "cipher_pathIcon")[0]
         }
 
-        return flask.render_template("object_creation.html", system=system)
+        return flask.render_template("object/object_creation.html", system=system)
