@@ -41,10 +41,14 @@
 
 {% block content_main_2 %}
 <form id="objectCreation_form_object_physic" class="block_1_generic user_data_input">
-    <label class="upload_file">
-        <input type="file" name="object_physic">
-        <img src="{{ url_for("static", filename="image/icons/upload/Upload.png") }}">
-    </label>
+    <div class="file_selection">
+        <label class="upload_file">
+            <input type="file" name="object_physic" id="objectCreation_object_physic">
+            <img src="{{ url_for("static", filename="image/icons/upload/Upload.png") }}">
+        </label>
+
+        <p id="objectCreation_object_physic_name"></p>
+    </div>
 
     <div class="user_data_input_get">
         <button id="objectCreation_button_submit">Finish</button>

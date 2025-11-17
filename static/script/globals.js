@@ -333,19 +333,23 @@ export class ObjectCreation {
 
         //
         this.CHANGE_SLCT_OBJECT_PHOTO = null;
+        this.CHANGE_OBJECT_PHYSIC = null;
 
         //
         this.OBJECT_PHOTO = ELEMENT_BY_ID["objectCreation_object_photo"];
-        this.SLCT_OBJECT_PHOTO = ELEMENT_BY_ID["objectCreation_select_object_photo"];
+        this.OBJECT_PHYSIC = ELEMENT_BY_ID["objectCreation_object_physic"];
+        this.OBJECT_PHYSIC_NAME = ELEMENT_BY_ID["objectCreation_object_physic_name"];
 
-        this.BUTT_SUBMIT = ELEMENT_BY_ID["objectCreation_button_submit"]
+        this.SLCT_OBJECT_PHOTO = ELEMENT_BY_ID["objectCreation_select_object_photo"];
+        this.BUTT_SUBMIT = ELEMENT_BY_ID["objectCreation_button_submit"];
         this.BUTT_SUBMIT_AND_PUBLISH = ELEMENT_BY_ID["objectCreation_button_submit_and_publish"];
     }
 
     init_eventListeners(){
         this.eventListeners = [
-            {type: "change", func: this.CHANGE_SLCT_OBJECT_PHOTO, to:"SLCT_OBJECT_PHOTO" }
-        ]
+            {type: "change", func: this.CHANGE_SLCT_OBJECT_PHOTO, to:"SLCT_OBJECT_PHOTO" },
+            {type: "change", func: this.CHANGE_OBJECT_PHYSIC, to:"OBJECT_PHYSIC"}
+        ];
 
         for(const i of this.eventListeners){
             this[i.to].addEventListener(i.type, i.func);
