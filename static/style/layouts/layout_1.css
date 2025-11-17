@@ -89,6 +89,8 @@ button:hover{
 .block_1_generic{
     background-color: var(--block_1_color);
     border-radius: 5px;
+
+    box-shadow: 10px 14px 0px 3px rgba(0,0,0,1);
 }
 
 .block_2_generic{
@@ -166,6 +168,8 @@ button:hover{
     list-style: none;
 
     height: 90%;
+
+    overflow-y: scroll;
 }
 
 
@@ -179,6 +183,7 @@ button:hover{
     margin: 0px 0px 10px 0px;
 
     width: 95%;
+    min-height: 65px;
 }
 
 #menu_options li > a {
@@ -208,12 +213,16 @@ button:hover{
     border-radius: 25px;
 }
 
-.user_data_input_get input{
+.user_data_input input{
     padding: 12px;
     margin: 0px 0px 15px 0px;
     border-radius: 5px;
 
     width: 90%;
+
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
 }
 
 .user_data_input_get{
@@ -257,7 +266,7 @@ button:hover{
     width: 400px;
     height: 400px;
 
-    padding: 5px 20px 5px 20px;
+    padding: 10px 20px 10px 20px;
 }
 
 /* Reduce */
@@ -267,5 +276,7 @@ button:hover{
 
 .reduce__user_data_input{
     height: 500px;
-    width: 450px;
+    width: 550px;
+
+    margin: 0px 0px 20px 0px;
 }

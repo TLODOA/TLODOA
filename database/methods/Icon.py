@@ -17,8 +17,9 @@ class Icon(Base):
 
     ICONS_PATH = "./static/image/icons"
     ICONS_TYPE = {
-        TYPE_PROFILE: f"{ICONS_PATH}/profile"
-        }
+        TYPE_PROFILE: f"{ICONS_PATH}/profile",
+        TYPE_BID: f"{ICONS_PATH}/bid"
+    }
 
     ##
     def register(path:str, icon_type:int)->None:

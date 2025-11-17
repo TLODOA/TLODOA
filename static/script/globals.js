@@ -324,3 +324,31 @@ export class UserPage {
             this[i.to].addEventListener(i.type, i.func);
     }
 }
+
+// object_creation.html
+export class ObjectCreation {
+    constructor() {
+        const page_layout = new Layout_1();
+        const ELEMENT_BY_ID = page_layout.ELEMENT_BY_ID;
+
+        //
+        this.CHANGE_SLCT_OBJECT_PHOTO = null;
+
+        //
+        this.OBJECT_PHOTO = ELEMENT_BY_ID["objectCreation_object_photo"];
+        this.SLCT_OBJECT_PHOTO = ELEMENT_BY_ID["objectCreation_select_object_photo"];
+
+        this.BUTT_SUBMIT = ELEMENT_BY_ID["objectCreation_button_submit"]
+        this.BUTT_SUBMIT_AND_PUBLISH = ELEMENT_BY_ID["objectCreation_button_submit_and_publish"];
+    }
+
+    init_eventListeners(){
+        this.eventListeners = [
+            {type: "change", func: this.CHANGE_SLCT_OBJECT_PHOTO, to:"SLCT_OBJECT_PHOTO" }
+        ]
+
+        for(const i of this.eventListeners){
+            this[i.to].addEventListener(i.type, i.func);
+        }
+    }
+}

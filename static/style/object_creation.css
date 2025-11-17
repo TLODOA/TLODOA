@@ -1,0 +1,79 @@
+/* Object form header */
+#objectCreation_form_object_header {
+    display: grid;
+    grid-template-rows: 70% auto;
+}
+
+.object_photo {
+    display: grid;
+    justify-items: center;
+    
+    width: 100%;
+}
+
+.object_photo > img {
+    width: 50%;
+    aspect-ratio: 1 / 1;
+
+    background-color: white;
+    object-fit: contain;
+
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+}
+
+#objectCreation_form_object_header > .user_data_input_get {
+    margin: 0px 0px 10px 0px;
+    height: auto;
+}
+
+/* Object physical */
+#objectCreation_form_object_physic {
+    display: grid;
+    grid-template-rows: 70% auto;
+}
+
+
+#objectCreation_form_object_physic > .user_data_input_get {
+    display: grid;
+    height: auto;
+}
+
+#objectCreation_form_object_physic > .user_data_input_get > button {
+    padding: 5px;
+    margin: 5px 0px 5px 0px;
+
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+
+    transition: background-color 0.5s, color 0.5s;
+}
+
+#objectCreation_form_object_physic > .user_data_input_get > button:hover{
+    background-color: var(--block_3_color);
+    color: white;
+}
+
+
+.upload_file input[type="file"] {
+    display: none
+}
+
+.upload_file {
+    display: flex;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.upload_file > img {
+    width: 50%;
+
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+
+    background-color: white;
+}
