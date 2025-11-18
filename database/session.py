@@ -69,7 +69,7 @@ def postgres_database_init()->None:
     global session
 
     #
-    engine = create_engine("postgresql://lorax:@localhost/tlodoadb", echo=True)
+    engine = create_engine("postgresql://lorax:admin@localhost/tlodoadb", echo=True)
 
     postgres_database_drop_tables(engine)
     Base = postgres_database_create(engine)
@@ -81,5 +81,5 @@ def postgres_database_init()->None:
 engine, Base, session = None, None, None
 
 # Not run postgres ? Comment the below line and uncomment the next statement
-postgres_database_init()
-# sqlite_database_init()
+# postgres_database_init()
+sqlite_database_init()
