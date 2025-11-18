@@ -7,7 +7,17 @@ class ObjectCore(Base):
     ID_CHARS = "abcdefghijklmnopqrstuvwzyzABCDEFGHIJKLMNOPQRSTUVWZYZ123456789"
     ID_LEN = 7
 
-    PATH_STORAGE = "./database/objects"
+    PATH_STORAGE = "./database/objects.zip"
+
+    OBJECT_PHYSIC_MAX_LEN = 1024 * 512
+    OBJECT_PHYSIC_MAX = 10
+
+    INTERVAL_CREATION = 60 * 2 # two minutes
+
+    #
+    STATUS_OK = 0
+    STATUS_BLOCKED_BECAUSE_INTERVAL = 1
+    STATUS_BLOCKED_BECAUSE_AMOUNT = 2
 
     ##
     def __init__(self, **kwargs)->None:

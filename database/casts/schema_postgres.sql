@@ -136,6 +136,7 @@ CREATE TABLE "IpInfos"(
     "email_send_last_time" DOUBLE PRECISION NULL DEFAULT '0',
     "auth_attempts" INTEGER NOT NULL DEFAULT '0',
     "block_time_init" DOUBLE PRECISION NULL DEFAULT '0',
+    "object_create_last_time" DOUBLE PRECISION NOT NULL DEFAULT '9',
     "validity" DOUBLE PRECISION NOT NULL DEFAULT '0'
 );
 CREATE INDEX "ipinfos_hashed_ip_index" ON

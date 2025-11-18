@@ -130,7 +130,16 @@ class ProfileEdit():
 ## Object creation
 class ObjectCreation():
     class Error(Error):
-        invalid_file_size = "Plase, insert a file small"
+        invalid_file_size = "Plase, insert a file small or equal to 512KiB(KiB = 1024B)"
+        invalid_amount = "You have many objects. Shell / delete one for add more one"
+        
+        def invalid_interval(timestamp)->str:
+            import time
+
+            date = time.localtime(timestamp)
+
+            return f"You create a object recently. Please. wait util {date.tm_hour}:{date.tm_min}:{date.tm_sec} to try again"
+
 
     class Request(Request):
         pass

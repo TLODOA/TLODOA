@@ -8,12 +8,12 @@ def delete_objects():
     import shutil
 
     ##
-    folder = ObjectCore.PATH_STORAGE
+    file_zip = ObjectCore.PATH_STORAGE
 
-    os.makedirs(folder, exist_ok=True)
+    if not os.path.exists(file_zip):
+        return
 
-    for i in os.listdir(folder):
-        shutil.rmtree(folder)
+    os.remove(file_zip)
 
 ##
 Icon.init_instances()
