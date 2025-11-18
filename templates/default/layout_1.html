@@ -22,7 +22,7 @@
      
 </head>
 <body>
-    <div id="message_logs"></div>
+    
 
     <header>
         {% if not "user_name" in request.cookies %}
@@ -114,5 +114,7 @@
             {% block footer %}{% endblock %}
         </footer>
     {% endblock %}
+
+    <div id="message_logs" class="animation_sliding"></div>
 </body>
 </html>
