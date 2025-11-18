@@ -90,7 +90,7 @@ button{
 }
 button:hover{
     cursor: pointer;
-    background-color: #0000;
+    background-color: black;
     color:#7ed957;
     transition-duration: 0.5s;
     transition-timing-function: ease-out;
