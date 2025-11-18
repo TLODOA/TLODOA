@@ -104,9 +104,9 @@ class IpInfos(Base):
 
         #
         user_token = session_query(UserToken, hashed_ip=self.hashed_ip)[0]
-        user = session_query(UserCore, hashed_name=model_get(user_token, "hashed_userName"))[0]
+        user = session_query(UserCore, hashed_name=model_get(user_token, "hashed_userName")[0])[0]
 
-        user_objects = session_query(ObjectCore, hashed_userName=model_get(user, "hashed_name"))
+        user_objects = session_query(ObjectCore, hashed_userName=model_get(user, "hashed_name")[0])
 
         if len(user_objects) >= ObjectCore.OBJECT_PHYSIC_MAX:
             return ObjectCore.STATUS_BLOCKED_BECAUSE_AMOUNT
