@@ -117,6 +117,15 @@ def register_app(app:object)->None:
         ##
         user_token = Token.user_generate()
         userToken = session_insert(UserToken, ip=user_addr, userName=user_name, token=user_token, field=UserToken.FIELD_AUTH)
+        print('validity: ', userToken.token_auth(user_token))
+
+        if userToken is None:
+            return flask.jsonify({
+                'message': Messages.Message(
+                    content = Messages.Login.Error.already_ip_logged,
+                    type = error_js_class
+                ).json
+            })
 
         session_delete(userEmail)
 

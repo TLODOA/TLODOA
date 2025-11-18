@@ -37,10 +37,10 @@ class Icon(Base):
                 continue
 
             icon_name = file_name.split('.')[0]
-            _, _, *icon_path = file_path.split('/')
+            icon_path = file_path.split('/')[2:]
             icon_path = '/'.join(icon_path)
 
-            print('file_path:', file_path.encode())
+            print('file_path:', file_path.encode(), icon_path)
             session_insert(Icon, type=icon_type, name=icon_name, pathIcon=icon_path)
 
     def init_instances()->None:

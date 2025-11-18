@@ -98,6 +98,7 @@ class EmailCode():
 class Login():
     class Error(Error):
         user_not_found = "User not found"
+        already_ip_logged = "This ip is already logged"
 
         incorrect_user_email = "User email incorrect"
         incorrect_user_password = "User password incorrect"
@@ -125,3 +126,14 @@ class ProfileEdit():
 
     class Success(Success):
         ok = "User successful modified!"
+
+## Object creation
+class ObjectCreation():
+    class Error(Error):
+        invalid_file_size = "Plase, insert a file small"
+
+    class Request(Request):
+        pass
+
+    class Success(Success):
+        ok = "Object succefully created!"

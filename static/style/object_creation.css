@@ -68,11 +68,11 @@
     justify-items: center;
 }
 
-.upload_file input[type="file"] {
+.file_upload input[type="file"] {
     display: none
 }
 
-.upload_file {
+.file_upload {
     display: flex;
     justify-content: center;
 
@@ -80,7 +80,7 @@
     width: 100%;
 }
 
-.upload_file > img {
+.file_upload > img {
     width: 50%;
 
     border-style: solid;
@@ -90,17 +90,29 @@
     background-color: white;
 }
 
-#objectCreation_object_physic_name {
-    background-color: white;
 
+.file_infos {
+    display: flex;
+    justify-content: center;
+
+    align-items: center;
+
+    width: 85%;
+}
+
+#objectCreation_object_physic_name, .file_infos input{
+    display: grid;
+
+    height: 35px;
     width: 50%;
-    min-height: 25px;
-    max-height: 70px;
-
+    max-width: 50%;
     overflow: scroll;
 
+    background-color: white;
+
     padding: 5px;
-    margin: 5px 0px 0px 0px;
+    margin: 5px;
 
     text-align: justify;
+    align-items: center;
 }

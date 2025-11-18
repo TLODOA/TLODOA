@@ -25,15 +25,15 @@ export function request_token_email(json){
 
 export function forms_validation(...forms){
     const logs = new MessageLogs();
-    var forms_json = {}; 
+    const formData = new FormData();
 
     for(const i of forms){
-        const form_data = Object.fromEntries(new FormData(i));
+        const form_data = new FormData(i);
         const fields_required =  document.querySelectorAll(`#${i.id} [required]`) || [];
-        console.log(form_data, fields_required);
+        // console.log(form_data, fields_required);
 
         for(const j of fields_required){
-            const field = form_data[j.name]
+            const field = form_data.get(j.name)
             const field_type = typeof field;
 
             if(field_type == "string" && field.trim())
@@ -41,16 +41,6 @@ export function forms_validation(...forms){
 
             if(field_type == "object" && field instanceof File && field.size)
                 continue;
-
-            /*
-            if(field instanceof String && field.trim())
-                continue;
-
-            if(field instanceof File && field.size)
-                continue;
-
-            console.log(field instanceof string, field);
-            */
 
             logs.CLEAN();
             logs.ADD(logs.MESSAGE_ERROR_CLASS, "Please, fill all required fields");
@@ -60,10 +50,12 @@ export function forms_validation(...forms){
             return null;
         }
 
-        forms_json = {...forms_json, ...form_data};
+        form_data.forEach((value, key) => {
+            formData.append(key, value);
+        });
     }
 
-    return forms_json;
+    return formData;
 }
 
 // Time
@@ -384,6 +376,7 @@ export class ObjectCreation {
         //
         this.OBJECT_PHOTO = ELEMENT_BY_ID["objectCreation_object_photo"];
         this.OBJECT_PHYSIC_NAME = ELEMENT_BY_ID["objectCreation_object_physic_name"];
+        this.OBJECT_PHYSIC_EXTENSION = ELEMENT_BY_ID["objectCreation_object_physic_extension"];
 
         this.SLCT_OBJECT_PHYSIC = ELEMENT_BY_ID["objectCreation_object_physic"];
         this.SLCT_OBJECT_PHOTO = ELEMENT_BY_ID["objectCreation_select_object_photo"];

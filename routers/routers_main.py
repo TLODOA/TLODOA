@@ -79,7 +79,6 @@ def register_app(app:object)->None:
 
         #
         if len(userToken):
-
             return
 
         # print(flask.request.path, flask.session)

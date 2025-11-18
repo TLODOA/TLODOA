@@ -1,4 +1,4 @@
-import * as global from './globals.js'
+import * as global from '../globals.js'
 
 const sign = new global.Sign()
 const logs = new global.MessageLogs()
@@ -8,19 +8,19 @@ sign.BUTT_EMAIL_CODE_GET.addEventListener('click', (e) => {
     e.preventDefault();
 
     //
-    const form_data = new FormData(sign.FORM_EMAIL);
-    const form_data_json = Object.fromEntries(form_data);
+    const formData = new FormData(sign.FORM_EMAIL);
+    const formData_json = Object.fromEntries(formData);
 
-    if(!form_data_json["user_name"] || !form_data_json["user_email"]){
+    if(!formData_json["user_name"] || !formData_json["user_email"]){
         logs.CLEAN();
         logs.ADD("Please, fill all required fields");
 
         return;
     }
 
-    form_data_json["user_email_field"] = 1;
+    formData_json["user_email_field"] = 1;
 
-    global.request_token_email(form_data_json);
+    global.request_token_email(formData_json);
 });
 
 //
@@ -28,16 +28,18 @@ sign.BUTT_FINISH.addEventListener('click', (e) => {
     e.preventDefault();
     
     //
-    const form_data_json = global.forms_validation(sign.FORM_EMAIL, sign.FORM_PASSWORD);
-    if(!form_data_json)
+    const formData = global.forms_validation(sign.FORM_EMAIL, sign.FORM_PASSWORD);
+    if(!formData)
         return;
+
+    const formData_json = Object.fromEntries(formData);
 
     //
     fetch('/sign/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
 
-        body: JSON.stringify(form_data_json)
+        body: JSON.stringify(formData_json)
     })
     .then(response => response.json())
     .then(data => {

@@ -79,69 +79,55 @@ CREATE INDEX "useremailcode_field_index" ON
 CREATE TABLE "ObjectCore"(
     "dek" CHAR(255) NOT NULL,
     "hashed_id" CHAR(255) NOT NULL,
-    "hashed_name" CHAR(255) NOT NULL,
-    "author" CHAR(255) NOT NULL,
-    "cipher_id" CHAR(255) NOT NULL,
-    "cipher_name" VARCHAR(255) NOT NULL,
-    "cipher_author" VARCHAR(255) NOT NULL,
-    "object_physical" VARCHAR(255) NOT NULL
+    "hashed_objectPhysical" CHAR(255) NOT NULL,
+    "hashed_userName" CHAR(255) NOT NULL,
+    "hashed_iconBidName" CHAR(255) NOT NULL,
+    "cipher_objectPhysical" VARCHAR(255) NOT NULL,
+    "cipher_nickname" VARCHAR(255) NOT NULL,
+    "time_changed" DOUBLE PRECISION NOT NULL
 );
-CREATE INDEX "objectcore_hashed_id_index" ON
-    "ObjectCore"("hashed_id");
 ALTER TABLE
     "ObjectCore" ADD PRIMARY KEY("hashed_id");
-CREATE INDEX "objectcore_hashed_name_index" ON
-    "ObjectCore"("hashed_name");
-CREATE INDEX "objectcore_author_index" ON
-    "ObjectCore"("author");
-CREATE TABLE "ObjectInfos"(
-    "dek" CHAR(255) NOT NULL,
-    "id" CHAR(255) NOT NULL,
-    "cipher_id" VARCHAR(255) NOT NULL,
-    "status" VARCHAR(255) NOT NULL,
-    "time_init" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-    "time_end" TIMESTAMP(0) WITHOUT TIME ZONE NULL,
-    "price" BIGINT NOT NULL
-);
-CREATE INDEX "objectinfos_id_index" ON
-    "ObjectInfos"("id");
-ALTER TABLE
-    "ObjectInfos" ADD PRIMARY KEY("id");
+CREATE INDEX "objectcore_hashed_username_index" ON
+    "ObjectCore"("hashed_userName");
 CREATE TABLE "ObjectExpost"(
     "dek" CHAR(255) NOT NULL,
     "id" CHAR(255) NOT NULL,
     "hashed_title" CHAR(255) NOT NULL,
-    "cipher_id" VARCHAR(255) NOT NULL,
+    "hashed_topicName" CHAR(255) NOT NULL,
+    "hashed_iconBidName" VARCHAR(255) NOT NULL,
     "cipher_title" VARCHAR(255) NOT NULL,
     "cipher_description" TEXT NOT NULL,
     "cipher_addctionalInfos" TEXT NULL,
-    "cipher_thumbnailPath" VARCHAR(255) NOT NULL
+    "time_init" DOUBLE PRECISION NOT NULL,
+    "time_end" DOUBLE PRECISION NOT NULL,
+    "status" INTEGER NOT NULL,
+    "price" INTEGER NOT NULL
 );
-CREATE INDEX "objectexpost_id_index" ON
-    "ObjectExpost"("id");
-ALTER TABLE
-    "ObjectExpost" ADD CONSTRAINT "objectexpost_hashed_title_unique" UNIQUE("hashed_title");
 ALTER TABLE
     "ObjectExpost" ADD PRIMARY KEY("id");
 CREATE INDEX "objectexpost_hashed_title_index" ON
     "ObjectExpost"("hashed_title");
+CREATE INDEX "objectexpost_hashed_topicname_index" ON
+    "ObjectExpost"("hashed_topicName");
+CREATE INDEX "objectexpost_hashed_iconbidname_index" ON
+    "ObjectExpost"("hashed_iconBidName");
 CREATE TABLE "Message"(
     "dek" CHAR(255) NOT NULL,
     "hashed_id" CHAR(255) NOT NULL,
-    "user_name" CHAR(255) NOT NULL,
-    "object_title" CHAR(255) NOT NULL,
-    "cipher_id" VARCHAR(255) NOT NULL,
-    "cipher_content" VARCHAR(255) NOT NULL,
+    "hashed_userName" CHAR(255) NOT NULL,
+    "object_id" CHAR(255) NOT NULL,
+    "cipher_content" TEXT NOT NULL,
     "time_send" DOUBLE PRECISION NOT NULL
 );
 CREATE INDEX "message_hashed_id_index" ON
     "Message"("hashed_id");
 ALTER TABLE
     "Message" ADD PRIMARY KEY("hashed_id");
-CREATE INDEX "message_user_name_index" ON
-    "Message"("user_name");
-CREATE INDEX "message_object_title_index" ON
-    "Message"("object_title");
+CREATE INDEX "message_hashed_username_index" ON
+    "Message"("hashed_userName");
+CREATE INDEX "message_object_id_index" ON
+    "Message"("object_id");
 CREATE TABLE "IpInfos"(
     "dek" CHAR(255) NOT NULL,
     "hashed_ip" CHAR(255) NOT NULL,
@@ -159,9 +145,8 @@ ALTER TABLE
 CREATE TABLE "Bid"(
     "dek" CHAR(255) NOT NULL,
     "hashed_id" CHAR(255) NOT NULL,
-    "user_name" CHAR(255) NOT NULL,
-    "object_title" CHAR(255) NOT NULL,
-    "cipher_id" BIGINT NOT NULL,
+    "hashed_userName" CHAR(255) NOT NULL,
+    "object_id" CHAR(255) NOT NULL,
     "time" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
     "value" BIGINT NOT NULL
 );
@@ -169,10 +154,10 @@ CREATE INDEX "bid_hashed_id_index" ON
     "Bid"("hashed_id");
 ALTER TABLE
     "Bid" ADD PRIMARY KEY("hashed_id");
-CREATE INDEX "bid_user_name_index" ON
-    "Bid"("user_name");
-CREATE INDEX "bid_object_title_index" ON
-    "Bid"("object_title");
+CREATE INDEX "bid_hashed_username_index" ON
+    "Bid"("hashed_userName");
+CREATE INDEX "bid_object_id_index" ON
+    "Bid"("object_id");
 CREATE TABLE "Icon"(
     "dek" CHAR(255) NOT NULL,
     "hashed_name" CHAR(255) NOT NULL,
@@ -185,35 +170,41 @@ ALTER TABLE
     "Icon" ADD PRIMARY KEY("hashed_pathIcon", "type");
 ALTER TABLE
     "Icon" ADD CONSTRAINT "icon_hashed_name_unique" UNIQUE("hashed_name");
-CREATE INDEX "icon_hashed_pathicon_index" ON
-    "Icon"("hashed_pathIcon");
-CREATE INDEX "icon_type_index" ON
-    "Icon"("type");
+CREATE TABLE "Topic"(
+    "dek" CHAR(255) NOT NULL,
+    "hashed_name" CHAR(255) NOT NULL,
+    "cipher_name" VARCHAR(255) NOT NULL,
+    "weigth" INTEGER NOT NULL
+);
+ALTER TABLE
+    "Topic" ADD PRIMARY KEY("hashed_name");
+ALTER TABLE
+    "Bid" ADD CONSTRAINT "bid_object_id_foreign" FOREIGN KEY("object_id") REFERENCES "ObjectExpost"("id");
 ALTER TABLE
     "UserInfos" ADD CONSTRAINT "userinfos_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");
-ALTER TABLE
-    "ObjectInfos" ADD CONSTRAINT "objectinfos_id_foreign" FOREIGN KEY("id") REFERENCES "ObjectCore"("hashed_id");
 ALTER TABLE
     "ObjectExpost" ADD CONSTRAINT "objectexpost_id_foreign" FOREIGN KEY("id") REFERENCES "ObjectCore"("hashed_id");
 ALTER TABLE
     "UserToken" ADD CONSTRAINT "usertoken_hashed_ip_foreign" FOREIGN KEY("hashed_ip") REFERENCES "IpInfos"("hashed_ip");
 ALTER TABLE
-    "Message" ADD CONSTRAINT "message_user_name_foreign" FOREIGN KEY("user_name") REFERENCES "UserCore"("hashed_name");
+    "Message" ADD CONSTRAINT "message_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE
     "UserInfos" ADD CONSTRAINT "userinfos_hashed_iconprofilename_foreign" FOREIGN KEY("hashed_iconProfileName") REFERENCES "Icon"("hashed_name");
 ALTER TABLE
     "UserToken" ADD CONSTRAINT "usertoken_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE
-    "Message" ADD CONSTRAINT "message_object_title_foreign" FOREIGN KEY("object_title") REFERENCES "ObjectExpost"("hashed_title");
+    "ObjectExpost" ADD CONSTRAINT "objectexpost_hashed_topicname_foreign" FOREIGN KEY("hashed_topicName") REFERENCES "Topic"("hashed_name");
 ALTER TABLE
-    "Bid" ADD CONSTRAINT "bid_user_name_foreign" FOREIGN KEY("user_name") REFERENCES "UserCore"("hashed_name");
+    "Bid" ADD CONSTRAINT "bid_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");
+ALTER TABLE
+    "ObjectCore" ADD CONSTRAINT "objectcore_hashed_iconbidname_foreign" FOREIGN KEY("hashed_iconBidName") REFERENCES "Icon"("hashed_name");
 ALTER TABLE
     "UserCard" ADD CONSTRAINT "usercard_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE
     "UserEmailCode" ADD CONSTRAINT "useremailcode_hashed_ip_foreign" FOREIGN KEY("hashed_ip") REFERENCES "IpInfos"("hashed_ip");
 ALTER TABLE
-    "Bid" ADD CONSTRAINT "bid_object_title_foreign" FOREIGN KEY("object_title") REFERENCES "ObjectExpost"("hashed_title");
+    "Message" ADD CONSTRAINT "message_object_id_foreign" FOREIGN KEY("object_id") REFERENCES "ObjectExpost"("id");
 ALTER TABLE
     "UserEmailCode" ADD CONSTRAINT "useremailcode_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");
 ALTER TABLE
-    "ObjectCore" ADD CONSTRAINT "objectcore_author_foreign" FOREIGN KEY("author") REFERENCES "UserCore"("hashed_name");
+    "ObjectCore" ADD CONSTRAINT "objectcore_hashed_username_foreign" FOREIGN KEY("hashed_userName") REFERENCES "UserCore"("hashed_name");

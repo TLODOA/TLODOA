@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block page_javascript %}
-<script src="{{ url_for("static", filename="script/object_creation.js") }}" type="module" defer></script>
+<script src="{{ url_for("static", filename="script/object/object_creation.js") }}" type="module" defer></script>
 {% endblock %}
 
 {% block content_main_1 %}
@@ -42,12 +42,15 @@
 {% block content_main_2 %}
 <form id="objectCreation_form_object_physic" class="block_1_generic user_data_input">
     <div class="file_selection">
-        <label class="upload_file">
+        <label class="file_upload">
             <input type="file" name="object_physic" id="objectCreation_object_physic" required>
             <img src="{{ url_for("static", filename="image/icons/upload/Upload.png") }}">
         </label>
 
-        <p id="objectCreation_object_physic_name"></p>
+        <div class="file_infos">
+            <p id="objectCreation_object_physic_name">File name</p>
+            <input type="text" name="object_physic_extension" placeholder="File extension" id="objectCreation_object_physic_extension" required>
+        </div>
     </div>
 
     <div class="user_data_input_get">

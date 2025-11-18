@@ -1,4 +1,4 @@
-import * as global from "./globals.js"
+import * as global from "../globals.js"
 
 //
 const objectCreation = new global.ObjectCreation();
@@ -34,7 +34,10 @@ objectCreation.CHANGE_SLCT_OBJECT_PHYSIC = (e) => {
     if(!file)
         return;
 
+    const file_extension = file.name.split('.');
+
     objectCreation.OBJECT_PHYSIC_NAME.textContent = file.name;
+    objectCreation.OBJECT_PHYSIC_EXTENSION.value = file_extension[file_extension.length - 1];
 }
 
 //
@@ -42,11 +45,30 @@ objectCreation.CLICK_BUTT_SUBMIT = (e) => {
     e.preventDefault();
 
     //
-    const form_data = global.forms_validation(objectCreation.FORM_OBJECT_HEADER, objectCreation.FORM_OBJECT_PHYSIC);
-    if(!form_data)
+    const data = global.forms_validation(objectCreation.FORM_OBJECT_HEADER, objectCreation.FORM_OBJECT_PHYSIC);
+    if(!data)
         return;
 
-    // console.log(form_data);
+    const formData = new FormData();
+    formData.append("file", data.get("object_physic"));
+    formData.append("json", JSON.stringify(Object.fromEntries(data)));
+
+    console.log(formData);
+
+    fetch('/view/object/create/auth', {
+        method: 'POST',
+        
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        const message = data["message"];
+
+        logs.CLEAN();
+        logs.ADD(message["type"], message["content"]);
+    });
 }
 
 objectCreation.init_eventListeners();
+
+objectCreation.OBJECT_PHYSIC_EXTENSION.value = '';

@@ -32,8 +32,8 @@ def register_app(app:object)->None:
                 "iconPath": icon["pathIcon"],
 
                 "infos": {
-                    "Last connection": f"{ time.strftime("%d/%m/%Y, %H:%M:%S", time_viewed_last) } ",
-                    "Here since": f"{ time.strftime("%A, %B %d, %Y %H:%M:%S GMT%Z", time_arrival) }"
+                    "Last connection": f"""{ time.strftime("%d/%m/%Y, %H:%M:%S", time_viewed_last) } """,
+                    "Here since": f"""{ time.strftime("%A, %B %d, %Y %H:%M:%S GMT%Z", time_arrival) }"""
                 },
 
                 "activity": [],
