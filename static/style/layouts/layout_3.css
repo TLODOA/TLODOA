@@ -1,13 +1,11 @@
 #main_1{
     display: flex;
     justify-content: center;
-    filter:drop-shadow(20px 20px 0px);
 }
 
 #main_2{
     display: flex;
     justify-content: center;
-    filter:drop-shadow(20px 20px 0px);
 }
 
 
@@ -25,7 +23,7 @@
     display: grid;
     align-content: start;
 
-    margin: 20px 0px 20px 0px;
+    margin: 20px 10px 20px 10px;
 }
 
 .reduce__main > .reduce__section {

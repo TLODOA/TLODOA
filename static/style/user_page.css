@@ -67,6 +67,8 @@ textarea{
     max-height: 100%;
     max-width: 100%;
 
+    padding: 10px;
+
     object-fit: cover;
 }
 
@@ -82,7 +84,6 @@ textarea{
 
 
 .user_header{
-    height: 100%;
 }
 
 .user_header > h1 {
@@ -120,6 +121,7 @@ textarea{
     padding: 10px;
     overflow-y: scroll;
     max-height: 200px;
+    height: 70%;
 
     border: none;
     font-size: 1.17em;
@@ -172,10 +174,6 @@ textarea{
 .expand__portfolio{
     display: flex;
     justify-content: space-between;
-
-    align-items:center;
-
-    min-width: 404px;
 }
 
 .expand__profile_photo{

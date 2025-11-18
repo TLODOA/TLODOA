@@ -3,9 +3,6 @@ from begin.xtensions import *
 
 from database import *
 
-from dotenv import load_dotenv
-load_dotenv()
-
 ##
 app = flask.Flask(__name__)
 app.config.from_object(Config)
@@ -21,5 +18,5 @@ SocketIO.socketio.init_app(app)
 ##
 if __name__ == "__main__":
     scheduler.start()
-    SocketIO.socketio.run(app, debug=True, host='0.0.0.0', port='3533')
+    SocketIO.socketio.run(app, debug=True, host='0.0.0.0', port='5000')
 

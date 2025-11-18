@@ -22,7 +22,7 @@
      
 </head>
 <body>
-    
+    <div id="message_logs" class="animation_sliding"></div>
 
     <header>
         {% if not "user_name" in request.cookies %}
@@ -111,18 +111,11 @@
 
         {% endif %}
     </header>
-    <div class="header_space"></div>
 
     {% block content %}
         <main>
             {% block content_main %}{% endblock %}
         </main>
-
-        <footer>
-            {% block footer %}{% endblock %}
-        </footer>
     {% endblock %}
-
-    <div id="message_logs" class="animation_sliding"></div>
 </body>
 </html>

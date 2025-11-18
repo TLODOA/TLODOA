@@ -11,7 +11,7 @@
 
 
 /* */
-html *{
+*{
     margin: 0px;
     font-size: 1em;
     font-family: Outfit !important;
@@ -19,10 +19,9 @@ html *{
 
 
 body{
-    height: auto;
+    height: 100%;
     width: 100vw;
     background-color: rgb(139, 197, 252);
-    overflow-x: hidden;
 }
 
 
@@ -30,7 +29,7 @@ header {
     width: 80%;
     height: var(--header_height);
     padding: 20px;
-    margin: 30px auto 0px auto;
+    margin: 30px auto 30px auto;
     
     background-color: rgb(255, 255, 255);
     box-shadow: 8px 8px 0px #000000;
@@ -44,8 +43,11 @@ header {
 
 main{
     display: flex;
+
     height: var(--main_height);
     width: 100%;
+
+    margin: 10px 0px 0px 0px;
 }
 
 
@@ -104,8 +106,9 @@ button:hover{
 .block_1_generic{
     background-color: var(--block_1_color);
     border-radius: 8px;
+
     transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 6px 6px 0px #000000;
+    filter: drop-shadow(3px 3px 0px #000000);
 }
 
 
@@ -118,6 +121,7 @@ button:hover{
 .block_2_generic{
     background-color: var(--block_2_color);
     border-radius: 8px;
+
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 6px 6px 0px #000000;
 }
@@ -138,6 +142,41 @@ button:hover{
 .tlodoa_banner_2 img{
     width: 500px;
     height: auto;
+}
+
+/* Message logs */
+#message_logs{
+    background-color: transparent;
+
+    z-index: 2;
+    width: 100%;
+
+    position: fixed;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+
+}
+
+#message_logs p {
+    background-color: #ffde59;
+    border-radius: 5px;
+
+    animation: sliding;
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.779);
+
+    padding: 5px;
+    text-align: center;
+
+}
+
+@keyframes sliding{
+    from{
+        top: 0px;
+    }
+    to{
+        top: 50px;
+    }
 }
 
 
@@ -254,7 +293,7 @@ button:hover{
 .user_data_input{
     display: grid;
     align-items: center;
-    padding: 30px;
+
     border-radius: 15px;
     box-shadow: 8px 8px 0px #000000;
 }
@@ -267,7 +306,6 @@ button:hover{
 
     border: 2px solid var(--block_3_color);
     transition: border-color 0.3s, box-shadow 0.3s;
-    font-size: 1em;
     box-shadow: 4px 4px 0px #000000;
 }
 
@@ -280,7 +318,7 @@ button:hover{
 
 .user_data_input_get input:focus {
     outline: none;
-    border-color: var(--block_2_color);
+    border-color: var(--block_3_color);
     box-shadow: 6px 6px 0px #000000;
 }
 
@@ -337,7 +375,7 @@ button:hover{
 }
 .btn:hover{
     background-color:#7ed957;
-
+}
 
 .btn_exit:hover {
     transform: translateY(-3px);
@@ -374,171 +412,11 @@ button:hover{
 
 
 .reduce__user_data_input{
-    height: 500px;
+    height: 600px;
     width: 550px;
 
     margin: 0px 0px 20px 0px;
+
+    padding: 10px 20px 20px 20px;
 }
 
-
-/* Responsividade */
-@media (max-width: 1024px) {
-    :root {
-        --header_height: 100px;
-    }
-    
-    header {
-        width: 85%;
-        padding: 15px;
-        flex-wrap: wrap;
-        box-shadow: 6px 6px 0px #000000;
-    }
-    
-    .tlodoa_banner_2 img {
-        width: 300px;
-    }
-    
-    #menu_main {
-        width: 300px;
-        right: 20px;
-        top: 120px;
-        box-shadow: 8px 8px 0px #000000;
-    }
-    
-    .expand__user_data_input {
-        width: 350px;
-    }
-}
-
-
-@media (max-width: 768px) {
-    :root {
-        --header_height: 80px;
-    }
-    
-    header {
-        width: 90%;
-        padding: 10px;
-        flex-direction: column;
-        height: auto;
-        box-shadow: 5px 5px 0px #000000;
-    }
-    
-    main {
-        flex-direction: column;
-    }
-    
-    .user_bar {
-        width: 100%;
-        margin-top: 10px;
-    }
-    
-    .tlodoa_banner_1 img {
-        width: 80px;
-    }
-    
-    .tlodoa_banner_2 img {
-        width: 250px;
-    }
-    
-    #menu_main {
-        width: 90%;
-        left: 5%;
-        right: auto;
-        top: 100px;
-        box-shadow: 6px 6px 0px #000000;
-    }
-    
-    .user_data_input {
-        padding: 20px;
-        box-shadow: 6px 6px 0px #000000;
-    }
-    
-    .user_data_input_get input {
-        width: 100%;
-        box-shadow: 3px 3px 0px #000000;
-    }
-    
-    .expand__user_data_input {
-        width: 100%;
-        height: auto;
-    }
-    
-    .reduce__user_data_input {
-        width: 100%;
-        height: auto;
-    }
-    
-    .btn {
-        margin-left: 0;
-        margin-top: 10px;
-        width: 100%;
-        box-shadow: 5px 5px 0px #000000;
-    }
-    
-    .btn:hover {
-        box-shadow: 6px 6px 0px #000000;
-    }
-    
-    .btn_exit {
-        width: 100%;
-        margin-top: 10px;
-        box-shadow: 5px 5px 0px #000000;
-    }
-    
-    .btn_exit:hover {
-        box-shadow: 6px 6px 0px #000000;
-    }
-    
-    h1 {
-        font-size: 1.5em;
-    }
-    
-    h2 {
-        font-size: 1.2em;
-    }
-}
-
-
-@media (max-width: 480px) {
-    :root {
-        --header_height: 70px;
-    }
-    
-    header {
-        width: 95%;
-        box-shadow: 4px 4px 0px #000000;
-    }
-    
-    .tlodoa_banner_1 img {
-        width: 60px;
-    }
-    
-    .tlodoa_banner_2 img {
-        width: 150px;
-    }
-    
-    .user_bar {
-        width: 100%;
-    }
-    
-    #menu_main {
-        width: 95%;
-        left: 2.5%;
-        box-shadow: 5px 5px 0px #000000;
-    }
-    
-    .btn, .btn_exit {
-        padding: 10px 15px;
-        font-size: 0.9em;
-        box-shadow: 4px 4px 0px #000000;
-    }
-    
-    .btn:hover, .btn_exit:hover {
-        box-shadow: 5px 5px 0px #000000;
-    }
-    
-    h1 {
-        font-size: 1.3em;
-    }
-}
