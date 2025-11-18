@@ -4,7 +4,7 @@
 {% block title %}Login{% endblock %}
 
 {% block page_javascript %}
-<script src="{{ url_for("static", filename="script/login_fun.js") }}" type="module" defer></script>
+<script src="{{ url_for("static", filename="script/user/user_login.js") }}" type="module" defer></script>
 {% endblock %}
 
 <!-- -->
@@ -14,17 +14,17 @@
         <label>
             <h3>User name</h3>
         </label>
-        <input type="text" autocomplete="off" name="user_name" placeholder="Be Creative!">
+        <input type="text" autocomplete="off" name="user_name" placeholder="Be Creative!" required>
 
         <label>
             <h3>User email</h3>
         </label>
-        <input type="text" autocomplete="off" name="user_email" placeholder="Put Your Glorious E-mail!">
+        <input type="text" autocomplete="off" name="user_email" placeholder="Put Your Glorious E-mail!" required>
 
         <label> 
             <h3>Email code</h3>
         </label>
-        <input type="text" autocomplete="off" name="user_email_code" placeholder="Put The Code">
+        <input type="text" autocomplete="off" name="user_email_code" placeholder="Put The Code" required>
     </div>
 
     <button id="login_button_email_code_get">Get email code</button>
@@ -37,7 +37,7 @@
         <label>
             <h3>User password</h3>
         </label>
-        <input type="password" autocomplete="off" required name="user_password" placeholder="Put Your Password! Be Creative!">
+        <input type="password" autocomplete="off" required name="user_password" placeholder="Put Your Password! Be Creative!" required>
     </div>
     
     <button id="login_button_finish">Finish</button>

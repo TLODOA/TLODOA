@@ -36,6 +36,8 @@ def session_insert(model:object, **kwargs)->object:
         Messages.Error.print('session_insert', e)
         session.rollback()
 
+        return None
+
 def session_delete(instances:tuple)->None:
     try:
         for i in instances:

@@ -32,6 +32,11 @@ if SALT_GLOBAL is None:
 
 
 ##
+def code_generate(chars:list, length:int)->str:
+    import secrets
+
+    return ''.join(secrets.choice(chars) for _ in range(length))
+
 def email_generate()->str:
     import secrets
 

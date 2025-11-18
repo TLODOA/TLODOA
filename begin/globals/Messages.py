@@ -98,6 +98,7 @@ class EmailCode():
 class Login():
     class Error(Error):
         user_not_found = "User not found"
+        already_ip_logged = "This ip is already logged"
 
         incorrect_user_email = "User email incorrect"
         incorrect_user_password = "User password incorrect"
@@ -125,3 +126,23 @@ class ProfileEdit():
 
     class Success(Success):
         ok = "User successful modified!"
+
+## Object creation
+class ObjectCreation():
+    class Error(Error):
+        invalid_file_size = "Plase, insert a file small or equal to 512KiB(KiB = 1024B)"
+        invalid_amount = "You have many objects. Shell / delete one for add more one"
+        
+        def invalid_interval(timestamp)->str:
+            import time
+
+            date = time.localtime(timestamp)
+
+            return f"You create a object recently. Please. wait util {date.tm_hour}:{date.tm_min}:{date.tm_sec} to try again"
+
+
+    class Request(Request):
+        pass
+
+    class Success(Success):
+        ok = "Object succefully created!"

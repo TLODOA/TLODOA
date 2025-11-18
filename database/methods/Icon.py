@@ -17,8 +17,9 @@ class Icon(Base):
 
     ICONS_PATH = "./static/image/icons"
     ICONS_TYPE = {
-        TYPE_PROFILE: f"{ICONS_PATH}/profile"
-        }
+        TYPE_PROFILE: f"{ICONS_PATH}/profile",
+        TYPE_BID: f"{ICONS_PATH}/bid"
+    }
 
     ##
     def register(path:str, icon_type:int)->None:
@@ -36,10 +37,10 @@ class Icon(Base):
                 continue
 
             icon_name = file_name.split('.')[0]
-            _, _, *icon_path = file_path.split('/')
+            icon_path = file_path.split('/')[2:]
             icon_path = '/'.join(icon_path)
 
-            print('file_path:', file_path.encode())
+            print('file_path:', file_path.encode(), icon_path)
             session_insert(Icon, type=icon_type, name=icon_name, pathIcon=icon_path)
 
     def init_instances()->None:

@@ -23,6 +23,41 @@ export function request_token_email(json){
     });
 }
 
+export function forms_validation(...forms){
+    const logs = new MessageLogs();
+    const formData = new FormData();
+
+    for(const i of forms){
+        const form_data = new FormData(i);
+        const fields_required =  document.querySelectorAll(`#${i.id} [required]`) || [];
+        // console.log(form_data, fields_required);
+
+        for(const j of fields_required){
+            const field = form_data.get(j.name)
+            const field_type = typeof field;
+
+            if(field_type == "string" && field.trim())
+                continue;
+
+            if(field_type == "object" && field instanceof File && field.size)
+                continue;
+
+            logs.CLEAN();
+            logs.ADD(logs.MESSAGE_ERROR_CLASS, "Please, fill all required fields");
+
+            j.focus()
+
+            return null;
+        }
+
+        form_data.forEach((value, key) => {
+            formData.append(key, value);
+        });
+    }
+
+    return formData;
+}
+
 // Time
 export class Time{
     time_human(timestamp=null){
@@ -322,5 +357,46 @@ export class UserPage {
 
         for(const i of this.eventListeners)
             this[i.to].addEventListener(i.type, i.func);
+    }
+}
+
+// object_creation.html
+export class ObjectCreation {
+    constructor() {
+        const page_layout = new Layout_1();
+        const ELEMENT_BY_ID = page_layout.ELEMENT_BY_ID;
+
+        //
+        this.CHANGE_SLCT_OBJECT_PHOTO = null;
+        this.CHANGE_SLCT_OBJECT_PHYSIC = null;
+
+        this.CLICK_BUTT_SUBMIT = null;
+        this.CLICK_BUTT_SUBMIT_AND_PUBLISH = null;
+
+        //
+        this.OBJECT_PHOTO = ELEMENT_BY_ID["objectCreation_object_photo"];
+        this.OBJECT_PHYSIC_NAME = ELEMENT_BY_ID["objectCreation_object_physic_name"];
+        this.OBJECT_PHYSIC_EXTENSION = ELEMENT_BY_ID["objectCreation_object_physic_extension"];
+
+        this.SLCT_OBJECT_PHYSIC = ELEMENT_BY_ID["objectCreation_object_physic"];
+        this.SLCT_OBJECT_PHOTO = ELEMENT_BY_ID["objectCreation_select_object_photo"];
+        this.BUTT_SUBMIT = ELEMENT_BY_ID["objectCreation_button_submit"];
+        this.BUTT_SUBMIT_AND_PUBLISH = ELEMENT_BY_ID["objectCreation_button_submit_and_publish"];
+
+        this.FORM_OBJECT_HEADER = ELEMENT_BY_ID["objectCreation_form_object_header"];
+        this.FORM_OBJECT_PHYSIC = ELEMENT_BY_ID["objectCreation_form_object_physic"];
+    }
+
+    init_eventListeners(){
+        this.eventListeners = [
+            {type: "change", func: this.CHANGE_SLCT_OBJECT_PHOTO, to: "SLCT_OBJECT_PHOTO" },
+            {type: "change", func: this.CHANGE_SLCT_OBJECT_PHYSIC, to: "SLCT_OBJECT_PHYSIC"},
+            {type: "click", func: this.CLICK_BUTT_SUBMIT, to: "BUTT_SUBMIT"},
+            {type: "click", func: this.CLICK_BUTT_SUBMIT_AND_PUBLISH, to: "BUTT_SUBMIT_AND_PUBLISH"}
+        ];
+
+        for(const i of this.eventListeners){
+            this[i.to].addEventListener(i.type, i.func);
+        }
     }
 }

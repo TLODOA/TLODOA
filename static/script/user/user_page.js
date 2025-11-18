@@ -1,4 +1,4 @@
-import * as global from './globals.js'
+import * as global from '../globals.js'
 
 //
 const userPage = new global.UserPage();
@@ -70,25 +70,19 @@ userPage.CLICK_BUTT_EDIT_PROFILE_OK = (e) => {
     e.preventDefault();
 
     // 
-    const form_data = Object.fromEntries(new FormData(userPage.FIELD_PORTFOLIO))
-    console.log(form_data);
-
-    for(const i in form_data){
-        if(form_data[i].trim())
-            continue;
-
-        logs.CLEAN();
-        logs.ADD(logs.MESSAGE_ERROR_CLASS, "Please, don't let any empty field");
-
+    const formData = global.forms_validation(userPage.FIELD_PORTFOLIO);
+    if(!formData)
         return;
-    }
+
+    const formData_json = Object.fromEntries(formData);
+    console.log(formData_json);
 
     // Ajax
     fetch('/user/profile/edit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
 
-        body: JSON.stringify(form_data)
+        body: JSON.stringify(formData_json)
     })
     .then(response => response.json())
     .then(data => {
@@ -108,13 +102,13 @@ userPage.CLICK_BUTT_EDIT_PROFILE_OK = (e) => {
         tag: "h4",
         innerHTML: `
         <u>
-            ${form_data["user_nickname"]}
+            ${formData_json["user_nickname"]}
         </u>`
     });
 
     userPage.replace_element_for(userPage.FIELD_USER_ABOUT, {
         tag: "h3",
-        textContent: form_data["user_about"]
+        textContent: formData_json["user_about"]
     });
 
     userPage.BUTT_EDIT_PROFILE.style.display = 'block';

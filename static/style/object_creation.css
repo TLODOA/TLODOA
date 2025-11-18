@@ -1,0 +1,118 @@
+/* Object form header */
+#objectCreation_form_object_header {
+    display: grid;
+    grid-template-rows: 70% auto;
+}
+
+.object_photo {
+    display: grid;
+    justify-items: center;
+    
+    width: 100%;
+}
+
+.object_photo > img {
+    width: 50%;
+    aspect-ratio: 1 / 1;
+
+    background-color: white;
+    object-fit: contain;
+
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+}
+
+#objectCreation_select_object_photo {
+    margin: 5px 0px 0px 0px;
+}
+
+#objectCreation_form_object_header > .user_data_input_get {
+    margin: 0px 0px 10px 0px;
+    height: auto;
+}
+
+/* Object physical */
+#objectCreation_form_object_physic {
+    display: grid;
+    grid-template-rows: 70% auto;
+}
+
+
+#objectCreation_form_object_physic > .user_data_input_get {
+    display: grid;
+    height: auto;
+}
+
+#objectCreation_form_object_physic > .user_data_input_get > button {
+    padding: 5px;
+    margin: 5px 0px 5px 0px;
+
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+
+    transition: background-color 0.5s, color 0.5s;
+}
+
+#objectCreation_form_object_physic > .user_data_input_get > button:hover{
+    background-color: var(--block_3_color);
+    color: white;
+}
+
+
+/* Object physic upload */
+.file_selection{
+    display: grid;
+
+    justify-items: center;
+}
+
+.file_upload input[type="file"] {
+    display: none
+}
+
+.file_upload {
+    display: flex;
+    justify-content: center;
+
+    cursor: pointer;
+    width: 100%;
+}
+
+.file_upload > img {
+    width: 50%;
+
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+
+    background-color: white;
+}
+
+
+.file_infos {
+    display: flex;
+    justify-content: center;
+
+    align-items: center;
+
+    width: 85%;
+}
+
+#objectCreation_object_physic_name, .file_infos input{
+    display: grid;
+
+    height: 35px;
+    width: 50%;
+    max-width: 50%;
+    overflow: scroll;
+
+    background-color: white;
+
+    padding: 5px;
+    margin: 5px;
+
+    text-align: justify;
+    align-items: center;
+}

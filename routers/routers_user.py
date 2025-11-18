@@ -45,7 +45,7 @@ def register_app(app:object)->None:
                 "icons": {model_get(i, "cipher_name")[0]: model_get(i, "cipher_pathIcon")[0] for i in icons_profile }
             }
 
-            return flask.render_template('user_page.html', user=user_data, system=system_data)
+            return flask.render_template('user/user_page.html', user=user_data, system=system_data)
 
         except IndexError as e:
             return flask.abort(404)
@@ -64,7 +64,7 @@ def register_app(app:object)->None:
 
     @app.route('/view/user/objects')
     def view_user_objects()->object:
-        return flask.render_template('user_objects.html')
+        return flask.render_template('user/user_objects.html')
 
     ##
     @app.route('/user/profile/edit', methods=['POST'])
@@ -135,4 +135,4 @@ def register_app(app:object)->None:
 
     @app.route('/user/profile/settings')
     def view_user_settings()->object:
-        return flask.render_template('user_settings.html')
+        return flask.render_template('user/user_settings.html')

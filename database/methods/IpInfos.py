@@ -92,6 +92,39 @@ class IpInfos(Base):
 
         return True
 
+    ##
+    @property
+    def object_create_status(self)->int:
+        from database import ObjectCore, UserToken, UserCore, session_query, model_get
+        import time
 
+        ##
+        if self.object_create_last_time + ObjectCore.INTERVAL_CREATION > time.time():
+            return ObjectCore.STATUS_BLOCKED_BECAUSE_INTERVAL
+
+        #
+        user_token = session_query(UserToken, hashed_ip=self.hashed_ip)[0]
+        user = session_query(UserCore, hashed_name=model_get(user_token, "hashed_userName"))[0]
+
+        user_objects = session_query(ObjectCore, hashed_userName=model_get(user, "hashed_name"))
+
+        if len(user_objects) >= ObjectCore.OBJECT_PHYSIC_MAX:
+            return ObjectCore.STATUS_BLOCKED_BECAUSE_AMOUNT
+
+
+        return ObjectCore.STATUS_OK
+
+    @property
+    def object_create_time_allow(self)->float:
+        from database import ObjectCore
+
+        object_create_status = self.object_create_status
+
+        if object_create_status == ObjectCore.STATUS_BLOCKED_BECAUSE_INTERVAL:
+            return self.object_create_last_time + ObjectCore.INTERVAL_CREATION
+
+        return time.time()
+
+    ##
     def status_update(self)->None:
         self.email_send_status

@@ -1,0 +1,62 @@
+{% extends "default/layout_3.html" %}
+
+{% block page_style %}
+<link rel="stylesheet" href="{{ url_for("static", filename="style/object_creation.css") }}">
+{% endblock %}
+
+{% block page_javascript %}
+<script src="{{ url_for("static", filename="script/object/object_creation.js") }}" type="module" defer></script>
+{% endblock %}
+
+{% block content_main_1 %}
+<form id="objectCreation_form_object_header" class="block_1_generic user_data_input">
+    <div class="object_photo">
+        <img src="{{ url_for("static", filename=system["icon_default"]) }}" id="objectCreation_object_photo">
+
+        <select id="objectCreation_select_object_photo" name="object_photo">
+            {% for i in system["icons"].keys() %}
+
+            {% if system["icons"][i] == system["icon_default"] %}
+            <option value="{{ url_for("static", filename=system["icons"][i]) }}" selected> {{ i }} </option>
+            {% else %}
+            <option value="{{ url_for("static", filename=system["icons"][i]) }}"> {{ i }} </option>
+            {% endif %}
+
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="user_data_input_get">
+        <label>
+            <h3>
+                Object nickname
+            </h3>
+        </label>
+
+        <input type="text" autocomplete="off" name="object_nickname" required>
+    </div>
+
+</form>
+{% endblock %}
+
+{% block content_main_2 %}
+<form id="objectCreation_form_object_physic" class="block_1_generic user_data_input">
+    <div class="file_selection">
+        <label class="file_upload">
+            <input type="file" name="object_physic" id="objectCreation_object_physic" required>
+            <img src="{{ url_for("static", filename="image/icons/upload/Upload.png") }}">
+        </label>
+
+        <div class="file_infos">
+            <p id="objectCreation_object_physic_name">File name</p>
+            <input type="text" name="object_physic_extension" placeholder="File extension" id="objectCreation_object_physic_extension" required>
+        </div>
+    </div>
+
+    <div class="user_data_input_get">
+        <button id="objectCreation_button_submit">Finish</button>
+        <button id="objectCreation_button_submit_and_publish">Finish & Publish</button>
+    </div>
+
+</form>
+{% endblock %}
