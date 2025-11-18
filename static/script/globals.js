@@ -83,6 +83,7 @@ export class Layout_1{
 
         //
         this.CSS_VARS = window.getComputedStyle(document.body);
+        this.MENU = new Menu();
 
         //
         this.resize_timeout;
@@ -181,6 +182,46 @@ export class MessageLogs{
                 <p class="${message_class}">${message}</p>
         `
         };
+    }
+}
+
+// Menu
+class Menu {
+    constructor(){
+        this.MENU = document.getElementById("menu");
+        this.MENU_ICON = document.getElementById("menu_icon");
+        this.MENU_MAIN = document.getElementById("menu_main");
+
+        this.OPEN = 0;
+
+        if(this.MENU == null)
+            return;
+
+        this.MENU_ICON.addEventListener("click", () => {
+            this.OPEN = !this.OPEN;
+
+            if(!this.OPEN){
+                this.close();
+                return;
+            }
+
+            this.open();
+        });
+    }
+
+
+    close() {
+        this.MENU_MAIN.style.display = "none";
+
+        this.MENU_ICON.classList.remove("menu_icon__spin90");
+        this.MENU_ICON.classList.add("menu_icon__spin00");
+    }
+
+    open() {
+        this.MENU_MAIN.style.display = "block";
+
+        this.MENU_ICON.classList.remove("menu_icon__spin00");
+        this.MENU_ICON.classList.add("menu_icon__spin90");
     }
 }
 

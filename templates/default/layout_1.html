@@ -26,7 +26,7 @@
 
     <header>
         {% if not "user_name" in request.cookies %}
-        <div class="user_menu"> 
+        <div class="user_bar">
             <a href="{{ url_for("login_display") }}">
                 <h3 class="btn">
                     Login
@@ -51,38 +51,56 @@
             </a>
         </div>
 
-        <div class="user_menu">
+        <div class="user_bar">
             <a href="{{ url_for("view_user_infos_self") }}">
                 <h3 class="btn">
                     Hello {{ session.user_name }}!!
                 </h3>
             </a>
 
-            <a href="{{ url_for("view_user_objects") }}">
-                <h3 class="btn">
-                    My objects
-                </h3>
-            </a>
+            <div id="menu">
+                <img src="https://cdn-icons-png.flaticon.com/512/2311/2311531.png" id="menu_icon">
 
-            <a href="{{ url_for("view_user_card") }}">
-                <h3 class="btn">
-                    {{ session.user_card }} Bitc
-                </h3>
-            </a>
+                <div id="menu_main">
+                    <ul id="menu_options">
+                        <li>
+                            <a href="{{ url_for("view_user_objects") }}">
+                                <h2>
+                                    My objects
+                                </h2>
+                            </a>
+                        </li>
 
-            <a href="{{ url_for("view_user_settings") }}">
-                <h3 class="btn">
-                    Settings
-                </h3>
-            </a>
+                        <li>
+                            <a href="{{ url_for("view_user_card") }}">
+                                <h2>
+                                    Card
+                                </h2>
+                            </a>
+                        </li>
 
-            <a href="{{ url_for("logout_auth") }}">
-                <h3 class="btn btn_exit">
-                    Logout
-                </h3>
-            </a>
+                        <li>
+                            <a href="{{ url_for("view_user_settings") }}">
+                                <h2>
+                                    Settings
+                                </h2>
+                            </a>
+                        </li>
 
-        </div>
+                        <li>
+                            <a href="{{ url_for("logout_auth") }}">
+                                <h2>
+                                    Logout
+                                </h2>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
         {% endif %}
     </header>
     <div class="header_space"></div>

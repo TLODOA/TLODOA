@@ -10,8 +10,8 @@
 
     /* */
     --block_1_color: #7ed957;
-
-    --block_2_color: #ffea95;
+    --block_2_color: #ffde59;
+    --block_3_color: #191996;
 }
 
 /* */
@@ -117,14 +117,99 @@ button:hover{
     width: 420px;
 }
 
-/* User auth / User input */
-.user_menu{
+/* User Menu */
+.user_bar{
     display: flex;
     justify-content: space-between;
 
-    overflow-x: scroll;
+    width: 270px;
+    height: 100%;
+    align-items: center;
 }
 
+
+#menu {
+    height: 70%;
+}
+
+#menu_icon {
+    height: 100%;
+    cursor: pointer;
+
+    transition: rotate 0.5s;
+}
+
+.menu_icon__spin90 {
+    rotate: 90deg;
+}
+
+.menu_icon__spin00 {
+    rotate: 0deg;
+}
+
+
+#menu_main {
+    display: none;
+
+    width: 350px;
+    height: 400px;
+
+    position: absolute;
+    z-index: 2;
+    right: 35px;
+    top: 150px;
+
+    background-color: white;
+
+    border-style: solid;
+    border-width: 5px;
+    border-color: black;
+
+    overflow-x: hidden;
+}
+
+#menu_options {
+    display: grid;
+    grid-auto-flow: row;
+
+    padding: 10px;
+    list-style: none;
+
+    height: 90%;
+}
+
+
+#menu_options > li {
+    background-color: white;
+
+    border-style: solid;
+    border-width: 2px 5px 5px 2px;
+    border-color: black;
+
+    margin: 0px 0px 10px 0px;
+
+    width: 95%;
+}
+
+#menu_options li > a {
+    color: black;
+    display: block;
+
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    padding: 5px;
+
+    background-color: white;
+
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#menu_options li:hover a{
+    background-color: var(--block_3_color);
+    color: white;
+}
+
+/* User auth / User input */
 .user_data_input{
     display: grid;
     align-items: center;
@@ -155,7 +240,7 @@ input:hover{
 
 /* Buttons */
 .btn {
-    background-color: rgb(252, 124, 19);
+    background-color: var(--block_3_color);
     padding: 25px;
     box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.36);
     display: flex;
