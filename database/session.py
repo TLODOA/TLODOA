@@ -81,5 +81,5 @@ def postgres_database_init()->None:
 engine, Base, session = None, None, None
 
 # Not run postgres ? Comment the below line and uncomment the next statement
-postgres_database_init()
-# sqlite_database_init()
+#postgres_database_init()
+sqlite_database_init()

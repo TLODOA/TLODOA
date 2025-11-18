@@ -22,11 +22,11 @@
      
 </head>
 <body>
-    <div id="message_logs"></div>
+    
 
     <header>
         {% if not "user_name" in request.cookies %}
-        <div class="user_menu">
+        <div class="user_menu"> 
             <a href="{{ url_for("login_display") }}">
                 <h3 class="btn">
                     Login
@@ -96,5 +96,7 @@
             {% block footer %}{% endblock %}
         </footer>
     {% endblock %}
+
+    <div id="message_logs" class="animation_sliding"></div>
 </body>
 </html>

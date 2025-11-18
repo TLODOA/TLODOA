@@ -10,7 +10,8 @@
 
     /* */
     --block_1_color: #7ed957;
-    --block_2_color: #ffde59;
+
+    --block_2_color: #ffea95;
 }
 
 /* */
@@ -25,7 +26,7 @@ body{
     height: 100vh;
     width: 100vw;
 
-    background-color: rgb(139, 197, 252);
+    background-color: rgb(158, 202, 255);
 }
   
 header {
@@ -45,10 +46,11 @@ header {
 main{
     display: flex;
     height: var(--main_height);
+    border-radius: 3px;
 }
 
 a {
-    color: white;
+    color: rgb(255, 255, 255);
     text-decoration: none;
 }
 
@@ -81,8 +83,17 @@ h6{
     font-size: 2.33em
 }
 
+button{
+    background-color:white ;
+    border-radius: 5px;
+    border-style:hidden;
+}
 button:hover{
     cursor: pointer;
+    background-color: #0000;
+    color:#7ed957;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
 }
 
 .block_1_generic{
@@ -98,7 +109,7 @@ button:hover{
 
 /* Banner */
 .tlodoa_banner_1 img{
-    width: 120px;
+    width: 200px;
     
 }
 
@@ -134,11 +145,19 @@ button:hover{
     height: var(--user_data_input_get_height);
 }
 
+input{
+    border-style: hidden;
+}
+input:hover{
+    border-style: solid;
+    border-color:blue
+}
+
 /* Buttons */
 .btn {
-    background-color: rgb(25, 25, 150);
+    background-color: rgb(252, 124, 19);
     padding: 25px;
-    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.36);
     display: flex;
     margin-left: 20px;
 }
@@ -148,18 +167,43 @@ button:hover{
     box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.3);
     background-color: var(--block_1_color);
 }
+.btn:hover{
+    background-color:#7ed957;
+
+     transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
 
 /* Message logs */
+
 #message_logs{
-    position: fixed;
+height:40px;
+width: 450px;
+background-color: transparent;
 
-    width: 100vw;
-    padding: 20px;
-
-    display: flex;
-    justify-content: center;
-
-    background-color: green;
+}
+#message_logs:not(:empty) {
+    background-color: #ffde59;
+    width: 30%;
+    border-radius: 5px;
+    animation: sliding 03s forwards;
+    text-align: center;
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.779);
+    
+}
+.animation_sliding{
+    animation-name: sliding;
+    animation-duration: 0.3s;
+    transition-timing-function: ease-in;
+}
+    
+@keyframes sliding{
+    from{
+        transform: translate(120%,-3000%);
+    }   
+    to{
+    transform: translate(120%,-1600%);
+    }
 }
 
 /* Expand */
